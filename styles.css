@@ -14,7 +14,7 @@ body {
     position: relative;
 }
 
-/* Top Banner */
+/* Top Banner - Fixed positioning */
 .top-banner {
     position: fixed;
     top: 0;
@@ -24,6 +24,7 @@ body {
     z-index: 999;
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(10px);
+    border-bottom: 2px solid rgba(0, 255, 0, 0.3);
 }
 
 .banner-image {
@@ -33,8 +34,8 @@ body {
     object-position: center;
 }
 
-/* Enhanced Disco Light Effects */
-.disco-lights {
+/* Laser Light Effects */
+.laser-lights {
     position: fixed;
     top: 0;
     left: 0;
@@ -42,126 +43,251 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: 1;
+    overflow: hidden;
 }
 
-.light {
+.laser-beam {
     position: absolute;
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    filter: blur(25px);
-    opacity: 0.4;
-    animation: strobe 1.5s infinite;
-    box-shadow: 0 0 50px currentColor;
+    width: 3px;
+    height: 100vh;
+    background: linear-gradient(to bottom, transparent, #00ff00, #00ff88, #00ff00, transparent);
+    box-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+    animation: laserSweep 4s linear infinite;
+    transform-origin: top;
 }
 
-.light-1 {
-    top: 5%;
-    left: 5%;
+.laser-beam::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -1px;
+    width: 5px;
+    height: 20px;
     background: #00ff00;
+    box-shadow: 0 0 15px #00ff00;
+    border-radius: 50%;
+}
+
+.laser-beam::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -1px;
+    width: 5px;
+    height: 20px;
+    background: #00ff00;
+    box-shadow: 0 0 15px #00ff00;
+    border-radius: 50%;
+}
+
+.laser-1 {
+    left: 10%;
     animation-delay: 0s;
-    animation-duration: 1.2s;
+    animation-duration: 6s;
 }
 
-.light-2 {
-    top: 15%;
-    right: 10%;
-    background: #00ff88;
-    animation-delay: 0.2s;
-    animation-duration: 1.8s;
+.laser-2 {
+    left: 30%;
+    animation-delay: 1s;
+    animation-duration: 5s;
 }
 
-.light-3 {
-    top: 50%;
-    left: 15%;
-    background: #00cc00;
-    animation-delay: 0.4s;
-    animation-duration: 1.5s;
+.laser-3 {
+    left: 50%;
+    animation-delay: 2s;
+    animation-duration: 7s;
 }
 
-.light-4 {
-    bottom: 15%;
-    right: 5%;
-    background: #00ff44;
-    animation-delay: 0.6s;
-    animation-duration: 1.3s;
+.laser-4 {
+    left: 70%;
+    animation-delay: 3s;
+    animation-duration: 4s;
 }
 
-.light-5 {
-    top: 35%;
-    left: 55%;
-    background: #00ff66;
-    animation-delay: 0.8s;
-    animation-duration: 1.6s;
-}
-
-.light-6 {
-    bottom: 35%;
-    left: 25%;
-    background: #00ff22;
-    animation-delay: 1.0s;
-    animation-duration: 1.4s;
-}
-
-/* Additional lights for more intensity */
-.light-7 {
-    top: 25%;
-    left: 75%;
-    background: #00ffaa;
-    animation-delay: 0.3s;
-    animation-duration: 1.7s;
-}
-
-.light-8 {
-    top: 70%;
-    right: 25%;
-    background: #00ff33;
-    animation-delay: 0.7s;
-    animation-duration: 1.1s;
-}
-
-.light-9 {
-    top: 80%;
-    left: 45%;
-    background: #00ff77;
+.laser-5 {
+    left: 90%;
     animation-delay: 0.5s;
-    animation-duration: 1.9s;
+    animation-duration: 6.5s;
 }
 
-.light-10 {
-    top: 10%;
+.laser-6 {
+    left: 20%;
+    animation-delay: 1.5s;
+    animation-duration: 5.5s;
+}
+
+.laser-7 {
     left: 40%;
-    background: #00ff55;
-    animation-delay: 0.9s;
-    animation-duration: 1.2s;
+    animation-delay: 2.5s;
+    animation-duration: 4.5s;
 }
 
-/* Enhanced strobe animation */
-@keyframes strobe {
+.laser-8 {
+    left: 60%;
+    animation-delay: 3.5s;
+    animation-duration: 6.5s;
+}
+
+.laser-9 {
+    left: 80%;
+    animation-delay: 0.8s;
+    animation-duration: 5.8s;
+}
+
+.laser-10 {
+    left: 15%;
+    animation-delay: 1.8s;
+    animation-duration: 4.8s;
+}
+
+/* Horizontal laser beams */
+.laser-horizontal {
+    position: absolute;
+    width: 100vw;
+    height: 3px;
+    background: linear-gradient(to right, transparent, #00ff00, #00ff88, #00ff00, transparent);
+    box-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+    animation: laserHorizontal 8s linear infinite;
+    transform-origin: left;
+}
+
+.laser-horizontal::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -1px;
+    width: 20px;
+    height: 5px;
+    background: #00ff00;
+    box-shadow: 0 0 15px #00ff00;
+    border-radius: 50%;
+}
+
+.laser-horizontal::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -1px;
+    width: 20px;
+    height: 5px;
+    background: #00ff00;
+    box-shadow: 0 0 15px #00ff00;
+    border-radius: 50%;
+}
+
+.laser-h-1 {
+    top: 20%;
+    animation-delay: 0s;
+    animation-duration: 10s;
+}
+
+.laser-h-2 {
+    top: 40%;
+    animation-delay: 2s;
+    animation-duration: 8s;
+}
+
+.laser-h-3 {
+    top: 60%;
+    animation-delay: 4s;
+    animation-duration: 12s;
+}
+
+.laser-h-4 {
+    top: 80%;
+    animation-delay: 1s;
+    animation-duration: 9s;
+}
+
+/* Laser sweep animations */
+@keyframes laserSweep {
     0% {
-        opacity: 0.1;
-        transform: scale(0.8) rotate(0deg);
-        filter: blur(25px) brightness(0.8);
+        transform: rotate(-45deg) translateX(-100px);
+        opacity: 0;
     }
-    25% {
-        opacity: 0.6;
-        transform: scale(1.3) rotate(90deg);
-        filter: blur(15px) brightness(1.2);
+    10% {
+        opacity: 1;
     }
-    50% {
-        opacity: 0.8;
-        transform: scale(1.1) rotate(180deg);
-        filter: blur(20px) brightness(1.5);
+    45% {
+        transform: rotate(45deg) translateX(100px);
+        opacity: 1;
     }
-    75% {
-        opacity: 0.4;
-        transform: scale(1.4) rotate(270deg);
-        filter: blur(10px) brightness(1.1);
+    55% {
+        transform: rotate(45deg) translateX(100px);
+        opacity: 1;
+    }
+    90% {
+        transform: rotate(-45deg) translateX(-100px);
+        opacity: 1;
     }
     100% {
+        transform: rotate(-45deg) translateX(-100px);
+        opacity: 0;
+    }
+}
+
+@keyframes laserHorizontal {
+    0% {
+        transform: rotate(-30deg) translateY(-100px);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    45% {
+        transform: rotate(30deg) translateY(100px);
+        opacity: 1;
+    }
+    55% {
+        transform: rotate(30deg) translateY(100px);
+        opacity: 1;
+    }
+    90% {
+        transform: rotate(-30deg) translateY(-100px);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(-30deg) translateY(-100px);
+        opacity: 0;
+    }
+}
+
+/* Laser grid effect */
+.laser-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.1;
+}
+
+.grid-line {
+    position: absolute;
+    background: linear-gradient(90deg, transparent, #00ff00, transparent);
+    box-shadow: 0 0 5px #00ff00;
+}
+
+.grid-vertical {
+    width: 1px;
+    height: 100%;
+    animation: gridPulse 3s ease-in-out infinite;
+}
+
+.grid-horizontal {
+    width: 100%;
+    height: 1px;
+    animation: gridPulse 3s ease-in-out infinite;
+}
+
+@keyframes gridPulse {
+    0%, 100% {
         opacity: 0.1;
-        transform: scale(0.8) rotate(360deg);
-        filter: blur(25px) brightness(0.8);
+    }
+    50% {
+        opacity: 0.3;
     }
 }
 
@@ -173,7 +299,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 50% 50%, rgba(0, 255, 0, 0.05) 0%, transparent 70%);
+    background: radial-gradient(circle at 50% 50%, rgba(0, 255, 0, 0.03) 0%, transparent 70%);
     animation: backgroundPulse 4s ease-in-out infinite;
     z-index: 0;
     pointer-events: none;
