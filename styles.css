@@ -21,9 +21,9 @@ body {
     left: 0;
     width: 100%;
     height: 120px;
-    z-index: 999;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
+    z-index: 1001;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
     border-bottom: 2px solid rgba(0, 255, 0, 0.3);
     display: flex;
     align-items: center;
@@ -36,6 +36,8 @@ body {
     object-fit: cover;
     object-position: center top;
     max-height: 120px;
+    z-index: 1002;
+    position: relative;
 }
 
 /* Laser Light Effects */
@@ -1385,6 +1387,7 @@ section {
         text-align: center;
         transition: 0.3s;
         padding: 2rem 0;
+        z-index: 999;
     }
 
     .nav-menu.active {
