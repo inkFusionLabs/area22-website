@@ -50,10 +50,13 @@ A modern, responsive website for a professional DJ business featuring green stro
 
 ### File Structure
 ```
-Area22-website/
+area22-website/
 ├── index.html          # Main HTML file
 ├── styles.css          # CSS styles and animations
 ├── script.js           # JavaScript functionality
+├── banner-area22.png   # Top banner image
+├── area22-logo.png     # Centered logo image
+├── vercel.json         # Vercel deployment configuration
 └── README.md           # This documentation
 ```
 
@@ -72,7 +75,7 @@ Area22-website/
 
 ### Animations
 - **Strobe Lights**: Pulsing green lights with staggered timing
-- **Vinyl Disc**: Rotating animation in hero section
+- **Floating Logo**: Gentle floating animation for the centered logo
 - **Button Hovers**: Scale and translate effects
 - **Form Focus**: Green glow effects on input fields
 
@@ -89,6 +92,7 @@ Area22-website/
 - **Required Fields**: Name, email, phone, event date
 - **Event Types**: Wedding, corporate, birthday, club, private, other
 - **Duration Options**: 2-6+ hours
+- **Package Selection**: Basic, Standard, Premium packages
 - **Validation**: Real-time email and phone validation
 - **Confirmation**: Modal with booking details after submission
 
@@ -120,7 +124,7 @@ Edit the CSS variables in `styles.css`:
 ```
 
 ### Adding New Services
-Update the services list in the About section of `index.html`:
+Update the services list in the Services section of `index.html`:
 ```html
 <li>New Service Type</li>
 ```
@@ -145,7 +149,7 @@ Modify the `generateBookedDates()` function in `script.js` to integrate with a r
 ## 🎵 Music Integration
 
 The website is designed to showcase DJ services with:
-- **Visual Music Elements**: Rotating vinyl disc animation
+- **Visual Music Elements**: Floating Area22 logo animation
 - **Music Icons**: Font Awesome music-related icons
 - **Professional Presentation**: Clean, modern design that reflects quality
 
