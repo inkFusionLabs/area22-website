@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Now - Area22 Professional DJ Services</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Laser Light Effects -->
+    <div class="laser-lights">
+        <!-- Vertical laser beams -->
+        <div class="laser-beam laser-1"></div>
+        <div class="laser-beam laser-2"></div>
+        <div class="laser-beam laser-3"></div>
+        <div class="laser-beam laser-4"></div>
+        <div class="laser-beam laser-5"></div>
+        <div class="laser-beam laser-6"></div>
+        <div class="laser-beam laser-7"></div>
+        <div class="laser-beam laser-8"></div>
+        <div class="laser-beam laser-9"></div>
+        <div class="laser-beam laser-10"></div>
+        
+        <!-- Horizontal laser beams -->
+        <div class="laser-horizontal laser-h-1"></div>
+        <div class="laser-horizontal laser-h-2"></div>
+        <div class="laser-horizontal laser-h-3"></div>
+        <div class="laser-horizontal laser-h-4"></div>
+    </div>
+    
+    <!-- Laser Grid Effect -->
+    <div class="laser-grid">
+        <div class="grid-line grid-vertical" style="left: 10%;"></div>
+        <div class="grid-line grid-vertical" style="left: 20%;"></div>
+        <div class="grid-line grid-vertical" style="left: 30%;"></div>
+        <div class="grid-line grid-vertical" style="left: 40%;"></div>
+        <div class="grid-line grid-vertical" style="left: 50%;"></div>
+        <div class="grid-line grid-vertical" style="left: 60%;"></div>
+        <div class="grid-line grid-vertical" style="left: 70%;"></div>
+        <div class="grid-line grid-vertical" style="left: 80%;"></div>
+        <div class="grid-line grid-vertical" style="left: 90%;"></div>
+        
+        <div class="grid-line grid-horizontal" style="top: 10%;"></div>
+        <div class="grid-line grid-horizontal" style="top: 20%;"></div>
+        <div class="grid-line grid-horizontal" style="top: 30%;"></div>
+        <div class="grid-line grid-horizontal" style="top: 40%;"></div>
+        <div class="grid-line grid-horizontal" style="top: 50%;"></div>
+        <div class="grid-line grid-horizontal" style="top: 60%;"></div>
+        <div class="grid-line grid-horizontal" style="top: 70%;"></div>
+        <div class="grid-line grid-horizontal" style="top: 80%;"></div>
+        <div class="grid-line grid-horizontal" style="top: 90%;"></div>
+    </div>
+
+    <!-- Top Banner -->
+    <div class="top-banner">
+        <img src="1b2168d3-69c4-4aa4-abb2-9309f521a45c.JPG" alt="Area22 Banner" class="banner-image">
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>AREA22</h2>
+                <span class="tagline">Professional DJ Services</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="services.html" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="booking.html" class="nav-link">Book Now</a>
+                </li>
+                <li class="nav-item">
+                    <a href="gallery.html" class="nav-link">Gallery</a>
+                </li>
+                <li class="nav-item">
+                    <a href="pricing.html" class="nav-link">Pricing</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Booking Section -->
+    <section id="booking" class="booking">
+        <div class="container">
+            <h2 class="section-title">Book Your Event</h2>
+            <div class="booking-content">
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <div class="calendar-nav" onclick="previousMonth()">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <h3 id="currentMonth">July 2024</h3>
+                        <div class="calendar-nav" onclick="nextMonth()">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="calendar-days">
+                            <div>Sun</div>
+                            <div>Mon</div>
+                            <div>Tue</div>
+                            <div>Wed</div>
+                            <div>Thu</div>
+                            <div>Fri</div>
+                            <div>Sat</div>
+                        </div>
+                        <div class="calendar-dates" id="calendarDates">
+                            <!-- Calendar dates will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                <div class="booking-form">
+                    <h3>Event Details</h3>
+                    <form id="bookingForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventType">Event Type</label>
+                            <select id="eventType" name="eventType" required>
+                                <option value="">Select Event Type</option>
+                                <option value="wedding">Wedding Reception</option>
+                                <option value="corporate">Corporate Event</option>
+                                <option value="birthday">Birthday Party</option>
+                                <option value="club">Club/Bar Event</option>
+                                <option value="private">Private Party</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Event Date</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Event Time</label>
+                            <input type="time" id="time" name="time" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="duration">Duration (hours)</label>
+                            <select id="duration" name="duration" required>
+                                <option value="">Select Duration</option>
+                                <option value="2">2 hours</option>
+                                <option value="3">3 hours</option>
+                                <option value="4">4 hours</option>
+                                <option value="5">5 hours</option>
+                                <option value="6">6+ hours</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="guests">Number of Guests</label>
+                            <input type="number" id="guests" name="guests" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="venue">Venue/Location</label>
+                            <input type="text" id="venue" name="venue" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Special Requests</label>
+                            <textarea id="message" name="message" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Book Now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>AREA22</h3>
+                <p>Professional DJ Services</p>
+                <p>Creating unforgettable experiences with the perfect mix of music and atmosphere.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="booking.html">Book Now</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>Email: info@area22.com</p>
+                <p>Phone: (555) 123-4567</p>
+                <p>Location: Your City, State</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Area22. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
