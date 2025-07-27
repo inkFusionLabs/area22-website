@@ -1261,6 +1261,62 @@ section {
     box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
 }
 
+/* Wedding Add-ons Section */
+.wedding-addons {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #333;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-top: 2rem;
+    transition: all 0.3s ease;
+}
+
+.wedding-addons h3 {
+    color: #00ff00;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.wedding-addons p {
+    color: #cccccc;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.addons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.addon-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #333;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.addon-item:hover {
+    border-color: #00ff00;
+    background: rgba(0, 255, 0, 0.1);
+}
+
+.addon-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #00ff00;
+}
+
+.addon-item label {
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
 /* Contact Section */
 .contact {
     background: rgba(0, 0, 0, 0.7);

@@ -477,4 +477,26 @@ function highlightToday() {
 }
 
 // Call highlight today when calendar is rendered
-setTimeout(highlightToday, 100); 
+setTimeout(highlightToday, 100);
+
+// Wedding Add-ons Functionality
+function initWeddingAddons() {
+    const eventTypeSelect = document.getElementById('eventType');
+    const weddingAddons = document.getElementById('weddingAddons');
+    
+    if (eventTypeSelect && weddingAddons) {
+        eventTypeSelect.addEventListener('change', function() {
+            if (this.value === 'wedding') {
+                weddingAddons.style.display = 'block';
+                weddingAddons.style.animation = 'fadeIn 0.5s ease-in';
+            } else {
+                weddingAddons.style.display = 'none';
+            }
+        });
+    }
+}
+
+// Initialize wedding add-ons when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    initWeddingAddons();
+}); 
