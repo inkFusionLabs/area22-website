@@ -1,0 +1,12 @@
+{
+  "name": "area22-website",
+  "version": "1.0.0",
+  "description": "Area22 Professional DJ Services Website",
+  "private": true,
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+} 
