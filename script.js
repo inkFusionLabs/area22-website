@@ -1,5 +1,7 @@
-// Mobile Navigation
+// Mobile Navigation - Simplified and Debugged
 function initMobileNavigation() {
+    console.log('Initializing mobile navigation...');
+    
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
 
@@ -7,61 +9,37 @@ function initMobileNavigation() {
     console.log('Nav menu element:', navMenu);
 
     if (hamburger && navMenu) {
-        // Add touch event for better mobile support
-        hamburger.addEventListener('click', handleHamburgerClick);
-        hamburger.addEventListener('touchstart', handleHamburgerClick);
+        console.log('Both elements found, adding event listeners...');
         
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-link').forEach(n => {
-            n.addEventListener('click', closeMobileMenu);
-            n.addEventListener('touchstart', closeMobileMenu);
+        // Simple click handler
+        hamburger.addEventListener('click', function(e) {
+            console.log('Hamburger clicked!');
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Toggle classes
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            
+            console.log('Hamburger active:', hamburger.classList.contains('active'));
+            console.log('Nav menu active:', navMenu.classList.contains('active'));
         });
         
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
-                closeMobileMenu();
-            }
+        // Close menu when clicking links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                console.log('Link clicked, closing menu...');
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
         });
         
-        // Close mobile menu on window resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                closeMobileMenu();
-            }
-        });
-        
+        console.log('Mobile navigation initialized successfully');
     } else {
-        console.log('Mobile navigation elements not found');
+        console.error('Mobile navigation elements not found!');
+        console.error('Hamburger:', hamburger);
+        console.error('Nav menu:', navMenu);
     }
-}
-
-function handleHamburgerClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    console.log('Hamburger clicked!');
-    
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
-    
-    // Prevent body scroll when menu is open
-    if (navMenu.classList.contains('active')) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = '';
-    }
-}
-
-function closeMobileMenu() {
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    hamburger.classList.remove('active');
-    navMenu.classList.remove('active');
-    document.body.style.overflow = '';
 }
 
 // Smooth scrolling for navigation links
@@ -620,11 +598,21 @@ function initWeddingAddons() {
 
 // Initialize wedding add-ons when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, initializing...');
     initMobileNavigation();
     initWeddingAddons();
     
     // Mobile-specific optimizations
     initMobileOptimizations();
+});
+
+// Also try on window load as backup
+window.addEventListener('load', () => {
+    console.log('Window loaded, checking mobile nav...');
+    if (!document.querySelector('.hamburger.active')) {
+        console.log('Re-initializing mobile navigation...');
+        initMobileNavigation();
+    }
 });
 
 // Mobile-specific optimizations

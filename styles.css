@@ -1578,9 +1578,14 @@ section {
     }
     
     .hamburger {
-        display: flex;
+        display: flex !important;
         position: relative;
         z-index: 1001;
+        cursor: pointer;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 5px;
+        border: 1px solid #00ff00;
     }
 
     .nav-menu {
