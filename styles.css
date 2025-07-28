@@ -5,6 +5,35 @@
     box-sizing: border-box;
 }
 
+/* Watermark */
+.watermark {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(0, 255, 0, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    pointer-events: none;
+    z-index: 9999;
+    transform: rotate(-15deg);
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+    animation: watermarkGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes watermarkGlow {
+    0% {
+        opacity: 0.3;
+        text-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+    }
+    100% {
+        opacity: 0.6;
+        text-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+    }
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.6;
