@@ -581,7 +581,42 @@ function initWeddingAddons() {
 document.addEventListener('DOMContentLoaded', () => {
     initMobileNavigation();
     initWeddingAddons();
+    
+    // Mobile-specific optimizations
+    initMobileOptimizations();
 });
+
+// Mobile-specific optimizations
+function initMobileOptimizations() {
+    // Prevent zoom on double tap for iOS
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+    
+    // Improve touch targets for mobile
+    const touchTargets = document.querySelectorAll('.btn, .nav-link, .calendar-date, .addon-item');
+    touchTargets.forEach(target => {
+        target.style.minHeight = '44px';
+        target.style.minWidth = '44px';
+    });
+    
+    // Optimize calendar for mobile
+    const calendarContainer = document.querySelector('.calendar-container');
+    if (calendarContainer && window.innerWidth <= 768) {
+        calendarContainer.style.fontSize = '14px';
+    }
+    
+    // Improve form inputs for mobile
+    const formInputs = document.querySelectorAll('input, select, textarea');
+    formInputs.forEach(input => {
+        input.style.fontSize = '16px'; // Prevents zoom on iOS
+    });
+}
 
 // Calendar Integration Functions
 function syncWithPersonalCalendar() {

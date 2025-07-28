@@ -1660,4 +1660,44 @@ section {
         width: 200px;
         height: 200px;
     }
+    
+    /* Mobile touch improvements */
+    .btn, .nav-link, .calendar-date, .addon-item {
+        min-height: 44px;
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Improve form inputs */
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+    
+    /* Optimize calendar for mobile */
+    .calendar-container {
+        font-size: 14px;
+    }
+    
+    .calendar-date {
+        padding: 8px 4px;
+    }
+    
+    /* Improve modal dialogs */
+    .modal-content {
+        width: 95%;
+        max-width: none;
+        margin: 10px;
+    }
+    
+    /* Optimize gallery for mobile */
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .gallery-item {
+        min-height: 200px;
+    }
 } 
