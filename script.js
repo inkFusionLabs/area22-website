@@ -499,4 +499,206 @@ function initWeddingAddons() {
 // Initialize wedding add-ons when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     initWeddingAddons();
-}); 
+});
+
+// Calendar Integration Functions
+function syncWithPersonalCalendar() {
+    // Check if user has a personal calendar connected
+    if (navigator.calendar) {
+        navigator.calendar.requestAccess().then(granted => {
+            if (granted) {
+                // Sync availability with personal calendar
+                syncAvailability();
+            } else {
+                alert('Calendar access denied. Please enable calendar access in your browser settings.');
+            }
+        });
+    } else {
+        // Fallback for browsers without calendar API
+        exportAvailability();
+    }
+}
+
+function syncAvailability() {
+    // Get current availability from the website calendar
+    const availableDates = getAvailableDates();
+    
+    // Create calendar events for available dates
+    availableDates.forEach(date => {
+        createCalendarEvent(date, 'Available - Area22 DJ Services');
+    });
+    
+    alert('Availability synced with your personal calendar!');
+}
+
+function getAvailableDates() {
+    const availableDates = [];
+    const calendarDates = document.querySelectorAll('.calendar-date.available');
+    
+    calendarDates.forEach(dateElement => {
+        const dateString = dateElement.getAttribute('data-date');
+        if (dateString) {
+            availableDates.push(dateString);
+        }
+    });
+    
+    return availableDates;
+}
+
+function createCalendarEvent(dateString, title) {
+    const event = {
+        title: title,
+        start: dateString + 'T09:00:00',
+        end: dateString + 'T17:00:00',
+        description: 'Area22 Professional DJ Services - Available for booking',
+        location: 'Basingstoke Area'
+    };
+    
+    // Add to personal calendar
+    if (navigator.calendar) {
+        navigator.calendar.addEvent(event);
+    }
+}
+
+function addToPersonalCalendar() {
+    const selectedDate = document.getElementById('selectedDate').textContent;
+    const eventTitle = 'Area22 DJ Services - Available';
+    
+    // Create calendar event data
+    const eventData = {
+        title: eventTitle,
+        start: selectedDate + 'T09:00:00',
+        end: selectedDate + 'T17:00:00',
+        description: 'Area22 Professional DJ Services - Available for booking on this date',
+        location: 'Basingstoke Area'
+    };
+    
+    // Generate calendar links for different platforms
+    const calendarLinks = generateCalendarLinks(eventData);
+    
+    // Show calendar options
+    showCalendarOptions(calendarLinks);
+}
+
+function generateCalendarLinks(eventData) {
+    const { title, start, end, description, location } = eventData;
+    
+    // Google Calendar
+    const googleLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${start.replace(/[-:]/g, '')}/${end.replace(/[-:]/g, '')}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
+    
+    // Outlook Calendar
+    const outlookLink = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${encodeURIComponent(title)}&startdt=${start}&enddt=${end}&body=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
+    
+    // Apple Calendar
+    const appleLink = `data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:${start.replace(/[-:]/g, '')}%0ADTEND:${end.replace(/[-:]/g, '')}%0ASUMMARY:${title}%0ADESCRIPTION:${description}%0ALOCATION:${location}%0AEND:VEVENT%0AEND:VCALENDAR`;
+    
+    return {
+        google: googleLink,
+        outlook: outlookLink,
+        apple: appleLink
+    };
+}
+
+function showCalendarOptions(calendarLinks) {
+    const modal = document.createElement('div');
+    modal.className = 'calendar-modal';
+    modal.innerHTML = `
+        <div class="calendar-modal-content">
+            <h3>Add to Calendar</h3>
+            <p>Choose your calendar application:</p>
+            <div class="calendar-options">
+                <a href="${calendarLinks.google}" target="_blank" class="btn btn-primary">
+                    <i class="fab fa-google"></i> Google Calendar
+                </a>
+                <a href="${calendarLinks.outlook}" target="_blank" class="btn btn-secondary">
+                    <i class="fab fa-microsoft"></i> Outlook
+                </a>
+                <a href="${calendarLinks.apple}" download="event.ics" class="btn btn-outline">
+                    <i class="fab fa-apple"></i> Apple Calendar
+                </a>
+            </div>
+            <button class="btn btn-outline" onclick="this.parentElement.parentElement.remove()">Cancel</button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
+
+function exportAvailability() {
+    const availableDates = getAvailableDates();
+    const csvContent = 'data:text/csv;charset=utf-8,Date,Status\n' + 
+        availableDates.map(date => `${date},Available`).join('\n');
+    
+    const link = document.createElement('a');
+    link.href = encodeURI(csvContent);
+    link.download = 'area22-availability.csv';
+    link.click();
+}
+
+function shareEvent() {
+    const selectedDate = document.getElementById('selectedDate').textContent;
+    const shareText = `Check out Area22 DJ Services availability on ${selectedDate}!`;
+    const shareUrl = window.location.href;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: 'Area22 DJ Services',
+            text: shareText,
+            url: shareUrl
+        });
+    } else {
+        // Fallback - copy to clipboard
+        navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
+        alert('Event details copied to clipboard!');
+    }
+}
+
+// Enhanced calendar date selection
+function selectDate(dateString, element) {
+    // Remove previous selection
+    document.querySelectorAll('.calendar-date.selected').forEach(el => {
+        el.classList.remove('selected');
+    });
+    
+    // Add selection to clicked date
+    element.classList.add('selected');
+    
+    // Show event details
+    showEventDetails(dateString);
+}
+
+function showEventDetails(dateString) {
+    const eventDetails = document.getElementById('calendarEventDetails');
+    const selectedDateSpan = document.getElementById('selectedDate');
+    const availabilityStatus = document.getElementById('availabilityStatus');
+    const timeSlots = document.getElementById('timeSlots');
+    
+    // Format date
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString('en-GB', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+    
+    selectedDateSpan.textContent = formattedDate;
+    
+    // Check availability
+    const isBooked = dateString in bookedDates;
+    const isAvailable = !isBooked;
+    
+    if (isAvailable) {
+        availabilityStatus.textContent = 'Available';
+        availabilityStatus.style.color = '#00ff00';
+        timeSlots.textContent = '9:00 AM - 5:00 PM (Flexible)';
+    } else {
+        availabilityStatus.textContent = 'Booked';
+        availabilityStatus.style.color = '#ff0000';
+        timeSlots.textContent = 'Not Available';
+    }
+    
+    // Show the details section
+    eventDetails.style.display = 'block';
+    eventDetails.style.animation = 'fadeIn 0.5s ease-in';
+} 
