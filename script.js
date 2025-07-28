@@ -241,6 +241,9 @@ document.getElementById('bookingForm').addEventListener('submit', function(e) {
 });
 
 function showBookingConfirmation(bookingData) {
+    // Send email notification to area-22@mail.com
+    sendBookingEmail(bookingData);
+    
     // Create confirmation modal
     const modal = document.createElement('div');
     modal.className = 'booking-modal';
@@ -254,6 +257,7 @@ function showBookingConfirmation(bookingData) {
                 <p>Thank you for your booking request, <strong>${bookingData.name}</strong>!</p>
                 <p>We've received your request for <strong>${bookingData.eventType}</strong> on <strong>${bookingData.eventDate}</strong>.</p>
                 <p>We'll contact you at <strong>${bookingData.email}</strong> or <strong>${bookingData.phone}</strong> within 24 hours to confirm your booking.</p>
+                <p><strong>Email notification sent to: area-22@mail.com</strong></p>
                 <div class="booking-details">
                     <h4>Booking Details:</h4>
                     <ul>
@@ -476,8 +480,75 @@ function highlightToday() {
     });
 }
 
-// Call highlight today when calendar is rendered
-setTimeout(highlightToday, 100);
+    // Call highlight today when calendar is rendered
+    setTimeout(highlightToday, 100);
+}
+
+// Email functionality for booking confirmations
+function sendBookingEmail(bookingData) {
+    // Create email content
+    const emailSubject = `New Booking Request - ${bookingData.eventType}`;
+    const emailBody = `
+New booking request received:
+
+Customer Details:
+- Name: ${bookingData.name}
+- Email: ${bookingData.email}
+- Phone: ${bookingData.phone}
+
+Event Details:
+- Event Type: ${bookingData.eventType}
+- Date: ${bookingData.eventDate}
+- Time: ${bookingData.eventTime}
+- Duration: ${bookingData.duration} hours
+- Number of Guests: ${bookingData.guests}
+- Venue: ${bookingData.venue}
+
+Additional Services: ${bookingData.addons || 'None selected'}
+
+Special Requests: ${bookingData.message || 'None'}
+
+This booking request was submitted on ${new Date().toLocaleString()}.
+
+Please respond to the customer within 24 hours to confirm availability and pricing.
+    `.trim();
+
+    // Create mailto link
+    const mailtoLink = `mailto:area-22@mail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    
+    // Open email client
+    window.open(mailtoLink, '_blank');
+    
+    // Also log the booking data for server-side processing
+    console.log('Booking data for email:', bookingData);
+    
+    // Optional: Send to server endpoint if available
+    // sendToServer(bookingData);
+}
+
+// Function to send booking data to server (for future implementation)
+function sendToServer(bookingData) {
+    // This would be implemented when you have a server endpoint
+    // For now, we'll just log the data
+    console.log('Booking data to send to server:', bookingData);
+    
+    // Example server endpoint implementation:
+    /*
+    fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            ...bookingData,
+            notificationEmail: 'area-22@mail.com'
+        })
+    })
+    .then(response => response.json())
+    .then(data => console.log('Booking sent to server:', data))
+    .catch(error => console.error('Error sending booking:', error));
+    */
+}
 
 // Wedding Add-ons Functionality
 function initWeddingAddons() {
