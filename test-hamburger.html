@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamburger Menu Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: #fff;
+        }
+        
+        .navbar {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .nav-logo h2 {
+            color: #00ff00;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: #00ff00;
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 5px;
+            border: 1px solid #00ff00;
+        }
+        
+        .bar {
+            width: 25px;
+            height: 3px;
+            background: #00ff00;
+            margin: 3px 0;
+            transition: 0.3s;
+            box-shadow: 0 0 5px #00ff00;
+            transform-origin: center;
+        }
+        
+        .hamburger.active .bar:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        
+        .hamburger.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active .bar:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+        
+        .content {
+            margin-top: 100px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .test-button {
+            background: #00ff00;
+            color: #000;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .debug-info {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            border: 1px solid #00ff00;
+        }
+        
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex !important;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 80px;
+                flex-direction: column;
+                background-color: rgba(0, 0, 0, 0.98);
+                width: 100%;
+                height: calc(100vh - 80px);
+                text-align: center;
+                transition: 0.3s ease-in-out;
+                padding: 2rem 0;
+                z-index: 1000;
+                overflow-y: auto;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+                box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            }
+            
+            .nav-menu .nav-item {
+                margin: 1rem 0;
+            }
+            
+            .nav-menu .nav-link {
+                font-size: 1.2rem;
+                padding: 1rem 2rem;
+                display: block;
+                transition: 0.3s;
+            }
+            
+            .nav-menu .nav-link:hover {
+                background-color: rgba(0, 255, 0, 0.1);
+                color: #00ff00;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>AREA22</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger" onclick="console.log('Hamburger clicked via inline!')">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content">
+        <h1>Hamburger Menu Test</h1>
+        <p>This is a simple test to debug the hamburger menu functionality.</p>
+        
+        <button class="test-button" onclick="testHamburger()">Test Hamburger Menu</button>
+        <button class="test-button" onclick="showDebugInfo()">Show Debug Info</button>
+        
+        <div id="debug-info" class="debug-info" style="display: none;">
+            <h3>Debug Information</h3>
+            <div id="debug-content"></div>
+        </div>
+    </div>
+
+    <script>
+        console.log('Test page loaded');
+        
+        function initMobileNavigation() {
+            console.log('Initializing mobile navigation...');
+            
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            console.log('Hamburger element:', hamburger);
+            console.log('Nav menu element:', navMenu);
+
+            if (hamburger && navMenu) {
+                console.log('Both elements found, adding event listeners...');
+                
+                // Simple click handler
+                hamburger.addEventListener('click', function(e) {
+                    console.log('Hamburger clicked!');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Toggle classes
+                    hamburger.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                    
+                    console.log('Hamburger active:', hamburger.classList.contains('active'));
+                    console.log('Nav menu active:', navMenu.classList.contains('active'));
+                });
+                
+                // Close menu when clicking links
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', function() {
+                        console.log('Link clicked, closing menu...');
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    });
+                });
+                
+                console.log('Mobile navigation initialized successfully');
+            } else {
+                console.error('Mobile navigation elements not found!');
+                console.error('Hamburger:', hamburger);
+                console.error('Nav menu:', navMenu);
+            }
+        }
+        
+        function testHamburger() {
+            console.log('Testing hamburger menu...');
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (hamburger) {
+                hamburger.click();
+                console.log('Hamburger clicked programmatically');
+            } else {
+                console.error('Hamburger not found!');
+            }
+        }
+        
+        function showDebugInfo() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const debugInfo = document.getElementById('debug-info');
+            const debugContent = document.getElementById('debug-content');
+            
+            debugContent.innerHTML = `
+                <p><strong>Hamburger element:</strong> ${hamburger ? 'Found' : 'Not found'}</p>
+                <p><strong>Nav menu element:</strong> ${navMenu ? 'Found' : 'Not found'}</p>
+                <p><strong>Hamburger display:</strong> ${hamburger ? getComputedStyle(hamburger).display : 'N/A'}</p>
+                <p><strong>Nav menu position:</strong> ${navMenu ? getComputedStyle(navMenu).left : 'N/A'}</p>
+                <p><strong>Window width:</strong> ${window.innerWidth}px</p>
+                <p><strong>Is mobile:</strong> ${window.innerWidth <= 768 ? 'Yes' : 'No'}</p>
+            `;
+            
+            debugInfo.style.display = 'block';
+        }
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing...');
+            initMobileNavigation();
+        });
+        
+        // Also try on window load as backup
+        window.addEventListener('load', () => {
+            console.log('Window loaded, checking mobile nav...');
+            if (!document.querySelector('.hamburger.active')) {
+                console.log('Re-initializing mobile navigation...');
+                initMobileNavigation();
+            }
+        });
+    </script>
+</body>
+</html> 

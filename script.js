@@ -509,9 +509,8 @@ function highlightToday() {
     });
 }
 
-    // Call highlight today when calendar is rendered
-    setTimeout(highlightToday, 100);
-}
+// Call highlight today when calendar is rendered
+setTimeout(highlightToday, 100);
 
 // Email functionality for booking confirmations
 function sendBookingEmail(bookingData) {
