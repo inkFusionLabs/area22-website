@@ -410,6 +410,8 @@ body::before {
     display: none;
     flex-direction: column;
     cursor: pointer;
+    z-index: 1000;
+    padding: 10px;
 }
 
 .bar {
@@ -419,6 +421,20 @@ body::before {
     margin: 3px 0;
     transition: 0.3s;
     box-shadow: 0 0 5px #00ff00;
+    transform-origin: center;
+}
+
+/* Hamburger animation */
+.hamburger.active .bar:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
 }
 
 /* Hero Section */
@@ -1563,23 +1579,44 @@ section {
     
     .hamburger {
         display: flex;
+        position: relative;
+        z-index: 1001;
     }
 
     .nav-menu {
         position: fixed;
         left: -100%;
-        top: 130px;
+        top: 90px;
         flex-direction: column;
-        background-color: rgba(0, 0, 0, 0.95);
+        background-color: rgba(0, 0, 0, 0.98);
         width: 100%;
+        height: calc(100vh - 90px);
         text-align: center;
-        transition: 0.3s;
+        transition: 0.3s ease-in-out;
         padding: 2rem 0;
-        z-index: 999;
+        z-index: 1000;
+        overflow-y: auto;
     }
 
     .nav-menu.active {
         left: 0;
+        box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    }
+    
+    .nav-menu .nav-item {
+        margin: 1rem 0;
+    }
+    
+    .nav-menu .nav-link {
+        font-size: 1.2rem;
+        padding: 1rem 2rem;
+        display: block;
+        transition: 0.3s;
+    }
+    
+    .nav-menu .nav-link:hover {
+        background-color: rgba(0, 255, 0, 0.1);
+        color: #00ff00;
     }
 
     .hero {

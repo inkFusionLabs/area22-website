@@ -7,20 +7,61 @@ function initMobileNavigation() {
     console.log('Nav menu element:', navMenu);
 
     if (hamburger && navMenu) {
-        hamburger.addEventListener('click', () => {
-            console.log('Hamburger clicked!');
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-
+        // Add touch event for better mobile support
+        hamburger.addEventListener('click', handleHamburgerClick);
+        hamburger.addEventListener('touchstart', handleHamburgerClick);
+        
         // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
-        }));
+        document.querySelectorAll('.nav-link').forEach(n => {
+            n.addEventListener('click', closeMobileMenu);
+            n.addEventListener('touchstart', closeMobileMenu);
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                closeMobileMenu();
+            }
+        });
+        
+        // Close mobile menu on window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                closeMobileMenu();
+            }
+        });
+        
     } else {
         console.log('Mobile navigation elements not found');
     }
+}
+
+function handleHamburgerClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('Hamburger clicked!');
+    
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+    
+    // Prevent body scroll when menu is open
+    if (navMenu.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
+}
+
+function closeMobileMenu() {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    hamburger.classList.remove('active');
+    navMenu.classList.remove('active');
+    document.body.style.overflow = '';
 }
 
 // Smooth scrolling for navigation links
