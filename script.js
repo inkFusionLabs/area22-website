@@ -1,17 +1,27 @@
 // Mobile Navigation
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
+function initMobileNavigation() {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
 
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
-});
+    console.log('Hamburger element:', hamburger);
+    console.log('Nav menu element:', navMenu);
 
-// Close mobile menu when clicking on a link
-document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
-    hamburger.classList.remove('active');
-    navMenu.classList.remove('active');
-}));
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', () => {
+            console.log('Hamburger clicked!');
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }));
+    } else {
+        console.log('Mobile navigation elements not found');
+    }
+}
 
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -569,6 +579,7 @@ function initWeddingAddons() {
 
 // Initialize wedding add-ons when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    initMobileNavigation();
     initWeddingAddons();
 });
 
