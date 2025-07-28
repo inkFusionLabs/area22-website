@@ -257,7 +257,7 @@ function showBookingConfirmation(bookingData) {
                 <p>Thank you for your booking request, <strong>${bookingData.name}</strong>!</p>
                 <p>We've received your request for <strong>${bookingData.eventType}</strong> on <strong>${bookingData.eventDate}</strong>.</p>
                 <p>We'll contact you at <strong>${bookingData.email}</strong> or <strong>${bookingData.phone}</strong> within 24 hours to confirm your booking.</p>
-                <p><strong>Email notification sent to: area-22@mail.com</strong></p>
+                <p><strong>Email notification sent to: area-22@mail.co.uk</strong></p>
                 <div class="booking-details">
                     <h4>Booking Details:</h4>
                     <ul>
@@ -514,7 +514,7 @@ Please respond to the customer within 24 hours to confirm availability and prici
     `.trim();
 
     // Create mailto link
-    const mailtoLink = `mailto:area-22@mail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    const mailtoLink = `mailto:area-22@mail.co.uk?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
     
     // Open email client
     window.open(mailtoLink, '_blank');
@@ -541,7 +541,7 @@ function sendToServer(bookingData) {
         },
         body: JSON.stringify({
             ...bookingData,
-            notificationEmail: 'area-22@mail.com'
+            notificationEmail: 'area-22@mail.co.uk'
         })
     })
     .then(response => response.json())
