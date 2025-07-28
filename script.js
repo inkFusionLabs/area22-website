@@ -507,8 +507,6 @@ function highlightToday() {
             dateElement.style.fontWeight = 'bold';
         }
     });
-}
-
 // Call highlight today when calendar is rendered
 setTimeout(highlightToday, 100);
 
