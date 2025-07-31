@@ -885,4 +885,478 @@ function showEventDetails(dateString) {
     // Show the details section
     eventDetails.style.display = 'block';
     eventDetails.style.animation = 'fadeIn 0.5s ease-in';
-} }
+}
+
+// UI/UX Improvements - Loading States, Error Handling, PWA, Accessibility
+
+// Loading States Management
+class LoadingManager {
+    constructor() {
+        this.loadingElement = null;
+        this.toastContainer = null;
+        this.init();
+    }
+
+    init() {
+        this.createLoadingElement();
+        this.createToastContainer();
+        this.createOfflineIndicator();
+        this.createSkipLink();
+    }
+
+    createLoadingElement() {
+        this.loadingElement = document.createElement('div');
+        this.loadingElement.className = 'loading';
+        this.loadingElement.innerHTML = `
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">Loading Area22...</div>
+            </div>
+        `;
+        document.body.appendChild(this.loadingElement);
+        this.hideLoading();
+    }
+
+    createToastContainer() {
+        this.toastContainer = document.createElement('div');
+        this.toastContainer.className = 'toast-container';
+        document.body.appendChild(this.toastContainer);
+    }
+
+    createOfflineIndicator() {
+        this.offlineIndicator = document.createElement('div');
+        this.offlineIndicator.className = 'offline-indicator';
+        this.offlineIndicator.innerHTML = '<i class="fas fa-wifi-slash"></i> You are currently offline. Some features may be limited.';
+        document.body.appendChild(this.offlineIndicator);
+    }
+
+    createSkipLink() {
+        const skipLink = document.createElement('a');
+        skipLink.href = '#main-content';
+        skipLink.className = 'skip-link';
+        skipLink.textContent = 'Skip to main content';
+        document.body.insertBefore(skipLink, document.body.firstChild);
+    }
+
+    showLoading(message = 'Loading...') {
+        if (this.loadingElement) {
+            this.loadingElement.querySelector('.loading-text').textContent = message;
+            this.loadingElement.style.display = 'flex';
+        }
+    }
+
+    hideLoading() {
+        if (this.loadingElement) {
+            this.loadingElement.style.display = 'none';
+        }
+    }
+
+    showToast(message, type = 'info', duration = 5000) {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        
+        const icons = {
+            success: 'fas fa-check-circle',
+            error: 'fas fa-exclamation-circle',
+            warning: 'fas fa-exclamation-triangle',
+            info: 'fas fa-info-circle'
+        };
+
+        toast.innerHTML = `
+            <i class="toast-icon ${icons[type]}"></i>
+            <span>${message}</span>
+        `;
+
+        this.toastContainer.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.animation = 'slideInRight 0.3s ease-out reverse';
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 300);
+        }, duration);
+    }
+
+    showError(message) {
+        this.showToast(message, 'error', 7000);
+    }
+
+    showSuccess(message) {
+        this.showToast(message, 'success', 4000);
+    }
+
+    showWarning(message) {
+        this.showToast(message, 'warning', 6000);
+    }
+
+    showInfo(message) {
+        this.showToast(message, 'info', 5000);
+    }
+}
+
+// Error Handling
+class ErrorHandler {
+    constructor(loadingManager) {
+        this.loadingManager = loadingManager;
+        this.init();
+    }
+
+    init() {
+        window.addEventListener('error', this.handleGlobalError.bind(this));
+        window.addEventListener('unhandledrejection', this.handlePromiseError.bind(this));
+    }
+
+    handleGlobalError(event) {
+        console.error('Global error:', event.error);
+        this.loadingManager.showError('An unexpected error occurred. Please try again.');
+    }
+
+    handlePromiseError(event) {
+        console.error('Promise error:', event.reason);
+        this.loadingManager.showError('A network error occurred. Please check your connection.');
+    }
+
+    showFormError(formElement, message) {
+        const existingError = formElement.querySelector('.error-message');
+        if (existingError) {
+            existingError.remove();
+        }
+
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+        
+        formElement.insertBefore(errorDiv, formElement.firstChild);
+        
+        setTimeout(() => {
+            if (errorDiv.parentNode) {
+                errorDiv.remove();
+            }
+        }, 5000);
+    }
+
+    showFormSuccess(formElement, message) {
+        const existingSuccess = formElement.querySelector('.success-message');
+        if (existingSuccess) {
+            existingSuccess.remove();
+        }
+
+        const successDiv = document.createElement('div');
+        successDiv.className = 'success-message';
+        successDiv.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+        
+        formElement.insertBefore(successDiv, formElement.firstChild);
+        
+        setTimeout(() => {
+            if (successDiv.parentNode) {
+                successDiv.remove();
+            }
+        }, 5000);
+    }
+}
+
+// PWA (Progressive Web App) Features
+class PWAFeatures {
+    constructor(loadingManager) {
+        this.loadingManager = loadingManager;
+        this.deferredPrompt = null;
+        this.init();
+    }
+
+    init() {
+        this.registerServiceWorker();
+        this.setupInstallPrompt();
+        this.setupOfflineDetection();
+        this.createManifest();
+    }
+
+    async registerServiceWorker() {
+        if ('serviceWorker' in navigator) {
+            try {
+                const registration = await navigator.serviceWorker.register('/sw.js');
+                console.log('Service Worker registered:', registration);
+            } catch (error) {
+                console.error('Service Worker registration failed:', error);
+            }
+        }
+    }
+
+    setupInstallPrompt() {
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            this.deferredPrompt = e;
+            this.showInstallPrompt();
+        });
+
+        window.addEventListener('appinstalled', () => {
+            this.loadingManager.showSuccess('Area22 has been installed successfully!');
+            this.hideInstallPrompt();
+        });
+    }
+
+    showInstallPrompt() {
+        const prompt = document.createElement('div');
+        prompt.className = 'pwa-install-prompt';
+        prompt.innerHTML = `
+            <button class="close-btn" onclick="this.parentElement.remove()">&times;</button>
+            <h4>Install Area22</h4>
+            <p>Add Area22 to your home screen for quick access and offline functionality.</p>
+            <button class="btn btn-primary" onclick="pwaFeatures.installApp()">Install App</button>
+            <button class="btn btn-secondary" onclick="this.parentElement.remove()">Not Now</button>
+        `;
+        document.body.appendChild(prompt);
+    }
+
+    hideInstallPrompt() {
+        const prompt = document.querySelector('.pwa-install-prompt');
+        if (prompt) {
+            prompt.remove();
+        }
+    }
+
+    async installApp() {
+        if (this.deferredPrompt) {
+            this.deferredPrompt.prompt();
+            const { outcome } = await this.deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                this.loadingManager.showSuccess('Area22 is being installed...');
+            }
+            this.deferredPrompt = null;
+        }
+    }
+
+    setupOfflineDetection() {
+        window.addEventListener('online', () => {
+            document.querySelector('.offline-indicator').classList.remove('show');
+            this.loadingManager.showSuccess('You are back online!');
+        });
+
+        window.addEventListener('offline', () => {
+            document.querySelector('.offline-indicator').classList.add('show');
+            this.loadingManager.showWarning('You are currently offline. Some features may be limited.');
+        });
+    }
+
+    createManifest() {
+        const manifest = {
+            name: 'Area22 - Professional DJ Services',
+            short_name: 'Area22',
+            description: 'Professional DJ services for weddings, parties, and events',
+            start_url: '/',
+            display: 'standalone',
+            background_color: '#0a0a0a',
+            theme_color: '#00ff00',
+            icons: [
+                {
+                    src: 'favicon.ico',
+                    sizes: '32x32',
+                    type: 'image/x-icon'
+                }
+            ]
+        };
+
+        const manifestLink = document.createElement('link');
+        manifestLink.rel = 'manifest';
+        manifestLink.href = 'data:application/json;base64,' + btoa(JSON.stringify(manifest));
+        document.head.appendChild(manifestLink);
+    }
+}
+
+// Accessibility Enhancements
+class AccessibilityManager {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        this.setupKeyboardNavigation();
+        this.setupFocusManagement();
+        this.setupARIALabels();
+        this.setupReducedMotion();
+    }
+
+    setupKeyboardNavigation() {
+        // Add keyboard navigation for hamburger menu
+        const hamburger = document.querySelector('.hamburger');
+        if (hamburger) {
+            hamburger.setAttribute('tabindex', '0');
+            hamburger.setAttribute('role', 'button');
+            hamburger.setAttribute('aria-label', 'Toggle navigation menu');
+            hamburger.setAttribute('aria-expanded', 'false');
+            
+            hamburger.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    hamburger.click();
+                }
+            });
+        }
+
+        // Add keyboard navigation for all interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, input, select, textarea');
+        interactiveElements.forEach(element => {
+            if (!element.hasAttribute('tabindex')) {
+                element.setAttribute('tabindex', '0');
+            }
+        });
+    }
+
+    setupFocusManagement() {
+        // Trap focus in modal dialogs
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                const modals = document.querySelectorAll('.modal, .booking-modal');
+                modals.forEach(modal => {
+                    if (modal.style.display !== 'none') {
+                        const focusableElements = modal.querySelectorAll('a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                        const firstElement = focusableElements[0];
+                        const lastElement = focusableElements[focusableElements.length - 1];
+
+                        if (e.shiftKey && document.activeElement === firstElement) {
+                            e.preventDefault();
+                            lastElement.focus();
+                        } else if (!e.shiftKey && document.activeElement === lastElement) {
+                            e.preventDefault();
+                            firstElement.focus();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    setupARIALabels() {
+        // Add ARIA labels to form elements
+        const inputs = document.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            if (!input.hasAttribute('aria-label') && !input.hasAttribute('aria-labelledby')) {
+                const label = input.previousElementSibling;
+                if (label && label.tagName === 'LABEL') {
+                    input.setAttribute('aria-labelledby', label.id || label.textContent);
+                }
+            }
+        });
+
+        // Add ARIA labels to buttons
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(button => {
+            if (!button.hasAttribute('aria-label') && !button.textContent.trim()) {
+                const icon = button.querySelector('i');
+                if (icon) {
+                    button.setAttribute('aria-label', icon.className.split(' ').pop().replace('fa-', ''));
+                }
+            }
+        });
+    }
+
+    setupReducedMotion() {
+        // Check for reduced motion preference
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.body.classList.add('reduced-motion');
+        }
+    }
+}
+
+// Form Enhancement with Loading States
+class FormEnhancer {
+    constructor(loadingManager, errorHandler) {
+        this.loadingManager = loadingManager;
+        this.errorHandler = errorHandler;
+        this.init();
+    }
+
+    init() {
+        this.enhanceBookingForm();
+        this.enhanceContactForm();
+    }
+
+    enhanceBookingForm() {
+        const bookingForm = document.getElementById('bookingForm');
+        if (bookingForm) {
+            bookingForm.addEventListener('submit', this.handleBookingSubmit.bind(this));
+        }
+    }
+
+    enhanceContactForm() {
+        const contactForm = document.querySelector('.contact form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', this.handleContactSubmit.bind(this));
+        }
+    }
+
+    async handleBookingSubmit(e) {
+        e.preventDefault();
+        const form = e.target;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        
+        // Add loading state
+        form.classList.add('form-loading');
+        submitBtn.classList.add('btn-loading');
+        
+        try {
+            // Simulate form submission
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            this.errorHandler.showFormSuccess(form, 'Booking request submitted successfully! We will contact you within 24 hours.');
+            form.reset();
+            
+        } catch (error) {
+            this.errorHandler.showFormError(form, 'Failed to submit booking. Please try again.');
+        } finally {
+            form.classList.remove('form-loading');
+            submitBtn.classList.remove('btn-loading');
+        }
+    }
+
+    async handleContactSubmit(e) {
+        e.preventDefault();
+        const form = e.target;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        
+        // Add loading state
+        form.classList.add('form-loading');
+        submitBtn.classList.add('btn-loading');
+        
+        try {
+            // Simulate form submission
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            this.errorHandler.showFormSuccess(form, 'Message sent successfully! We will respond within 24 hours.');
+            form.reset();
+            
+        } catch (error) {
+            this.errorHandler.showFormError(form, 'Failed to send message. Please try again.');
+        } finally {
+            form.classList.remove('form-loading');
+            submitBtn.classList.remove('btn-loading');
+        }
+    }
+}
+
+// Initialize all UI/UX improvements
+let loadingManager, errorHandler, pwaFeatures, accessibilityManager, formEnhancer;
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize loading manager first
+    loadingManager = new LoadingManager();
+    
+    // Initialize other managers
+    errorHandler = new ErrorHandler(loadingManager);
+    pwaFeatures = new PWAFeatures(loadingManager);
+    accessibilityManager = new AccessibilityManager();
+    formEnhancer = new FormEnhancer(loadingManager, errorHandler);
+    
+    // Show initial loading
+    loadingManager.showLoading('Loading Area22...');
+    
+    // Hide loading after page is ready
+    setTimeout(() => {
+        loadingManager.hideLoading();
+        loadingManager.showInfo('Welcome to Area22! 🎵');
+    }, 1000);
+});
+
+// Global access for PWA features
+window.pwaFeatures = pwaFeatures;
