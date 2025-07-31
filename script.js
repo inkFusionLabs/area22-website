@@ -1,44 +1,85 @@
-// Mobile Navigation - Simplified and Debugged
+// Mobile Navigation - Enhanced and Debugged
 function initMobileNavigation() {
     console.log('Initializing mobile navigation...');
     
+    // Wait a bit for DOM to be fully ready
+    setTimeout(() => {
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        console.log('Hamburger element:', hamburger);
+        console.log('Nav menu element:', navMenu);
+
+        if (hamburger && navMenu) {
+            console.log('Both elements found, adding event listeners...');
+            
+            // Remove any existing event listeners to prevent duplicates
+            hamburger.removeEventListener('click', hamburgerClickHandler);
+            hamburger.addEventListener('click', hamburgerClickHandler);
+            
+            // Close menu when clicking links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.removeEventListener('click', closeMenuHandler);
+                link.addEventListener('click', closeMenuHandler);
+            });
+            
+            // Close menu when clicking outside
+            document.removeEventListener('click', outsideClickHandler);
+            document.addEventListener('click', outsideClickHandler);
+            
+            console.log('Mobile navigation initialized successfully');
+        } else {
+            console.error('Mobile navigation elements not found!');
+            console.error('Hamburger:', hamburger);
+            console.error('Nav menu:', navMenu);
+        }
+    }, 100);
+}
+
+// Hamburger click handler
+function hamburgerClickHandler(e) {
+    console.log('Hamburger clicked!');
+    e.preventDefault();
+    e.stopPropagation();
+    
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
-
-    console.log('Hamburger element:', hamburger);
-    console.log('Nav menu element:', navMenu);
-
+    
     if (hamburger && navMenu) {
-        console.log('Both elements found, adding event listeners...');
+        // Toggle classes
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
         
-        // Simple click handler
-        hamburger.addEventListener('click', function(e) {
-            console.log('Hamburger clicked!');
-            e.preventDefault();
-            e.stopPropagation();
-            
-            // Toggle classes
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-            
-            console.log('Hamburger active:', hamburger.classList.contains('active'));
-            console.log('Nav menu active:', navMenu.classList.contains('active'));
-        });
+        console.log('Hamburger active:', hamburger.classList.contains('active'));
+        console.log('Nav menu active:', navMenu.classList.contains('active'));
+    }
+}
+
+// Close menu handler
+function closeMenuHandler() {
+    console.log('Link clicked, closing menu...');
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (hamburger && navMenu) {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+    }
+}
+
+// Outside click handler
+function outsideClickHandler(e) {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (hamburger && navMenu && 
+        !hamburger.contains(e.target) && 
+        !navMenu.contains(e.target) && 
+        navMenu.classList.contains('active')) {
         
-        // Close menu when clicking links
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function() {
-                console.log('Link clicked, closing menu...');
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            });
-        });
-        
-        console.log('Mobile navigation initialized successfully');
-    } else {
-        console.error('Mobile navigation elements not found!');
-        console.error('Hamburger:', hamburger);
-        console.error('Nav menu:', navMenu);
+        console.log('Clicked outside menu, closing...');
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
     }
 }
 
@@ -844,4 +885,4 @@ function showEventDetails(dateString) {
     // Show the details section
     eventDetails.style.display = 'block';
     eventDetails.style.animation = 'fadeIn 0.5s ease-in';
-} 
+} }

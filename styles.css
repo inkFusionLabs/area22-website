@@ -408,6 +408,17 @@ body::before {
     animation: logoGlow 3s ease-in-out infinite alternate;
 }
 
+.nav-logo a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.nav-logo a:hover {
+    transform: scale(1.05);
+}
+
 @keyframes logoGlow {
     from {
         text-shadow: 0 0 15px #00ff00, 0 0 30px #00ff00;
