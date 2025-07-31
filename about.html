@@ -176,5 +176,37 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Debug script for about page
+        console.log('About page loaded');
+        
+        // Check if elements exist
+        setTimeout(() => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            console.log('About page - Hamburger:', hamburger);
+            console.log('About page - Nav menu:', navMenu);
+            console.log('About page - Hamburger display:', hamburger ? getComputedStyle(hamburger).display : 'N/A');
+            console.log('About page - Window width:', window.innerWidth);
+            
+            // Add direct click handler for testing
+            if (hamburger) {
+                hamburger.onclick = function(e) {
+                    console.log('About page - Direct click on hamburger!');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    if (navMenu) {
+                        this.classList.toggle('active');
+                        navMenu.classList.toggle('active');
+                        console.log('About page - Direct toggle - Hamburger active:', this.classList.contains('active'));
+                        console.log('About page - Direct toggle - Nav menu active:', navMenu.classList.contains('active'));
+                    }
+                };
+                console.log('About page - Direct click handler added to hamburger');
+            }
+        }, 1000);
+    </script>
 </body>
 </html> 

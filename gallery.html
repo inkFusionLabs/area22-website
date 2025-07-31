@@ -179,5 +179,37 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Debug script for gallery page
+        console.log('Gallery page loaded');
+        
+        // Check if elements exist
+        setTimeout(() => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            console.log('Gallery page - Hamburger:', hamburger);
+            console.log('Gallery page - Nav menu:', navMenu);
+            console.log('Gallery page - Hamburger display:', hamburger ? getComputedStyle(hamburger).display : 'N/A');
+            console.log('Gallery page - Window width:', window.innerWidth);
+            
+            // Add direct click handler for testing
+            if (hamburger) {
+                hamburger.onclick = function(e) {
+                    console.log('Gallery page - Direct click on hamburger!');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    if (navMenu) {
+                        this.classList.toggle('active');
+                        navMenu.classList.toggle('active');
+                        console.log('Gallery page - Direct toggle - Hamburger active:', this.classList.contains('active'));
+                        console.log('Gallery page - Direct toggle - Nav menu active:', navMenu.classList.contains('active'));
+                    }
+                };
+                console.log('Gallery page - Direct click handler added to hamburger');
+            }
+        }, 1000);
+    </script>
 </body>
 </html> 

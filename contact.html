@@ -193,5 +193,37 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Debug script for contact page
+        console.log('Contact page loaded');
+        
+        // Check if elements exist
+        setTimeout(() => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            console.log('Contact page - Hamburger:', hamburger);
+            console.log('Contact page - Nav menu:', navMenu);
+            console.log('Contact page - Hamburger display:', hamburger ? getComputedStyle(hamburger).display : 'N/A');
+            console.log('Contact page - Window width:', window.innerWidth);
+            
+            // Add direct click handler for testing
+            if (hamburger) {
+                hamburger.onclick = function(e) {
+                    console.log('Contact page - Direct click on hamburger!');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    if (navMenu) {
+                        this.classList.toggle('active');
+                        navMenu.classList.toggle('active');
+                        console.log('Contact page - Direct toggle - Hamburger active:', this.classList.contains('active'));
+                        console.log('Contact page - Direct toggle - Nav menu active:', navMenu.classList.contains('active'));
+                    }
+                };
+                console.log('Contact page - Direct click handler added to hamburger');
+            }
+        }, 1000);
+    </script>
 </body>
 </html> 
