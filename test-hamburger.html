@@ -55,7 +55,7 @@
         }
         
         .hamburger {
-            display: none;
+            display: flex;
             flex-direction: column;
             cursor: pointer;
             z-index: 1001;
@@ -63,6 +63,7 @@
             background: rgba(0, 0, 0, 0.8);
             border-radius: 5px;
             border: 1px solid #00ff00;
+            position: relative;
         }
         
         .bar {
@@ -115,6 +116,13 @@
         @media (max-width: 768px) {
             .hamburger {
                 display: flex !important;
+                position: relative;
+                z-index: 1001;
+                cursor: pointer;
+                padding: 10px;
+                background: rgba(0, 0, 0, 0.8);
+                border-radius: 5px;
+                border: 1px solid #00ff00;
             }
             
             .nav-menu {
@@ -192,6 +200,7 @@
         
         <button class="test-button" onclick="testHamburger()">Test Hamburger Menu</button>
         <button class="test-button" onclick="showDebugInfo()">Show Debug Info</button>
+        <button class="test-button" onclick="forceHamburger()">Force Hamburger Test</button>
         
         <div id="debug-info" class="debug-info" style="display: none;">
             <h3>Debug Information</h3>
@@ -202,46 +211,88 @@
     <script>
         console.log('Test page loaded');
         
+        // Mobile Navigation - Enhanced and Debugged
         function initMobileNavigation() {
             console.log('Initializing mobile navigation...');
             
+            // Wait a bit for DOM to be fully ready
+            setTimeout(() => {
+                const hamburger = document.querySelector('.hamburger');
+                const navMenu = document.querySelector('.nav-menu');
+
+                console.log('Hamburger element:', hamburger);
+                console.log('Nav menu element:', navMenu);
+
+                if (hamburger && navMenu) {
+                    console.log('Both elements found, adding event listeners...');
+                    
+                    // Remove any existing event listeners to prevent duplicates
+                    hamburger.removeEventListener('click', hamburgerClickHandler);
+                    hamburger.addEventListener('click', hamburgerClickHandler);
+                    
+                    // Close menu when clicking links
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.removeEventListener('click', closeMenuHandler);
+                        link.addEventListener('click', closeMenuHandler);
+                    });
+                    
+                    // Close menu when clicking outside
+                    document.removeEventListener('click', outsideClickHandler);
+                    document.addEventListener('click', outsideClickHandler);
+                    
+                    console.log('Mobile navigation initialized successfully');
+                } else {
+                    console.error('Mobile navigation elements not found!');
+                    console.error('Hamburger:', hamburger);
+                    console.error('Nav menu:', navMenu);
+                }
+            }, 100);
+        }
+
+        // Hamburger click handler
+        function hamburgerClickHandler(e) {
+            console.log('Hamburger clicked!');
+            e.preventDefault();
+            e.stopPropagation();
+            
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
-
-            console.log('Hamburger element:', hamburger);
-            console.log('Nav menu element:', navMenu);
-
+            
             if (hamburger && navMenu) {
-                console.log('Both elements found, adding event listeners...');
+                // Toggle classes
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
                 
-                // Simple click handler
-                hamburger.addEventListener('click', function(e) {
-                    console.log('Hamburger clicked!');
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    // Toggle classes
-                    hamburger.classList.toggle('active');
-                    navMenu.classList.toggle('active');
-                    
-                    console.log('Hamburger active:', hamburger.classList.contains('active'));
-                    console.log('Nav menu active:', navMenu.classList.contains('active'));
-                });
+                console.log('Hamburger active:', hamburger.classList.contains('active'));
+                console.log('Nav menu active:', navMenu.classList.contains('active'));
+            }
+        }
+
+        // Close menu handler
+        function closeMenuHandler() {
+            console.log('Link clicked, closing menu...');
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (hamburger && navMenu) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        }
+
+        // Outside click handler
+        function outsideClickHandler(e) {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (hamburger && navMenu && 
+                !hamburger.contains(e.target) && 
+                !navMenu.contains(e.target) && 
+                navMenu.classList.contains('active')) {
                 
-                // Close menu when clicking links
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.addEventListener('click', function() {
-                        console.log('Link clicked, closing menu...');
-                        hamburger.classList.remove('active');
-                        navMenu.classList.remove('active');
-                    });
-                });
-                
-                console.log('Mobile navigation initialized successfully');
-            } else {
-                console.error('Mobile navigation elements not found!');
-                console.error('Hamburger:', hamburger);
-                console.error('Nav menu:', navMenu);
+                console.log('Clicked outside menu, closing...');
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
             }
         }
         
@@ -271,15 +322,55 @@
                 <p><strong>Nav menu position:</strong> ${navMenu ? getComputedStyle(navMenu).left : 'N/A'}</p>
                 <p><strong>Window width:</strong> ${window.innerWidth}px</p>
                 <p><strong>Is mobile:</strong> ${window.innerWidth <= 768 ? 'Yes' : 'No'}</p>
+                <p><strong>Hamburger active:</strong> ${hamburger ? hamburger.classList.contains('active') : 'N/A'}</p>
+                <p><strong>Nav menu active:</strong> ${navMenu ? navMenu.classList.contains('active') : 'N/A'}</p>
             `;
             
             debugInfo.style.display = 'block';
+        }
+        
+        function forceHamburger() {
+            console.log('Force hamburger test...');
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (hamburger && navMenu) {
+                console.log('Elements found, toggling...');
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+                console.log('Classes toggled');
+                console.log('Hamburger active:', hamburger.classList.contains('active'));
+                console.log('Nav menu active:', navMenu.classList.contains('active'));
+            } else {
+                console.error('Elements not found in force test');
+                console.error('Hamburger:', hamburger);
+                console.error('Nav menu:', navMenu);
+            }
         }
         
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             console.log('DOM loaded, initializing...');
             initMobileNavigation();
+            
+            // Add direct click handler for testing
+            const hamburger = document.querySelector('.hamburger');
+            if (hamburger) {
+                hamburger.onclick = function(e) {
+                    console.log('Direct click on hamburger!');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const navMenu = document.querySelector('.nav-menu');
+                    if (navMenu) {
+                        this.classList.toggle('active');
+                        navMenu.classList.toggle('active');
+                        console.log('Direct toggle - Hamburger active:', this.classList.contains('active'));
+                        console.log('Direct toggle - Nav menu active:', navMenu.classList.contains('active'));
+                    }
+                };
+                console.log('Direct click handler added to hamburger');
+            }
         });
         
         // Also try on window load as backup
