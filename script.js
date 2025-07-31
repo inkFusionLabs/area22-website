@@ -1367,6 +1367,17 @@ document.addEventListener('DOMContentLoaded', () => {
 // Global access for PWA features
 window.pwaFeatures = pwaFeatures;
 
+// Initialize backup system
+if (typeof BackupSystem !== 'undefined') {
+    window.backupSystem = new BackupSystem();
+    window.backupSystem.init();
+}
+
+// Initialize performance monitor
+if (typeof PerformanceMonitor !== 'undefined') {
+    window.performanceMonitor = new PerformanceMonitor();
+}
+
 // Backup mobile navigation initialization
 window.addEventListener('load', () => {
     // Re-initialize mobile navigation if not already working
