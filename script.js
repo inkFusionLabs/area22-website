@@ -1335,11 +1335,17 @@ class FormEnhancer {
     }
 }
 
+// Initialize mobile navigation
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, initializing mobile navigation...');
+    initMobileNavigation();
+});
+
 // Initialize all UI/UX improvements
 let loadingManager, errorHandler, pwaFeatures, accessibilityManager, formEnhancer;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize loading manager first
+    // Initialize loading manager
     loadingManager = new LoadingManager();
     
     // Initialize other managers
@@ -1360,3 +1366,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Global access for PWA features
 window.pwaFeatures = pwaFeatures;
+
+// Backup mobile navigation initialization
+window.addEventListener('load', () => {
+    // Re-initialize mobile navigation if not already working
+    if (!document.querySelector('.hamburger.active')) {
+        console.log('Re-initializing mobile navigation on window load...');
+        initMobileNavigation();
+    }
+});
+
+// Simple mobile navigation initialization as backup
+window.addEventListener('load', () => {
+    console.log('Window loaded, ensuring mobile navigation works...');
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (hamburger && navMenu) {
+        console.log('Mobile navigation elements found, adding direct event listeners...');
+        
+        // Add direct click handler
+        hamburger.addEventListener('click', (e) => {
+            console.log('Direct hamburger click!');
+            e.preventDefault();
+            e.stopPropagation();
+            
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            
+            console.log('Hamburger active:', hamburger.classList.contains('active'));
+            console.log('Nav menu active:', navMenu.classList.contains('active'));
+        });
+        
+        // Close menu when clicking links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+        
+        console.log('Direct mobile navigation event listeners added');
+    } else {
+        console.error('Mobile navigation elements not found on window load');
+    }
+});
+}
