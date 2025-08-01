@@ -67,6 +67,20 @@
 
     <!-- Watermark -->
     <div class="watermark">inkFusionLabs</div>
+    
+    <!-- Accessibility Controls -->
+    <button class="accessibility-toggle" id="accessibilityToggle" aria-label="Toggle accessibility controls">
+        <i class="fas fa-universal-access"></i>
+    </button>
+    
+    <div class="font-size-controls" id="fontSizeControls" style="display: none;">
+        <h4>Accessibility</h4>
+        <button class="font-size-btn" data-size="small">Small Text</button>
+        <button class="font-size-btn active" data-size="medium">Medium Text</button>
+        <button class="font-size-btn" data-size="large">Large Text</button>
+        <button class="font-size-btn" data-size="xlarge">Extra Large</button>
+        <button class="font-size-btn" id="darkModeToggle">Dark Mode</button>
+    </div>
 
     <!-- Navigation -->
     <nav class="navbar">
@@ -152,6 +166,33 @@
                     </div>
                 </div>
                 <div class="booking-form">
+                    <!-- Progress Bar -->
+                    <div class="booking-progress">
+                        <div class="progress-container">
+                            <div class="progress-bar" id="bookingProgress">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <div class="progress-steps">
+                                <div class="step active" data-step="1">
+                                    <span class="step-number">1</span>
+                                    <span class="step-label">Event Details</span>
+                                </div>
+                                <div class="step" data-step="2">
+                                    <span class="step-number">2</span>
+                                    <span class="step-label">Contact Info</span>
+                                </div>
+                                <div class="step" data-step="3">
+                                    <span class="step-number">3</span>
+                                    <span class="step-label">Package Selection</span>
+                                </div>
+                                <div class="step" data-step="4">
+                                    <span class="step-number">4</span>
+                                    <span class="step-label">Confirmation</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <h3>Event Details</h3>
                     <form id="bookingForm">
                         <div class="form-group">
@@ -323,6 +364,9 @@
         </div>
     </footer>
 
+    <script src="backup-system.js"></script>
+    <script src="performance-monitor.js"></script>
+    <script src="accessibility.js"></script>
     <script src="script.js"></script>
     <script>
         // Debug script for booking page

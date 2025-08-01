@@ -73,6 +73,20 @@
 
     <!-- Watermark -->
     <div class="watermark">inkFusionLabs</div>
+    
+    <!-- Accessibility Controls -->
+    <button class="accessibility-toggle" id="accessibilityToggle" aria-label="Toggle accessibility controls">
+        <i class="fas fa-universal-access"></i>
+    </button>
+    
+    <div class="font-size-controls" id="fontSizeControls" style="display: none;">
+        <h4>Accessibility</h4>
+        <button class="font-size-btn" data-size="small">Small Text</button>
+        <button class="font-size-btn active" data-size="medium">Medium Text</button>
+        <button class="font-size-btn" data-size="large">Large Text</button>
+        <button class="font-size-btn" data-size="xlarge">Extra Large</button>
+        <button class="font-size-btn" id="darkModeToggle">Dark Mode</button>
+    </div>
 
     <!-- Navigation -->
     <nav class="navbar">
@@ -232,6 +246,7 @@
 
     <script src="backup-system.js"></script>
     <script src="performance-monitor.js"></script>
+    <script src="accessibility.js"></script>
     <script src="script.js"></script>
     <script>
         // Debug script for main site
