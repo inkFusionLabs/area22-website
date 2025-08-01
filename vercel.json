@@ -44,14 +44,6 @@
       }
     }
   ],
-  "functions": {
-    "api/contact.js": {
-      "maxDuration": 10
-    },
-    "api/booking.js": {
-      "maxDuration": 10
-    }
-  },
   "env": {
     "NODE_ENV": "production"
   }
