@@ -1634,7 +1634,7 @@ section {
 /* Responsive Design */
 @media (max-width: 768px) {
     .header-banner {
-        height: 200px;
+        height: 250px;
         margin-top: 90px;
     }
     
