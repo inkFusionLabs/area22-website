@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area22 DJ Dashboard - Song Requests</title>
+    <meta name="description" content="DJ Dashboard for managing song requests at Area22 events">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .dj-dashboard {
+            padding: 20px;
+            background: linear-gradient(135deg, #000 0%, #111 100%);
+            min-height: 100vh;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 15px;
+        }
+
+        .dashboard-header h1 {
+            color: #00ff00;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff00;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .requests-container {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
+        .requests-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .requests-header h2 {
+            color: #00ff00;
+            margin: 0;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .request-item {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .request-item:hover {
+            border-color: rgba(0, 255, 0, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+        }
+
+        .request-item.priority-urgent {
+            border-color: #ff0000;
+            background: rgba(255, 0, 0, 0.1);
+        }
+
+        .request-item.priority-high {
+            border-color: #ffaa00;
+            background: rgba(255, 170, 0, 0.1);
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .request-info h3 {
+            color: #fff;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.3rem;
+        }
+
+        .request-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .priority-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-badge.urgent {
+            background: #ff0000;
+            color: #fff;
+        }
+
+        .priority-badge.high {
+            background: #ffaa00;
+            color: #000;
+        }
+
+        .priority-badge.normal {
+            background: #00ff00;
+            color: #000;
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-badge.pending {
+            background: #ffaa00;
+            color: #000;
+        }
+
+        .status-badge.playing {
+            background: #00ff00;
+            color: #000;
+        }
+
+        .status-badge.completed {
+            background: #0088ff;
+            color: #fff;
+        }
+
+        .status-badge.skipped {
+            background: #888;
+            color: #fff;
+        }
+
+        .no-requests {
+            text-align: center;
+            color: #888;
+            padding: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .refresh-indicator {
+            display: inline-block;
+            margin-left: 1rem;
+            color: #00ff00;
+        }
+
+        .refresh-indicator.spinning {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header h1 {
+                font-size: 2rem;
+            }
+            
+            .requests-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .dashboard-actions {
+                justify-content: center;
+            }
+            
+            .request-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .request-actions {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dj-dashboard">
+        <div class="dashboard-header">
+            <h1>🎵 Area22 DJ Dashboard</h1>
+            <p>Manage song requests in real-time</p>
+        </div>
+
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-number" id="total-requests">0</div>
+                <div class="stat-label">Total Requests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="pending-requests">0</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="urgent-requests">0</div>
+                <div class="stat-label">Urgent</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="completed-requests">0</div>
+                <div class="stat-label">Completed</div>
+            </div>
+        </div>
+
+        <div class="requests-container">
+            <div class="requests-header">
+                <h2>📝 Song Requests</h2>
+                <div class="dashboard-actions">
+                    <button class="btn btn-primary" onclick="refreshRequests()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                        <span class="refresh-indicator" id="refresh-indicator">🔄</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearAllRequests()">
+                        <i class="fas fa-trash"></i> Clear All
+                    </button>
+                    <button class="btn btn-outline" onclick="exportRequests()">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <div id="requests-list">
+                <div class="no-requests">
+                    <p>No song requests yet. Waiting for guests to submit requests...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase Client Library -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script>
+        class DJDashboard {
+            constructor() {
+                this.requests = [];
+                this.refreshInterval = null;
+                this.init();
+            }
+
+            init() {
+                this.loadRequests();
+                this.startAutoRefresh();
+                this.updateStats();
+            }
+
+                    async loadRequests() {
+            try {
+                const { data, error } = await supabase
+                    .from('song_requests')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    throw error;
+                }
+
+                if (data) {
+                    // Transform Supabase data to match our format
+                    this.requests = data.map(item => ({
+                        id: item.id,
+                        songTitle: item.song_title,
+                        artistName: item.artist_name,
+                        guestName: item.guest_name,
+                        note: item.note,
+                        priority: item.priority,
+                        timestamp: new Date(item.created_at).toLocaleTimeString(),
+                        status: item.status
+                    }));
+                    
+                    this.displayRequests();
+                    this.updateStats();
+                }
+            } catch (error) {
+                console.error('Error loading requests from Supabase:', error);
+            }
+        }
+
+            displayRequests() {
+                const container = document.getElementById('requests-list');
+                
+                if (this.requests.length === 0) {
+                    container.innerHTML = `
+                        <div class="no-requests">
+                            <p>No song requests yet. Waiting for guests to submit requests...</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = this.requests.map(request => `
+                    <div class="request-item priority-${request.priority}" data-id="${request.id}">
+                        <div class="request-header">
+                            <div class="request-info">
+                                <h3>${request.songTitle}</h3>
+                                <p style="color: #00ff00; margin: 0.5rem 0;">by ${request.artistName}</p>
+                                <div class="request-meta">
+                                    <span>Guest: ${request.guestName}</span>
+                                    <span>Time: ${new Date(request.timestamp).toLocaleTimeString()}</span>
+                                    <span class="status-badge ${request.status}">${request.status}</span>
+                                </div>
+                                ${request.note ? `<p style="color: #888; margin: 0.5rem 0; font-style: italic;">Note: ${request.note}</p>` : ''}
+                            </div>
+                            <div class="request-actions">
+                                <span class="priority-badge ${request.priority}">${request.priority}</span>
+                                <button class="btn btn-primary btn-small" onclick="dashboard.updateStatus('${request.id}', 'playing')">
+                                    <i class="fas fa-play"></i> Playing
+                                </button>
+                                <button class="btn btn-secondary btn-small" onclick="dashboard.updateStatus('${request.id}', 'completed')">
+                                    <i class="fas fa-check"></i> Done
+                                </button>
+                                <button class="btn btn-outline btn-small" onclick="dashboard.updateStatus('${request.id}', 'skipped')">
+                                    <i class="fas fa-forward"></i> Skip
+                                </button>
+                                <button class="btn btn-outline btn-small" onclick="dashboard.deleteRequest('${request.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            updateStats() {
+                const total = this.requests.length;
+                const pending = this.requests.filter(r => r.status === 'pending').length;
+                const urgent = this.requests.filter(r => r.priority === 'urgent').length;
+                const completed = this.requests.filter(r => r.status === 'completed').length;
+
+                document.getElementById('total-requests').textContent = total;
+                document.getElementById('pending-requests').textContent = pending;
+                document.getElementById('urgent-requests').textContent = urgent;
+                document.getElementById('completed-requests').textContent = completed;
+            }
+
+                    async updateStatus(requestId, status) {
+            try {
+                const { error } = await supabase
+                    .from('song_requests')
+                    .update({ status })
+                    .eq('id', requestId);
+
+                if (error) {
+                    throw error;
+                }
+
+                await this.loadRequests();
+            } catch (error) {
+                console.error('Error updating status:', error);
+            }
+        }
+
+                    async deleteRequest(requestId) {
+            if (!confirm('Are you sure you want to delete this request?')) return;
+
+            try {
+                const { error } = await supabase
+                    .from('song_requests')
+                    .delete()
+                    .eq('id', requestId);
+
+                if (error) {
+                    throw error;
+                }
+
+                await this.loadRequests();
+            } catch (error) {
+                console.error('Error deleting request:', error);
+            }
+        }
+
+                    async clearAllRequests() {
+            if (!confirm('Are you sure you want to clear ALL requests? This cannot be undone.')) return;
+
+            try {
+                const { error } = await supabase
+                    .from('song_requests')
+                    .delete()
+                    .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all records
+
+                if (error) {
+                    throw error;
+                }
+
+                await this.loadRequests();
+                alert('All requests cleared successfully!');
+            } catch (error) {
+                console.error('Error clearing requests:', error);
+            }
+        }
+
+            exportRequests() {
+                const dataStr = JSON.stringify(this.requests, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `song-requests-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                URL.revokeObjectURL(url);
+            }
+
+            startAutoRefresh() {
+                // Refresh every 10 seconds
+                this.refreshInterval = setInterval(() => {
+                    this.loadRequests();
+                }, 10000);
+            }
+
+            stopAutoRefresh() {
+                if (this.refreshInterval) {
+                    clearInterval(this.refreshInterval);
+                    this.refreshInterval = null;
+                }
+            }
+        }
+
+        // Initialize dashboard
+        let dashboard;
+        document.addEventListener('DOMContentLoaded', () => {
+            dashboard = new DJDashboard();
+        });
+
+        // Global functions for HTML onclick handlers
+        function refreshRequests() {
+            const indicator = document.getElementById('refresh-indicator');
+            indicator.classList.add('spinning');
+            
+            dashboard.loadRequests().finally(() => {
+                setTimeout(() => {
+                    indicator.classList.remove('spinning');
+                }, 1000);
+            });
+        }
+
+        function clearAllRequests() {
+            dashboard.clearAllRequests();
+        }
+
+        function exportRequests() {
+            dashboard.exportRequests();
+        }
+    </script>
+</body>
+</html>

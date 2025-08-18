@@ -10,7 +10,7 @@ class MusicRequestSystem {
         this.setupEventListeners();
         this.initializeEvent();
         this.generateQRCode();
-        this.loadSampleData();
+        this.loadRequestsFromSupabase(); // Load from Supabase instead of sample data
     }
 
     setupEventListeners() {
@@ -173,20 +173,80 @@ class MusicRequestSystem {
         }
     }
 
-    // Simulate sending request to DJ
-    sendToDJ(request) {
-        console.log('Sending to DJ:', request);
-        
-        // In production, this would be:
-        // - WebSocket connection for real-time updates
-        // - API call to your backend
-        // - Push notification to DJ's device
-        
-        // Simulate DJ response after a delay
-        setTimeout(() => {
-            request.status = 'received';
+    // Send request to DJ via Supabase
+    async sendToDJ(request) {
+        try {
+            // Insert request into Supabase
+            const { data, error } = await supabase
+                .from('song_requests')
+                .insert([
+                    {
+                        song_title: request.songTitle,
+                        artist_name: request.artistName,
+                        guest_name: request.guestName,
+                        note: request.note,
+                        priority: request.priority,
+                        status: 'pending',
+                        event_code: 'default'
+                    }
+                ])
+                .select();
+
+            if (error) {
+                throw error;
+            }
+
+            if (data && data.length > 0) {
+                const savedRequest = data[0];
+                request.id = savedRequest.id;
+                request.status = savedRequest.status;
+                this.updateRequestsList();
+                this.showNotification('Request sent successfully! DJ will see it soon.', 'success');
+                
+                // Refresh the requests list to show the new request
+                this.loadRequestsFromSupabase();
+            }
+        } catch (error) {
+            console.error('Error sending request to Supabase:', error);
+            this.showNotification('Failed to send request. Please try again.', 'error');
+            // Fallback to local storage if Supabase fails
+            request.status = 'pending';
             this.updateRequestsList();
-        }, 2000);
+        }
+    }
+
+    // Load requests from Supabase
+    async loadRequestsFromSupabase() {
+        try {
+            const { data, error } = await supabase
+                .from('song_requests')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                throw error;
+            }
+
+            if (data) {
+                // Transform Supabase data to match our format
+                this.requests = data.map(item => ({
+                    id: item.id,
+                    songTitle: item.song_title,
+                    artistName: item.artist_name,
+                    guestName: item.guest_name,
+                    note: item.note,
+                    priority: item.priority,
+                    timestamp: new Date(item.created_at).toLocaleTimeString(),
+                    status: item.status
+                }));
+                
+                this.updateRequestsList();
+            }
+        } catch (error) {
+            console.error('Error loading requests from Supabase:', error);
+            // Fallback to sample data if Supabase fails
+            this.loadSampleData();
+        }
     }
 
     // Show notification
