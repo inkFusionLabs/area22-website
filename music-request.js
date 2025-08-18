@@ -8,6 +8,7 @@ class MusicRequestSystem {
 
     init() {
         this.setupEventListeners();
+        this.initializeEvent();
         this.generateQRCode();
         this.loadSampleData();
     }
@@ -17,16 +18,6 @@ class MusicRequestSystem {
         const form = document.getElementById('song-request-form');
         if (form) {
             form.addEventListener('submit', (e) => this.handleFormSubmission(e));
-        }
-
-        // Event code input
-        const eventCodeInput = document.getElementById('event-code');
-        if (eventCodeInput) {
-            eventCodeInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    this.joinEvent();
-                }
-            });
         }
     }
 
@@ -76,49 +67,19 @@ class MusicRequestSystem {
         }
     }
 
-    // Join an event with a code
-    joinEvent() {
-        const eventCode = document.getElementById('event-code').value.trim();
-        
-        if (!eventCode) {
-            this.showNotification('Please enter an event code', 'error');
-            return;
-        }
-
-        // Simulate event joining (in production, this would connect to your backend)
+    // Initialize the system with default event info
+    initializeEvent() {
         this.currentEvent = {
-            code: eventCode,
-            name: this.getEventName(eventCode),
+            code: 'EVENT',
+            name: 'Area22 Event',
             dj: 'Area22',
             status: 'active'
         };
-
-        this.showEventForm();
-        this.showNotification(`Joined event: ${this.currentEvent.name}`, 'success');
         
         // Update event info display
-        document.getElementById('current-event-name').textContent = this.currentEvent.name;
-        document.getElementById('current-dj-name').textContent = this.currentEvent.dj;
-    }
-
-    // Get event name based on code
-    getEventName(code) {
-        const eventNames = {
-            'WEDDING001': 'Sarah & John Wedding',
-            'PARTY001': 'Birthday Bash',
-            'CORP001': 'Corporate Event',
-            'ANNIV001': 'Anniversary Party'
-        };
-        
-        return eventNames[code.toUpperCase()] || `${code} Event`;
-    }
-
-    // Show the music request form
-    showEventForm() {
-        const form = document.getElementById('request-form');
-        if (form) {
-            form.style.display = 'block';
-            form.scrollIntoView({ behavior: 'smooth' });
+        const eventNameElement = document.getElementById('current-event-name');
+        if (eventNameElement) {
+            eventNameElement.textContent = this.currentEvent.name;
         }
     }
 
@@ -288,12 +249,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Global functions for HTML onclick handlers
-function joinEvent() {
-    if (window.musicRequestSystem) {
-        window.musicRequestSystem.joinEvent();
-    }
-}
-
 function closeModal() {
     if (window.musicRequestSystem) {
         window.musicRequestSystem.closeModal();

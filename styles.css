@@ -2541,57 +2541,7 @@ textarea:focus {
     margin: 0 auto;
 }
 
-/* Event Selection */
-.event-selection {
-    background: rgba(0, 255, 0, 0.05);
-    border: 1px solid rgba(0, 255, 0, 0.2);
-    border-radius: 15px;
-    padding: 2rem;
-    margin-bottom: 3rem;
-    text-align: center;
-}
 
-.event-selection h3 {
-    color: #00ff00;
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-}
-
-.event-input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 400px;
-    margin: 0 auto 1rem;
-}
-
-.event-input-group label {
-    color: #fff;
-    font-weight: 500;
-    text-align: left;
-}
-
-.event-input-group input {
-    padding: 1rem;
-    border: 2px solid rgba(0, 255, 0, 0.3);
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-.event-input-group input:focus {
-    outline: none;
-    border-color: #00ff00;
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-}
-
-.event-help {
-    color: #888;
-    font-size: 0.9rem;
-    margin: 0;
-}
 
 /* Music Request Form */
 .music-request-form {
