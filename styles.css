@@ -3025,6 +3025,205 @@ textarea:focus {
     }
 }
 
+/* Music Request Showcase Section */
+.music-request-showcase {
+    background: linear-gradient(135deg, #000 0%, #111 100%);
+    padding: 80px 0;
+    border-top: 2px solid rgba(0, 255, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.showcase-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.showcase-text h2 {
+    color: #00ff00;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+}
+
+.showcase-text p {
+    color: #ccc;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.showcase-features {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.showcase-feature {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(0, 255, 0, 0.05);
+    border: 1px solid rgba(0, 255, 0, 0.2);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.showcase-feature:hover {
+    border-color: rgba(0, 255, 0, 0.5);
+    background: rgba(0, 255, 0, 0.1);
+    transform: translateX(5px);
+}
+
+.showcase-feature i {
+    color: #00ff00;
+    font-size: 1.5rem;
+    width: 30px;
+    text-align: center;
+}
+
+.showcase-feature h4 {
+    color: #00ff00;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.showcase-feature p {
+    color: #ccc;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.showcase-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.showcase-visual {
+    text-align: center;
+    position: relative;
+}
+
+.showcase-image {
+    padding: 3rem;
+    background: rgba(0, 255, 0, 0.05);
+    border: 2px solid rgba(0, 255, 0, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.1);
+    position: relative;
+}
+
+.floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.floating-qr, .floating-music, .floating-star {
+    position: absolute;
+    font-size: 2rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+.floating-qr {
+    top: 20%;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.floating-music {
+    top: 60%;
+    right: 20%;
+    animation-delay: 1s;
+}
+
+.floating-star {
+    bottom: 20%;
+    left: 50%;
+    animation-delay: 2s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Responsive Showcase Section */
+@media (max-width: 768px) {
+    .showcase-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+    
+    .showcase-text h2 {
+        font-size: 2rem;
+    }
+    
+    .showcase-actions {
+        justify-content: center;
+    }
+}
+
+/* Call to Action Section */
+.cta-section {
+    background: linear-gradient(135deg, #00ff00 0%, #00ff88 100%);
+    padding: 80px 0;
+    text-align: center;
+    color: #000;
+}
+
+.cta-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #000;
+}
+
+.cta-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #000;
+    opacity: 0.8;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-buttons .btn {
+    min-width: 200px;
+}
+
+/* Responsive CTA Section */
+@media (max-width: 768px) {
+    .cta-content h2 {
+        font-size: 2rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-buttons .btn {
+        min-width: 250px;
+    }
+}
+
 /* Music Request Feature Section */
 .music-request-feature {
     background: linear-gradient(135deg, #000 0%, #111 100%);
