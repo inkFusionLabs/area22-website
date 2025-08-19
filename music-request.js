@@ -300,34 +300,18 @@ class MusicRequestSystem {
     // Send request to DJ via Supabase
     async sendToDJ(request) {
         try {
-            // Get current session info
-            const currentSession = this.sessions.find(s => s.session_id === request.session_id);
-            
-            // Insert request into Supabase
-            const { data, error } = await supabase
-                .from('song_requests')
-                .insert([
-                    {
-                        session_id: request.session_id,
-                        event_name: currentSession ? currentSession.event_name : 'Unknown Event',
-                        event_date: currentSession ? currentSession.event_date : new Date().toISOString().split('T')[0],
-                        event_location: currentSession ? currentSession.event_location : 'Location TBD',
-                        song_title: request.songTitle,
-                        artist_name: request.artistName,
-                        guest_name: request.guestName,
-                        note: request.note,
-                        priority: request.priority,
-                        status: 'pending'
-                    }
-                ])
-                .select();
+            // Use RequestService to submit the request properly
+            const result = await RequestService.submitRequest({
+                session_id: request.session_id,
+                song_title: request.songTitle,
+                artist_name: request.artistName,
+                guest_name: request.guestName,
+                note: request.note,
+                priority: request.priority
+            });
 
-            if (error) {
-                throw error;
-            }
-
-            if (data && data.length > 0) {
-                const savedRequest = data[0];
+            if (result.success) {
+                const savedRequest = result.data;
                 request.id = savedRequest.id;
                 request.status = savedRequest.status;
                 this.updateRequestsList();
@@ -335,10 +319,12 @@ class MusicRequestSystem {
                 
                 // Refresh the requests list to show the new request
                 this.loadRequestsFromSupabase();
+            } else {
+                throw new Error(result.error || 'Failed to submit request');
             }
         } catch (error) {
             console.error('Error sending request to Supabase:', error);
-            this.showNotification('Failed to send request. Please try again.', 'error');
+            this.showNotification('Failed to send request: ' + error.message, 'error');
             // Fallback to local storage if Supabase fails
             request.status = 'pending';
             this.updateRequestsList();
@@ -355,19 +341,12 @@ class MusicRequestSystem {
                 return;
             }
 
-            const { data, error } = await supabase
-                .from('song_requests')
-                .select('*')
-                .eq('session_id', this.currentEvent.session_id)
-                .order('created_at', { ascending: false });
+            // Use RequestService to get requests properly
+            const result = await RequestService.getRequestsBySession(this.currentEvent.session_id);
 
-            if (error) {
-                throw error;
-            }
-
-            if (data) {
+            if (result.success && result.data) {
                 // Transform Supabase data to match our format
-                this.requests = data.map(item => ({
+                this.requests = result.data.map(item => ({
                     id: item.id,
                     songTitle: item.song_title,
                     artistName: item.artist_name,
@@ -475,10 +454,13 @@ async function createNewSession() {
     const formData = new FormData(form);
     
     const sessionData = {
+        session_id: generateSessionId(formData.get('event-name'), formData.get('event-date')),
         event_name: formData.get('event-name'),
         event_date: formData.get('event-date'),
         event_location: formData.get('event-location') || 'Location TBD',
-        dj_name: formData.get('dj-name') || 'Area22'
+        dj_name: formData.get('dj-name') || 'Area22',
+        event_type: 'general',
+        max_requests: 100
     };
 
     if (!sessionData.event_name || !sessionData.event_date) {
@@ -487,43 +469,24 @@ async function createNewSession() {
     }
 
     try {
-        // Generate unique session ID
-        const sessionId = generateSessionId(sessionData.event_name, sessionData.event_date);
+        // Use EventService to create the event properly
+        const result = await EventService.createEvent(sessionData);
         
-        // Create a sample request to establish the session
-        const { data, error } = await supabase
-            .from('song_requests')
-            .insert([
-                {
-                    session_id: sessionId,
-                    event_name: sessionData.event_name,
-                    event_date: sessionData.event_date,
-                    event_location: sessionData.event_location,
-                    song_title: 'Session Created',
-                    artist_name: 'System',
-                    guest_name: 'DJ',
-                    note: 'Session initialization',
-                    priority: 'normal',
-                    status: 'completed'
-                }
-            ])
-            .select();
-
-        if (error) {
-            throw error;
+        if (result.success) {
+            // Close modal and show success message
+            closeCreateSessionModal();
+            
+            // Clear the form
+            form.reset();
+            
+            alert('Event created successfully! You can now submit song requests.');
+        } else {
+            throw new Error(result.error || 'Failed to create event');
         }
-
-        // Close modal and refresh sessions
-        closeCreateSessionModal();
-        if (window.musicRequestSystem) {
-            window.musicRequestSystem.loadSessions();
-        }
-        
-        alert('Event created successfully! You can now submit song requests.');
         
     } catch (error) {
         console.error('Error creating session:', error);
-        alert('Failed to create event. Please try again.');
+        alert('Failed to create event: ' + error.message);
     }
 }
 
