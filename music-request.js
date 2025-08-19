@@ -26,46 +26,38 @@ class MusicRequestSystem {
         const qrContainer = document.getElementById('qr-code');
         if (!qrContainer) return;
 
-        // Create QR code using a simple canvas-based approach
-        const canvas = document.createElement('canvas');
-        canvas.width = 200;
-        canvas.height = 200;
-        const ctx = canvas.getContext('2d');
-
-        // Generate a simple QR-like pattern (for demo purposes)
-        // In production, you'd use a proper QR library like qrcode.js
-        this.generateSimpleQR(ctx, window.location.href);
-
-        qrContainer.appendChild(canvas);
-    }
-
-    // Simple QR code generation (demo version)
-    generateSimpleQR(ctx, url) {
-        ctx.fillStyle = '#000';
-        ctx.fillRect(0, 0, 200, 200);
+        // Use the QRCode library to generate a proper QR code
+        const currentUrl = window.location.href;
         
-        ctx.fillStyle = '#00ff00';
-        ctx.fillRect(20, 20, 160, 160);
-        
-        ctx.fillStyle = '#000';
-        ctx.fillRect(40, 40, 120, 120);
-        
-        ctx.fillStyle = '#00ff00';
-        ctx.fillRect(60, 60, 80, 80);
-        
-        ctx.fillStyle = '#000';
-        ctx.fillRect(80, 80, 40, 40);
-        
-        // Add some pattern elements
-        for (let i = 0; i < 8; i++) {
-            for (let j = 0; j < 8; j++) {
-                if ((i + j) % 2 === 0) {
-                    ctx.fillStyle = '#00ff00';
-                    ctx.fillRect(20 + i * 20, 20 + j * 20, 20, 20);
-                }
-            }
+        // Update the QR URL display
+        const qrUrlElement = document.getElementById('qr-url');
+        if (qrUrlElement) {
+            qrUrlElement.textContent = currentUrl;
         }
+        
+        QRCode.toCanvas(qrContainer, currentUrl, {
+            width: 200,
+            height: 200,
+            margin: 2,
+            color: {
+                dark: '#000000',
+                light: '#00ff00'
+            }
+        }, function (error) {
+            if (error) {
+                console.error('Error generating QR code:', error);
+                // Fallback to simple text display
+                qrContainer.innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <p style="color: #00ff00; font-size: 14px;">QR Code</p>
+                        <p style="color: #fff; font-size: 12px; word-break: break-all;">${currentUrl}</p>
+                    </div>
+                `;
+            }
+        });
     }
+
+
 
     // Initialize the system with default event info
     initializeEvent() {
