@@ -1150,6 +1150,22 @@ section {
     box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
 }
 
+.btn-success:disabled {
+    background: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-success:disabled:hover {
+    background: #6c757d;
+    border-color: #6c757d;
+    transform: none;
+    box-shadow: none;
+}
+
 /* Form Styles for Event Creation */
 .form-group {
     margin-bottom: 1rem;
