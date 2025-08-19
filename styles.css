@@ -1129,6 +1129,85 @@ section {
     font-size: 0.9rem;
 }
 
+/* DJ Dashboard Event Creation Styles */
+.btn-success {
+    background: #28a745;
+    border: 1px solid #28a745;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-success:hover {
+    background: #218838;
+    border-color: #1e7e34;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+}
+
+/* Form Styles for Event Creation */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    color: #00ff00;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(0, 255, 0, 0.5);
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.form-group input[type="date"] {
+    color-scheme: dark;
+}
+
+/* Session Note Styles */
+.session-note {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    border-left: 3px solid #00ff00;
+}
+
+.session-note i {
+    color: #00ff00;
+    margin-right: 0.5rem;
+}
+
+.session-note a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.session-note a:hover {
+    text-decoration: underline;
+}
+
 .gallery-overlay p {
     color: #cccccc;
     font-size: 0.9rem;

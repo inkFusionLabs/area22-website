@@ -330,6 +330,9 @@
                         <i class="fas fa-sync-alt"></i> Refresh
                         <span class="refresh-indicator" id="refresh-indicator">🔄</span>
                     </button>
+                    <button class="btn btn-success" onclick="showCreateEventModal()">
+                        <i class="fas fa-plus"></i> New Event
+                    </button>
                     <button class="btn btn-secondary" onclick="clearAllRequests()">
                         <i class="fas fa-trash"></i> Clear All
                     </button>
@@ -343,6 +346,40 @@
                 <div class="no-requests">
                     <p>No song requests yet. Waiting for guests to submit requests...</p>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Event Modal -->
+    <div class="modal" id="create-event-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🎉 Create New Event</h3>
+                <span class="close" onclick="closeCreateEventModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="create-event-form">
+                    <div class="form-group">
+                        <label for="event-name">Event Name *</label>
+                        <input type="text" id="event-name" name="event-name" required placeholder="e.g., Sarah & John Wedding">
+                    </div>
+                    <div class="form-group">
+                        <label for="event-date">Event Date *</label>
+                        <input type="date" id="event-date" name="event-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-location">Event Location</label>
+                        <input type="text" id="event-location" name="event-location" placeholder="e.g., Basingstoke Community Hall">
+                    </div>
+                    <div class="form-group">
+                        <label for="dj-name">DJ Name</label>
+                        <input type="text" id="dj-name" name="dj-name" placeholder="e.g., Area22" value="Area22">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeCreateEventModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="createNewEvent()">Create Event</button>
             </div>
         </div>
     </div>
@@ -650,6 +687,88 @@
 
         function exportRequests() {
             dashboard.exportRequests();
+        }
+
+        // Event creation functions
+        function showCreateEventModal() {
+            const modal = document.getElementById('create-event-modal');
+            if (modal) {
+                modal.style.display = 'block';
+            }
+        }
+
+        function closeCreateEventModal() {
+            const modal = document.getElementById('create-event-modal');
+            if (modal) {
+                modal.style.display = 'none';
+                // Reset form
+                document.getElementById('create-event-form').reset();
+            }
+        }
+
+        async function createNewEvent() {
+            const form = document.getElementById('create-event-form');
+            const formData = new FormData(form);
+            
+            const eventData = {
+                event_name: formData.get('event-name'),
+                event_date: formData.get('event-date'),
+                event_location: formData.get('event-location') || 'Location TBD',
+                dj_name: formData.get('dj-name') || 'Area22'
+            };
+
+            if (!eventData.event_name || !eventData.event_date) {
+                alert('Please fill in all required fields!');
+                return;
+            }
+
+            try {
+                // Generate unique session ID
+                const sessionId = generateEventSessionId(eventData.event_name, eventData.event_date);
+                
+                // Create a sample request to establish the session
+                const { data, error } = await supabase
+                    .from('song_requests')
+                    .insert([
+                        {
+                            session_id: sessionId,
+                            event_name: eventData.event_name,
+                            event_date: eventData.event_date,
+                            event_location: eventData.event_location,
+                            song_title: 'Session Created',
+                            artist_name: 'System',
+                            guest_name: 'DJ',
+                            note: 'Event initialization',
+                            priority: 'normal',
+                            status: 'completed'
+                        }
+                    ])
+                    .select();
+
+                if (error) {
+                    throw error;
+                }
+
+                // Close modal and refresh dashboard
+                closeCreateEventModal();
+                if (dashboard) {
+                    dashboard.loadRequests();
+                }
+                
+                alert(`Event "${eventData.event_name}" created successfully!\n\nSession ID: ${sessionId}\n\nYou can now share this session ID with guests for song requests.`);
+                
+            } catch (error) {
+                console.error('Error creating event:', error);
+                alert('Failed to create event. Please try again.');
+            }
+        }
+
+        // Generate unique session ID for events
+        function generateEventSessionId(eventName, date) {
+            const dateStr = date.replace(/-/g, '');
+            const eventCode = eventName.replace(/[^A-Z]/g, '').substring(0, 3) || 'EVT';
+            const random = Math.random().toString(36).substring(2, 5).toUpperCase();
+            return `${eventCode}-${dateStr}-${random}`;
         }
     </script>
 </body>
