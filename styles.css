@@ -1092,6 +1092,43 @@ section {
     display: inline-block;
 }
 
+/* Session Selector Styles */
+.session-selector {
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid rgba(0, 255, 0, 0.3);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+.session-selector label {
+    display: block;
+    color: #00ff00;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.session-selector select {
+    width: 100%;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(0, 255, 0, 0.5);
+    border-radius: 5px;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.session-selector select:focus {
+    outline: none;
+    border-color: #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.session-selector .btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
 .gallery-overlay p {
     color: #cccccc;
     font-size: 0.9rem;

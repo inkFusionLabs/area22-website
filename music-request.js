@@ -3,14 +3,15 @@ class MusicRequestSystem {
     constructor() {
         this.currentEvent = null;
         this.requests = [];
+        this.sessions = [];
         this.init();
     }
 
     init() {
         this.setupEventListeners();
-        this.initializeEvent();
+        this.loadSessions();
         this.generateQRCode();
-        this.loadRequestsFromSupabase(); // Load from Supabase instead of sample data
+        this.loadRequestsFromSupabase();
     }
 
     setupEventListeners() {
@@ -18,6 +19,22 @@ class MusicRequestSystem {
         const form = document.getElementById('song-request-form');
         if (form) {
             form.addEventListener('submit', (e) => this.handleFormSubmission(e));
+        }
+
+        // Session selection change
+        const sessionSelect = document.getElementById('session-select');
+        if (sessionSelect) {
+            sessionSelect.addEventListener('change', (e) => this.onSessionChange(e));
+        }
+    }
+
+    // Handle session selection change
+    onSessionChange(event) {
+        const sessionId = event.target.value;
+        if (sessionId) {
+            this.currentEvent = this.sessions.find(s => s.session_id === sessionId);
+            this.updateEventInfo();
+            this.loadRequestsFromSupabase(); // Load requests for selected session
         }
     }
 
@@ -59,29 +76,115 @@ class MusicRequestSystem {
 
 
 
-    // Initialize the system with default event info
-    initializeEvent() {
-        this.currentEvent = {
-            code: 'EVENT',
-            name: 'Area22 Event',
-            dj: 'Area22',
-            status: 'active'
-        };
-        
-        // Update event info display
+    // Load available sessions from Supabase
+    async loadSessions() {
+        try {
+            const { data, error } = await supabase
+                .from('song_requests')
+                .select('session_id, event_name, event_date, event_location')
+                .order('event_date', { ascending: false });
+
+            if (error) {
+                throw error;
+            }
+
+            if (data) {
+                // Extract unique sessions
+                const uniqueSessions = [];
+                const seen = new Set();
+                
+                data.forEach(item => {
+                    if (item.session_id && !seen.has(item.session_id)) {
+                        seen.add(item.session_id);
+                        uniqueSessions.push({
+                            session_id: item.session_id,
+                            event_name: item.event_name || 'Unnamed Event',
+                            event_date: item.event_date,
+                            event_location: item.event_location || 'Location TBD'
+                        });
+                    }
+                });
+
+                this.sessions = uniqueSessions;
+                this.populateSessionSelector();
+                
+                // Set current event to first session if available
+                if (this.sessions.length > 0) {
+                    this.currentEvent = this.sessions[0];
+                    this.updateEventInfo();
+                }
+            }
+        } catch (error) {
+            console.error('Error loading sessions:', error);
+            // Fallback to default event
+            this.initializeDefaultEvent();
+        }
+    }
+
+    // Populate session selector dropdown
+    populateSessionSelector() {
+        const sessionSelect = document.getElementById('session-select');
+        if (!sessionSelect) return;
+
+        // Clear existing options
+        sessionSelect.innerHTML = '<option value="">Choose an event...</option>';
+
+        // Add session options
+        this.sessions.forEach(session => {
+            const option = document.createElement('option');
+            option.value = session.session_id;
+            option.textContent = `${session.event_name} - ${new Date(session.event_date).toLocaleDateString()}`;
+            sessionSelect.appendChild(option);
+        });
+
+        // Set current event if available
+        if (this.currentEvent) {
+            sessionSelect.value = this.currentEvent.session_id;
+        }
+    }
+
+    // Update event info display
+    updateEventInfo() {
+        if (!this.currentEvent) return;
+
         const eventNameElement = document.getElementById('current-event-name');
         if (eventNameElement) {
-            eventNameElement.textContent = this.currentEvent.name;
+            eventNameElement.textContent = this.currentEvent.event_name;
         }
+
+        // Update DJ name if available
+        const djNameElement = document.getElementById('current-dj-name');
+        if (djNameElement) {
+            djNameElement.textContent = 'Area22';
+        }
+    }
+
+    // Initialize default event if no sessions exist
+    initializeDefaultEvent() {
+        this.currentEvent = {
+            session_id: 'DEFAULT-' + Date.now(),
+            event_name: 'Area22 Event',
+            event_date: new Date().toISOString().split('T')[0],
+            event_location: 'Basingstoke Area'
+        };
+        this.updateEventInfo();
     }
 
     // Handle song request form submission
     handleFormSubmission(e) {
         e.preventDefault();
         
+        // Check if session is selected
+        const sessionSelect = document.getElementById('session-select');
+        if (!sessionSelect.value) {
+            alert('Please select an event first!');
+            return;
+        }
+
         const formData = new FormData(e.target);
         const request = {
             id: Date.now(),
+            session_id: sessionSelect.value,
             songTitle: formData.get('song-title'),
             artistName: formData.get('artist-name'),
             guestName: formData.get('guest-name') || 'Anonymous',
@@ -103,7 +206,7 @@ class MusicRequestSystem {
         // Reset form
         e.target.reset();
         
-        // Simulate sending to DJ (in production, this would be a real API call)
+        // Send to DJ via Supabase
         this.sendToDJ(request);
     }
 
@@ -168,18 +271,24 @@ class MusicRequestSystem {
     // Send request to DJ via Supabase
     async sendToDJ(request) {
         try {
+            // Get current session info
+            const currentSession = this.sessions.find(s => s.session_id === request.session_id);
+            
             // Insert request into Supabase
             const { data, error } = await supabase
                 .from('song_requests')
                 .insert([
                     {
+                        session_id: request.session_id,
+                        event_name: currentSession ? currentSession.event_name : 'Unknown Event',
+                        event_date: currentSession ? currentSession.event_date : new Date().toISOString().split('T')[0],
+                        event_location: currentSession ? currentSession.event_location : 'Location TBD',
                         song_title: request.songTitle,
                         artist_name: request.artistName,
                         guest_name: request.guestName,
                         note: request.note,
                         priority: request.priority,
-                        status: 'pending',
-                        event_code: 'default'
+                        status: 'pending'
                     }
                 ])
                 .select();
@@ -210,10 +319,17 @@ class MusicRequestSystem {
     // Load requests from Supabase
     async loadRequestsFromSupabase() {
         try {
-            const { data, error } = await supabase
+            let query = supabase
                 .from('song_requests')
                 .select('*')
                 .order('created_at', { ascending: false });
+
+            // Filter by current session if available
+            if (this.currentEvent && this.currentEvent.session_id) {
+                query = query.eq('session_id', this.currentEvent.session_id);
+            }
+
+            const { data, error } = await query;
 
             if (error) {
                 throw error;
@@ -305,6 +421,88 @@ function closeModal() {
     if (window.musicRequestSystem) {
         window.musicRequestSystem.closeModal();
     }
+}
+
+// Session management functions
+function showCreateSessionModal() {
+    const modal = document.getElementById('create-session-modal');
+    if (modal) {
+        modal.style.display = 'block';
+    }
+}
+
+function closeCreateSessionModal() {
+    const modal = document.getElementById('create-session-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        // Reset form
+        document.getElementById('create-session-form').reset();
+    }
+}
+
+async function createNewSession() {
+    const form = document.getElementById('create-session-form');
+    const formData = new FormData(form);
+    
+    const sessionData = {
+        event_name: formData.get('event-name'),
+        event_date: formData.get('event-date'),
+        event_location: formData.get('event-location') || 'Location TBD',
+        dj_name: formData.get('dj-name') || 'Area22'
+    };
+
+    if (!sessionData.event_name || !sessionData.event_date) {
+        alert('Please fill in all required fields!');
+        return;
+    }
+
+    try {
+        // Generate unique session ID
+        const sessionId = generateSessionId(sessionData.event_name, sessionData.event_date);
+        
+        // Create a sample request to establish the session
+        const { data, error } = await supabase
+            .from('song_requests')
+            .insert([
+                {
+                    session_id: sessionId,
+                    event_name: sessionData.event_name,
+                    event_date: sessionData.event_date,
+                    event_location: sessionData.event_location,
+                    song_title: 'Session Created',
+                    artist_name: 'System',
+                    guest_name: 'DJ',
+                    note: 'Session initialization',
+                    priority: 'normal',
+                    status: 'completed'
+                }
+            ])
+            .select();
+
+        if (error) {
+            throw error;
+        }
+
+        // Close modal and refresh sessions
+        closeCreateSessionModal();
+        if (window.musicRequestSystem) {
+            window.musicRequestSystem.loadSessions();
+        }
+        
+        alert('Event created successfully! You can now submit song requests.');
+        
+    } catch (error) {
+        console.error('Error creating session:', error);
+        alert('Failed to create event. Please try again.');
+    }
+}
+
+// Generate unique session ID
+function generateSessionId(eventName, date) {
+    const dateStr = date.replace(/-/g, '');
+    const eventCode = eventName.replace(/[^A-Z]/g, '').substring(0, 3) || 'EVT';
+    const random = Math.random().toString(36).substring(2, 5).toUpperCase();
+    return `${eventCode}-${dateStr}-${random}`;
 }
 
 // Add some CSS for notifications
