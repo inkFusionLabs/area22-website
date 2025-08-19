@@ -9,6 +9,7 @@ class MusicRequestSystem {
 
     init() {
         this.setupEventListeners();
+        this.detectSessionFromURL(); // Check for session in URL first
         this.initializeDefaultEvent();
         this.generateQRCode();
         this.loadRequestsFromSupabase();
@@ -58,6 +59,69 @@ class MusicRequestSystem {
             event.target.style.borderColor = 'rgba(0, 255, 0, 0.5)';
             event.target.title = '';
         }
+    }
+
+    // Detect session ID from URL parameters (when scanning QR code)
+    detectSessionFromURL() {
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session');
+            
+            if (sessionId) {
+                console.log('Session ID detected from URL:', sessionId);
+                
+                // Auto-fill the session ID input
+                const sessionInput = document.getElementById('session-id');
+                if (sessionInput) {
+                    sessionInput.value = sessionId.toUpperCase();
+                    
+                    // Trigger the input event to update the current event
+                    const inputEvent = new Event('input', { bubbles: true });
+                    sessionInput.dispatchEvent(inputEvent);
+                    
+                    // Show success message
+                    this.showSessionDetectedMessage(sessionId);
+                }
+            }
+        } catch (error) {
+            console.error('Error detecting session from URL:', error);
+        }
+    }
+
+    // Show message when session is detected from QR code
+    showSessionDetectedMessage(sessionId) {
+        // Create a temporary success message
+        const messageDiv = document.createElement('div');
+        messageDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #00ff00, #00cc00);
+            color: #000;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
+            z-index: 10000;
+            max-width: 300px;
+            animation: slideInRight 0.5s ease-out;
+        `;
+        
+        messageDiv.innerHTML = `
+            <h4 style="margin: 0 0 0.5rem 0; color: #000;">🎉 Session Detected!</h4>
+            <p style="margin: 0; color: #000; font-size: 0.9rem;">
+                Session ID: <strong>${sessionId}</strong><br>
+                You're now connected to the event!
+            </p>
+        `;
+        
+        document.body.appendChild(messageDiv);
+        
+        // Remove message after 5 seconds
+        setTimeout(() => {
+            if (messageDiv.parentNode) {
+                messageDiv.parentNode.removeChild(messageDiv);
+            }
+        }, 5000);
     }
 
     // Generate QR code for the music request page

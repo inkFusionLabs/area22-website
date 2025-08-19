@@ -271,6 +271,115 @@
             color: #333;
         }
 
+        /* Sessions Modal Styles */
+        .session-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .session-card:hover {
+            border-color: rgba(0, 255, 0, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+        }
+
+        .session-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .session-info h4 {
+            color: #00ff00;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.4rem;
+        }
+
+        .session-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .session-id {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .qr-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .qr-code {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .qr-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .loading-sessions {
+            text-align: center;
+            color: #888;
+            padding: 2rem;
+        }
+
+        .no-sessions {
+            text-align: center;
+            color: #888;
+            padding: 2rem;
+        }
+
+        .session-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .session-stat {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .session-stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00ff00;
+            margin-bottom: 0.3rem;
+        }
+
+        .session-stat-label {
+            color: #ccc;
+            font-size: 0.8rem;
+        }
+
         @media (max-width: 768px) {
             .dashboard-header h1 {
                 font-size: 2rem;
@@ -333,6 +442,9 @@
                     <button class="btn btn-success" onclick="showCreateEventModal()" disabled title="Initializing...">
                         <i class="fas fa-plus"></i> New Event
                     </button>
+                    <button class="btn btn-primary" onclick="showSessionsModal()">
+                        <i class="fas fa-qrcode"></i> QR Codes
+                    </button>
                     <button class="btn btn-secondary" onclick="clearAllRequests()">
                         <i class="fas fa-trash"></i> Clear All
                     </button>
@@ -384,8 +496,30 @@
         </div>
     </div>
 
+    <!-- Sessions/QR Codes Modal -->
+    <div class="modal" id="sessions-modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>🎵 Event Sessions & QR Codes</h3>
+                <span class="close" onclick="closeSessionsModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="sessions-list">
+                    <div class="loading-sessions">
+                        <p>Loading sessions...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeSessionsModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Supabase Client Library -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script src="supabase-config.js"></script>
     <script>
         class DJDashboard {
@@ -852,6 +986,269 @@
             const eventCode = eventName.replace(/[^A-Z]/g, '').substring(0, 3) || 'EVT';
             const random = Math.random().toString(36).substring(2, 5).toUpperCase();
             return `${eventCode}-${dateStr}-${random}`;
+        }
+
+        // Sessions Modal Functions
+        function showSessionsModal() {
+            document.getElementById('sessions-modal').style.display = 'block';
+            loadSessions();
+        }
+
+        function closeSessionsModal() {
+            document.getElementById('sessions-modal').style.display = 'none';
+        }
+
+        async function loadSessions() {
+            try {
+                const { data, error } = await supabase
+                    .from('song_requests')
+                    .select('session_id, event_name, event_date, event_location, created_at')
+                    .not('session_id', 'is', null)
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    throw error;
+                }
+
+                // Group by session_id and get unique sessions
+                const sessions = [];
+                const seenSessions = new Set();
+
+                data.forEach(item => {
+                    if (item.session_id && !seenSessions.has(item.session_id)) {
+                        seenSessions.add(item.session_id);
+                        sessions.push({
+                            session_id: item.session_id,
+                            event_name: item.event_name || 'Unnamed Event',
+                            event_date: item.event_date || 'Date TBD',
+                            event_location: item.event_location || 'Location TBD',
+                            created_at: item.created_at
+                        });
+                    }
+                });
+
+                displaySessions(sessions);
+            } catch (error) {
+                console.error('Error loading sessions:', error);
+                document.getElementById('sessions-list').innerHTML = `
+                    <div class="no-sessions">
+                        <p>Error loading sessions. Please try again.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function displaySessions(sessions) {
+            const container = document.getElementById('sessions-list');
+            
+            if (sessions.length === 0) {
+                container.innerHTML = `
+                    <div class="no-sessions">
+                        <p>No sessions found. Create an event to get started!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = sessions.map(session => `
+                <div class="session-card">
+                    <div class="session-header">
+                        <div class="session-info">
+                            <h4>${session.event_name}</h4>
+                            <div class="session-meta">
+                                <span><i class="fas fa-calendar"></i> ${formatDate(session.event_date)}</span>
+                                <span><i class="fas fa-map-marker-alt"></i> ${session.event_location}</span>
+                                <span class="session-id">${session.session_id}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="qr-container">
+                        <div class="qr-code" id="qr-${session.session_id}">
+                            <canvas id="canvas-${session.session_id}"></canvas>
+                        </div>
+                        <div class="qr-actions">
+                            <button class="btn btn-primary btn-small" onclick="downloadQR('${session.session_id}', '${session.event_name}')">
+                                <i class="fas fa-download"></i> Download QR
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="copySessionId('${session.session_id}')">
+                                <i class="fas fa-copy"></i> Copy Session ID
+                            </button>
+                            <button class="btn btn-outline btn-small" onclick="printQR('${session.session_id}')">
+                                <i class="fas fa-print"></i> Print
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="session-stats">
+                        <div class="session-stat">
+                            <div class="session-stat-number" id="total-${session.session_id}">-</div>
+                            <div class="session-stat-label">Total Requests</div>
+                        </div>
+                        <div class="session-stat">
+                            <div class="session-stat-number" id="pending-${session.session_id}">-</div>
+                            <div class="session-stat-label">Pending</div>
+                        </div>
+                        <div class="session-stat">
+                            <div class="session-stat-number" id="completed-${session.session_id}">-</div>
+                            <div class="session-stat-label">Completed</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Generate QR codes for each session
+            sessions.forEach(session => {
+                generateQRCode(session.session_id, session.event_name);
+                loadSessionStats(session.session_id);
+            });
+        }
+
+        function generateQRCode(sessionId, eventName) {
+            try {
+                const canvas = document.getElementById(`canvas-${sessionId}`);
+                if (!canvas) return;
+
+                // Create URL with session parameter
+                const currentUrl = `${window.location.origin}/music-request.html?session=${sessionId}`;
+                
+                // Generate QR code
+                QRCode.toCanvas(canvas, currentUrl, {
+                    width: 200,
+                    height: 200,
+                    margin: 2,
+                    color: {
+                        dark: '#000000',
+                        light: '#FFFFFF'
+                    }
+                }, function (error) {
+                    if (error) {
+                        console.error('Error generating QR code:', error);
+                        canvas.innerHTML = '<p>QR Code Error</p>';
+                    }
+                });
+
+                // Add URL display below QR code
+                const urlDisplay = document.createElement('p');
+                urlDisplay.style.cssText = 'margin-top: 0.5rem; font-size: 0.8rem; color: #666; text-align: center; word-break: break-all; max-width: 200px;';
+                urlDisplay.textContent = currentUrl;
+                canvas.parentNode.appendChild(urlDisplay);
+
+            } catch (error) {
+                console.error('Error generating QR code:', error);
+            }
+        }
+
+        async function loadSessionStats(sessionId) {
+            try {
+                const { data, error } = await supabase
+                    .from('song_requests')
+                    .select('status')
+                    .eq('session_id', sessionId);
+
+                if (error) throw error;
+
+                const total = data.length;
+                const pending = data.filter(r => r.status === 'pending').length;
+                const completed = data.filter(r => r.status === 'completed').length;
+
+                document.getElementById(`total-${sessionId}`).textContent = total;
+                document.getElementById(`pending-${sessionId}`).textContent = pending;
+                document.getElementById(`completed-${sessionId}`).textContent = completed;
+
+            } catch (error) {
+                console.error('Error loading session stats:', error);
+            }
+        }
+
+        function downloadQR(sessionId, eventName) {
+            try {
+                const canvas = document.getElementById(`canvas-${sessionId}`);
+                if (!canvas) return;
+
+                // Create download link
+                const link = document.createElement('a');
+                link.download = `QR-${eventName}-${sessionId}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            } catch (error) {
+                console.error('Error downloading QR code:', error);
+                alert('Error downloading QR code. Please try again.');
+            }
+        }
+
+        function copySessionId(sessionId) {
+            navigator.clipboard.writeText(sessionId).then(() => {
+                // Show temporary success message
+                const button = event.target.closest('button');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.style.background = '#00ff00';
+                button.style.color = '#000';
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = '';
+                    button.style.color = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy session ID. Please copy manually: ' + sessionId);
+            });
+        }
+
+        function printQR(sessionId) {
+            try {
+                const canvas = document.getElementById(`canvas-${sessionId}`);
+                if (!canvas) return;
+
+                // Create print window
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>QR Code - ${sessionId}</title>
+                            <style>
+                                body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+                                .qr-container { display: inline-block; }
+                                .session-info { margin: 20px 0; }
+                                .session-id { font-family: monospace; font-size: 18px; font-weight: bold; color: #00ff00; }
+                            </style>
+                        </head>
+                        <body>
+                            <h1>Area22 Music Request QR Code</h1>
+                            <div class="qr-container">
+                                <img src="${canvas.toDataURL()}" style="max-width: 300px;">
+                            </div>
+                            <div class="session-info">
+                                <p><strong>Session ID:</strong></p>
+                                <p class="session-id">${sessionId}</p>
+                                <p>Scan this QR code to request songs at the event!</p>
+                            </div>
+                        </body>
+                    </html>
+                `);
+                printWindow.document.close();
+                printWindow.print();
+            } catch (error) {
+                console.error('Error printing QR code:', error);
+                alert('Error printing QR code. Please try again.');
+            }
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Date TBD';
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            } catch (error) {
+                return dateString;
+            }
         }
     </script>
 </body>

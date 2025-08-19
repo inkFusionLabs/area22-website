@@ -1228,6 +1228,18 @@ section {
     text-decoration: underline;
 }
 
+/* Session detection animation */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
 .gallery-overlay p {
     color: #cccccc;
     font-size: 0.9rem;
