@@ -9,7 +9,7 @@ class MusicRequestSystem {
 
     init() {
         this.setupEventListeners();
-        this.loadSessions();
+        this.initializeDefaultEvent();
         this.generateQRCode();
         this.loadRequestsFromSupabase();
     }
@@ -21,20 +21,42 @@ class MusicRequestSystem {
             form.addEventListener('submit', (e) => this.handleFormSubmission(e));
         }
 
-        // Session selection change
-        const sessionSelect = document.getElementById('session-select');
-        if (sessionSelect) {
-            sessionSelect.addEventListener('change', (e) => this.onSessionChange(e));
+        // Session ID input validation
+        const sessionInput = document.getElementById('session-id');
+        if (sessionInput) {
+            sessionInput.addEventListener('input', (e) => this.onSessionIdInput(e));
+            sessionInput.addEventListener('blur', (e) => this.validateSessionId(e));
         }
     }
 
-    // Handle session selection change
-    onSessionChange(event) {
-        const sessionId = event.target.value;
-        if (sessionId) {
-            this.currentEvent = this.sessions.find(s => s.session_id === sessionId);
+    // Handle session ID input
+    onSessionIdInput(event) {
+        const sessionId = event.target.value.toUpperCase();
+        event.target.value = sessionId; // Force uppercase
+        
+        // Update current event with session ID
+        if (sessionId && sessionId.length >= 10) { // Minimum session ID length
+            this.currentEvent = {
+                session_id: sessionId,
+                event_name: 'Event Session',
+                event_date: new Date().toISOString().split('T')[0],
+                event_location: 'Location TBD'
+            };
             this.updateEventInfo();
-            this.loadRequestsFromSupabase(); // Load requests for selected session
+        }
+    }
+
+    // Validate session ID format
+    validateSessionId(event) {
+        const sessionId = event.target.value;
+        const sessionIdPattern = /^[A-Z]{3}-\d{8}-[A-Z0-9]{3}$/;
+        
+        if (sessionId && !sessionIdPattern.test(sessionId)) {
+            event.target.style.borderColor = '#ff4444';
+            event.target.title = 'Invalid session ID format. Expected: XXX-YYYYMMDD-XXX';
+        } else {
+            event.target.style.borderColor = 'rgba(0, 255, 0, 0.5)';
+            event.target.title = '';
         }
     }
 
@@ -76,72 +98,7 @@ class MusicRequestSystem {
 
 
 
-    // Load available sessions from Supabase
-    async loadSessions() {
-        try {
-            const { data, error } = await supabase
-                .from('song_requests')
-                .select('session_id, event_name, event_date, event_location')
-                .order('event_date', { ascending: false });
 
-            if (error) {
-                throw error;
-            }
-
-            if (data) {
-                // Extract unique sessions
-                const uniqueSessions = [];
-                const seen = new Set();
-                
-                data.forEach(item => {
-                    if (item.session_id && !seen.has(item.session_id)) {
-                        seen.add(item.session_id);
-                        uniqueSessions.push({
-                            session_id: item.session_id,
-                            event_name: item.event_name || 'Unnamed Event',
-                            event_date: item.event_date,
-                            event_location: item.event_location || 'Location TBD'
-                        });
-                    }
-                });
-
-                this.sessions = uniqueSessions;
-                this.populateSessionSelector();
-                
-                // Set current event to first session if available
-                if (this.sessions.length > 0) {
-                    this.currentEvent = this.sessions[0];
-                    this.updateEventInfo();
-                }
-            }
-        } catch (error) {
-            console.error('Error loading sessions:', error);
-            // Fallback to default event
-            this.initializeDefaultEvent();
-        }
-    }
-
-    // Populate session selector dropdown
-    populateSessionSelector() {
-        const sessionSelect = document.getElementById('session-select');
-        if (!sessionSelect) return;
-
-        // Clear existing options
-        sessionSelect.innerHTML = '<option value="">Choose an event...</option>';
-
-        // Add session options
-        this.sessions.forEach(session => {
-            const option = document.createElement('option');
-            option.value = session.session_id;
-            option.textContent = `${session.event_name} - ${new Date(session.event_date).toLocaleDateString()}`;
-            sessionSelect.appendChild(option);
-        });
-
-        // Set current event if available
-        if (this.currentEvent) {
-            sessionSelect.value = this.currentEvent.session_id;
-        }
-    }
 
     // Update event info display
     updateEventInfo() {
@@ -174,17 +131,25 @@ class MusicRequestSystem {
     handleFormSubmission(e) {
         e.preventDefault();
         
-        // Check if session is selected
-        const sessionSelect = document.getElementById('session-select');
-        if (!sessionSelect.value) {
-            alert('Please select an event first!');
+        // Check if session ID is entered
+        const sessionInput = document.getElementById('session-id');
+        if (!sessionInput.value) {
+            alert('Please enter a Session ID first!');
+            return;
+        }
+
+        // Validate session ID format
+        const sessionIdPattern = /^[A-Z]{3}-\d{8}-[A-Z0-9]{3}$/;
+        if (!sessionIdPattern.test(sessionInput.value)) {
+            alert('Please enter a valid Session ID format: XXX-YYYYMMDD-XXX');
+            sessionInput.focus();
             return;
         }
 
         const formData = new FormData(e.target);
         const request = {
             id: Date.now(),
-            session_id: sessionSelect.value,
+            session_id: sessionInput.value,
             songTitle: formData.get('song-title'),
             artistName: formData.get('artist-name'),
             guestName: formData.get('guest-name') || 'Anonymous',
@@ -319,17 +284,18 @@ class MusicRequestSystem {
     // Load requests from Supabase
     async loadRequestsFromSupabase() {
         try {
-            let query = supabase
-                .from('song_requests')
-                .select('*')
-                .order('created_at', { ascending: false });
-
-            // Filter by current session if available
-            if (this.currentEvent && this.currentEvent.session_id) {
-                query = query.eq('session_id', this.currentEvent.session_id);
+            // Only load requests if we have a valid session ID
+            if (!this.currentEvent || !this.currentEvent.session_id) {
+                this.requests = [];
+                this.updateRequestsList();
+                return;
             }
 
-            const { data, error } = await query;
+            const { data, error } = await supabase
+                .from('song_requests')
+                .select('*')
+                .eq('session_id', this.currentEvent.session_id)
+                .order('created_at', { ascending: false });
 
             if (error) {
                 throw error;

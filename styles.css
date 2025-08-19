@@ -1092,8 +1092,8 @@ section {
     display: inline-block;
 }
 
-/* Session Selector Styles */
-.session-selector {
+/* Session Input Styles */
+.session-input {
     background: rgba(0, 255, 0, 0.1);
     border: 1px solid rgba(0, 255, 0, 0.3);
     border-radius: 10px;
@@ -1101,32 +1101,36 @@ section {
     margin: 1rem 0;
 }
 
-.session-selector label {
+.session-input label {
     display: block;
     color: #00ff00;
     font-weight: bold;
     margin-bottom: 0.5rem;
 }
 
-.session-selector select {
+.session-input input[type="text"] {
     width: 100%;
     padding: 0.75rem;
     background: rgba(0, 0, 0, 0.8);
     border: 1px solid rgba(0, 255, 0, 0.5);
     border-radius: 5px;
     color: #fff;
+    font-size: 1rem;
     margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Courier New', monospace;
 }
 
-.session-selector select:focus {
+.session-input input[type="text"]:focus {
     outline: none;
     border-color: #00ff00;
     box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
 }
 
-.session-selector .btn-small {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+.session-input input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Courier New', monospace;
 }
 
 /* DJ Dashboard Event Creation Styles */
