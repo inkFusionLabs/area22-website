@@ -332,6 +332,28 @@
             padding: 1rem;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            border: 2px solid #00ff00;
+        }
+
+        .qr-code canvas {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .qr-code p {
+            margin: 0.5rem 0 0 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            color: #666;
+            word-break: break-all;
+            max-width: 200px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .qr-code p:hover {
+            color: #00ff00;
         }
 
         .qr-actions {
@@ -345,6 +367,21 @@
             text-align: center;
             color: #888;
             padding: 2rem;
+        }
+
+        .loading-sessions .fa-spinner {
+            color: #00ff00;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fa-spin {
+            animation: spin 1s linear infinite;
         }
 
         .no-sessions {
@@ -520,7 +557,7 @@
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <!-- QR Code Library -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-    <script src="supabase-config.js"></script>
+    <script src="supabase-backend.js"></script>
     <script>
         class DJDashboard {
             constructor() {
@@ -538,18 +575,12 @@
 
                     async loadRequests() {
             try {
-                const { data, error } = await supabase
-                    .from('song_requests')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-
-                if (error) {
-                    throw error;
-                }
-
-                if (data) {
-                    // Transform Supabase data to match our format
-                    this.requests = data.map(item => ({
+                // Use the new RequestService to get all requests
+                const result = await RequestService.getRequestsBySession();
+                
+                if (result.success && result.data) {
+                    // Transform data to match our format
+                    this.requests = result.data.map(item => ({
                         id: item.id,
                         songTitle: item.song_title,
                         artistName: item.artist_name,
@@ -562,6 +593,8 @@
                     
                     this.displayRequests();
                     this.updateStats();
+                } else {
+                    console.error('Error loading requests:', result.error);
                 }
             } catch (error) {
                 console.error('Error loading requests from Supabase:', error);
@@ -662,18 +695,17 @@
 
             async updateStatus(requestId, status) {
             try {
-                const { error } = await supabase
-                    .from('song_requests')
-                    .update({ status })
-                    .eq('id', requestId);
-
-                if (error) {
-                    throw error;
+                // Use the new RequestService to update status
+                const result = await RequestService.updateRequestStatus(requestId, status);
+                
+                if (result.success) {
+                    await this.loadRequests();
+                } else {
+                    throw new Error(result.error);
                 }
-
-                await this.loadRequests();
             } catch (error) {
                 console.error('Error updating status:', error);
+                alert('Failed to update request status. Please try again.');
             }
         }
 
@@ -681,18 +713,17 @@
             if (!confirm('Are you sure you want to delete this request?')) return;
 
             try {
-                const { error } = await supabase
-                    .from('song_requests')
-                    .delete()
-                    .eq('id', requestId);
-
-                if (error) {
-                    throw error;
+                // Use the new RequestService to delete request
+                const result = await RequestService.deleteRequest(requestId);
+                
+                if (result.success) {
+                    await this.loadRequests();
+                } else {
+                    throw new Error(result.error);
                 }
-
-                await this.loadRequests();
             } catch (error) {
                 console.error('Error deleting request:', error);
+                alert('Failed to delete request. Please try again.');
             }
         }
 
@@ -700,19 +731,23 @@
             if (!confirm('Are you sure you want to clear ALL requests? This cannot be undone.')) return;
 
             try {
-                const { error } = await supabase
-                    .from('song_requests')
-                    .delete()
-                    .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all records
-
-                if (error) {
-                    throw error;
+                // Get all requests first
+                const result = await RequestService.getRequestsBySession();
+                
+                if (result.success && result.data) {
+                    // Delete each request using the service
+                    for (const request of result.data) {
+                        await RequestService.deleteRequest(request.id);
+                    }
+                    
+                    await this.loadRequests();
+                    alert('All requests cleared successfully!');
+                } else {
+                    throw new Error(result.error || 'Failed to load requests');
                 }
-
-                await this.loadRequests();
-                alert('All requests cleared successfully!');
             } catch (error) {
                 console.error('Error clearing requests:', error);
+                alert('Failed to clear requests. Please try again.');
             }
         }
 
@@ -895,13 +930,6 @@
         async function createNewEvent() {
             console.log('createNewEvent function called');
             
-            // Check if Supabase is available
-            if (!globalSupabase) {
-                console.error('Supabase client not available');
-                alert('Database connection not available. Please refresh the page and try again.');
-                return;
-            }
-
             const form = document.getElementById('create-event-form');
             if (!form) {
                 console.error('Create event form not found');
@@ -930,31 +958,20 @@
                 const sessionId = generateEventSessionId(eventData.event_name, eventData.event_date);
                 console.log('Generated session ID:', sessionId);
                 
-                // Create a sample request to establish the session
-                const { data, error } = await globalSupabase
-                    .from('song_requests')
-                    .insert([
-                        {
-                            session_id: sessionId,
-                            event_name: eventData.event_name,
-                            event_date: eventData.event_date,
-                            event_location: eventData.event_location,
-                            song_title: 'Session Created',
-                            artist_name: 'System',
-                            guest_name: 'DJ',
-                            note: 'Event initialization',
-                            priority: 'normal',
-                            status: 'completed'
-                        }
-                    ])
-                    .select();
+                // Create event using the new EventService
+                const result = await EventService.createEvent({
+                    session_id: sessionId,
+                    event_name: eventData.event_name,
+                    event_date: eventData.event_date,
+                    event_location: eventData.event_location,
+                    dj_name: eventData.dj_name
+                });
 
-                if (error) {
-                    console.error('Supabase insert error:', error);
-                    throw error;
+                if (!result.success) {
+                    throw new Error(result.error);
                 }
 
-                console.log('Event created successfully:', data);
+                console.log('Event created successfully:', result.data);
 
                 // Close modal and refresh dashboard
                 closeCreateEventModal();
@@ -980,17 +997,23 @@
             }
         }
 
-        // Generate unique session ID for events
-        function generateEventSessionId(eventName, date) {
-            const dateStr = date.replace(/-/g, '');
-            const eventCode = eventName.replace(/[^A-Z]/g, '').substring(0, 3) || 'EVT';
-            const random = Math.random().toString(36).substring(2, 5).toUpperCase();
-            return `${eventCode}-${dateStr}-${random}`;
-        }
+
 
         // Sessions Modal Functions
         function showSessionsModal() {
-            document.getElementById('sessions-modal').style.display = 'block';
+            const modal = document.getElementById('sessions-modal');
+            const sessionsList = document.getElementById('sessions-list');
+            
+            modal.style.display = 'block';
+            
+            // Show loading state
+            sessionsList.innerHTML = `
+                <div class="loading-sessions">
+                    <p><i class="fas fa-spinner fa-spin"></i> Loading sessions...</p>
+                </div>
+            `;
+            
+            // Load sessions
             loadSessions();
         }
 
@@ -1000,39 +1023,38 @@
 
         async function loadSessions() {
             try {
-                const { data, error } = await supabase
-                    .from('song_requests')
-                    .select('session_id, event_name, event_date, event_location, created_at')
-                    .not('session_id', 'is', null)
-                    .order('created_at', { ascending: false });
-
-                if (error) {
-                    throw error;
+                // Check if QR code library is loaded
+                if (!isQRCodeLibraryLoaded()) {
+                    console.error('QR Code library not loaded');
+                    showQRCodeLibraryError();
+                    return;
                 }
 
-                // Group by session_id and get unique sessions
-                const sessions = [];
-                const seenSessions = new Set();
+                // Use the new EventService to get all events
+                const result = await EventService.getEventsByDJ('Area22');
+                
+                if (result.success && result.data) {
+                    // Transform events data to sessions format
+                    const sessions = result.data.map(event => ({
+                        session_id: event.session_id,
+                        event_name: event.event_name || 'Unnamed Event',
+                        event_date: event.event_date || 'Date TBD',
+                        event_location: event.event_location || 'Location TBD',
+                        created_at: event.created_at
+                    }));
 
-                data.forEach(item => {
-                    if (item.session_id && !seenSessions.has(item.session_id)) {
-                        seenSessions.add(item.session_id);
-                        sessions.push({
-                            session_id: item.session_id,
-                            event_name: item.event_name || 'Unnamed Event',
-                            event_date: item.event_date || 'Date TBD',
-                            event_location: item.event_location || 'Location TBD',
-                            created_at: item.created_at
-                        });
-                    }
-                });
-
-                displaySessions(sessions);
+                    displaySessions(sessions);
+                } else {
+                    throw new Error(result.error || 'Failed to load events');
+                }
             } catch (error) {
                 console.error('Error loading sessions:', error);
                 document.getElementById('sessions-list').innerHTML = `
                     <div class="no-sessions">
                         <p>Error loading sessions. Please try again.</p>
+                        <button class="btn btn-primary" onclick="loadSessions()">
+                            <i class="fas fa-sync-alt"></i> Retry
+                        </button>
                     </div>
                 `;
             }
@@ -1107,11 +1129,22 @@
         function generateQRCode(sessionId, eventName) {
             try {
                 const canvas = document.getElementById(`canvas-${sessionId}`);
-                if (!canvas) return;
+                if (!canvas) {
+                    console.error(`Canvas element not found for session: ${sessionId}`);
+                    return;
+                }
 
                 // Create URL with session parameter
                 const currentUrl = `${window.location.origin}/music-request.html?session=${sessionId}`;
+                console.log(`Generating QR code for URL: ${currentUrl}`);
                 
+                // Check if QRCode library is available
+                if (typeof QRCode === 'undefined') {
+                    console.error('QRCode library not loaded');
+                    canvas.innerHTML = '<p style="color: #ff0000; text-align: center;">QR Code Library Error</p>';
+                    return;
+                }
+
                 // Generate QR code
                 QRCode.toCanvas(canvas, currentUrl, {
                     width: 200,
@@ -1124,37 +1157,59 @@
                 }, function (error) {
                     if (error) {
                         console.error('Error generating QR code:', error);
-                        canvas.innerHTML = '<p>QR Code Error</p>';
+                        canvas.innerHTML = '<p style="color: #ff0000; text-align: center;">QR Code Error</p>';
+                    } else {
+                        console.log(`QR code generated successfully for session: ${sessionId}`);
+                        
+                        // Add URL display below QR code
+                        const urlDisplay = document.createElement('p');
+                        urlDisplay.style.cssText = 'margin-top: 0.5rem; font-size: 0.8rem; color: #666; text-align: center; word-break: break-all; max-width: 200px;';
+                        urlDisplay.textContent = currentUrl;
+                        urlDisplay.title = 'Click to copy URL';
+                        urlDisplay.style.cursor = 'pointer';
+                        
+                        // Make URL clickable to copy
+                        urlDisplay.addEventListener('click', () => {
+                            navigator.clipboard.writeText(currentUrl).then(() => {
+                                urlDisplay.style.color = '#00ff00';
+                                urlDisplay.textContent = 'URL Copied!';
+                                setTimeout(() => {
+                                    urlDisplay.style.color = '#666';
+                                    urlDisplay.textContent = currentUrl;
+                                }, 2000);
+                            }).catch(err => {
+                                console.error('Failed to copy URL:', err);
+                                alert('Failed to copy URL. Please copy manually: ' + currentUrl);
+                            });
+                        });
+                        
+                        canvas.parentNode.appendChild(urlDisplay);
                     }
                 });
 
-                // Add URL display below QR code
-                const urlDisplay = document.createElement('p');
-                urlDisplay.style.cssText = 'margin-top: 0.5rem; font-size: 0.8rem; color: #666; text-align: center; word-break: break-all; max-width: 200px;';
-                urlDisplay.textContent = currentUrl;
-                canvas.parentNode.appendChild(urlDisplay);
-
             } catch (error) {
                 console.error('Error generating QR code:', error);
+                const canvas = document.getElementById(`canvas-${sessionId}`);
+                if (canvas) {
+                    canvas.innerHTML = '<p style="color: #ff0000; text-align: center;">QR Code Generation Failed</p>';
+                }
             }
         }
 
         async function loadSessionStats(sessionId) {
             try {
-                const { data, error } = await supabase
-                    .from('song_requests')
-                    .select('status')
-                    .eq('session_id', sessionId);
-
-                if (error) throw error;
-
-                const total = data.length;
-                const pending = data.filter(r => r.status === 'pending').length;
-                const completed = data.filter(r => r.status === 'completed').length;
-
-                document.getElementById(`total-${sessionId}`).textContent = total;
-                document.getElementById(`pending-${sessionId}`).textContent = pending;
-                document.getElementById(`completed-${sessionId}`).textContent = completed;
+                // Use the new AnalyticsService to get session stats
+                const result = await AnalyticsService.getEventAnalytics(sessionId);
+                
+                if (result.success && result.data) {
+                    const stats = result.data;
+                    
+                    document.getElementById(`total-${sessionId}`).textContent = stats.total_requests || 0;
+                    document.getElementById(`pending-${sessionId}`).textContent = stats.pending_requests || 0;
+                    document.getElementById(`completed-${sessionId}`).textContent = stats.completed_requests || 0;
+                } else {
+                    console.error('Error loading session stats:', result.error);
+                }
 
             } catch (error) {
                 console.error('Error loading session stats:', error);
@@ -1164,13 +1219,26 @@
         function downloadQR(sessionId, eventName) {
             try {
                 const canvas = document.getElementById(`canvas-${sessionId}`);
-                if (!canvas) return;
+                if (!canvas) {
+                    console.error(`Canvas element not found for session: ${sessionId}`);
+                    alert('QR code not found. Please refresh and try again.');
+                    return;
+                }
+
+                // Check if canvas has content
+                if (canvas.width === 0 || canvas.height === 0) {
+                    alert('QR code not generated yet. Please wait a moment and try again.');
+                    return;
+                }
 
                 // Create download link
                 const link = document.createElement('a');
-                link.download = `QR-${eventName}-${sessionId}.png`;
-                link.href = canvas.toDataURL();
+                const fileName = `QR-${eventName.replace(/[^a-zA-Z0-9]/g, '_')}-${sessionId}.png`;
+                link.download = fileName;
+                link.href = canvas.toDataURL('image/png');
                 link.click();
+                
+                console.log(`QR code downloaded: ${fileName}`);
             } catch (error) {
                 console.error('Error downloading QR code:', error);
                 alert('Error downloading QR code. Please try again.');
@@ -1181,16 +1249,20 @@
             navigator.clipboard.writeText(sessionId).then(() => {
                 // Show temporary success message
                 const button = event.target.closest('button');
-                const originalText = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                button.style.background = '#00ff00';
-                button.style.color = '#000';
+                if (button) {
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    button.style.background = '#00ff00';
+                    button.style.color = '#000';
+                    
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.style.background = '';
+                        button.style.color = '';
+                    }, 2000);
+                }
                 
-                setTimeout(() => {
-                    button.innerHTML = originalText;
-                    button.style.background = '';
-                    button.style.color = '';
-                }, 2000);
+                console.log(`Session ID copied: ${sessionId}`);
             }).catch(err => {
                 console.error('Failed to copy:', err);
                 alert('Failed to copy session ID. Please copy manually: ' + sessionId);
@@ -1200,7 +1272,17 @@
         function printQR(sessionId) {
             try {
                 const canvas = document.getElementById(`canvas-${sessionId}`);
-                if (!canvas) return;
+                if (!canvas) {
+                    console.error(`Canvas element not found for session: ${sessionId}`);
+                    alert('QR code not found. Please refresh and try again.');
+                    return;
+                }
+
+                // Check if canvas has content
+                if (canvas.width === 0 || canvas.height === 0) {
+                    alert('QR code not generated yet. Please wait a moment and try again.');
+                    return;
+                }
 
                 // Create print window
                 const printWindow = window.open('', '_blank');
@@ -1209,27 +1291,62 @@
                         <head>
                             <title>QR Code - ${sessionId}</title>
                             <style>
-                                body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-                                .qr-container { display: inline-block; }
-                                .session-info { margin: 20px 0; }
-                                .session-id { font-family: monospace; font-size: 18px; font-weight: bold; color: #00ff00; }
+                                body { 
+                                    font-family: Arial, sans-serif; 
+                                    text-align: center; 
+                                    padding: 20px; 
+                                    background: #f5f5f5;
+                                }
+                                .qr-container { 
+                                    display: inline-block; 
+                                    background: white;
+                                    padding: 20px;
+                                    border-radius: 10px;
+                                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                                }
+                                .session-info { 
+                                    margin: 20px 0; 
+                                    background: white;
+                                    padding: 20px;
+                                    border-radius: 10px;
+                                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                                }
+                                .session-id { 
+                                    font-family: monospace; 
+                                    font-size: 18px; 
+                                    font-weight: bold; 
+                                    color: #00ff00; 
+                                    background: #000;
+                                    padding: 10px;
+                                    border-radius: 5px;
+                                    display: inline-block;
+                                }
+                                h1 { color: #333; }
+                                p { color: #666; }
                             </style>
                         </head>
                         <body>
-                            <h1>Area22 Music Request QR Code</h1>
+                            <h1>🎵 Area22 Music Request QR Code</h1>
                             <div class="qr-container">
-                                <img src="${canvas.toDataURL()}" style="max-width: 300px;">
+                                <img src="${canvas.toDataURL('image/png')}" style="max-width: 300px;">
                             </div>
                             <div class="session-info">
                                 <p><strong>Session ID:</strong></p>
                                 <p class="session-id">${sessionId}</p>
                                 <p>Scan this QR code to request songs at the event!</p>
+                                <p><small>Generated on ${new Date().toLocaleDateString()}</small></p>
                             </div>
                         </body>
                     </html>
                 `);
                 printWindow.document.close();
-                printWindow.print();
+                
+                // Wait for content to load before printing
+                printWindow.onload = function() {
+                    printWindow.print();
+                };
+                
+                console.log(`QR code print window opened for session: ${sessionId}`);
             } catch (error) {
                 console.error('Error printing QR code:', error);
                 alert('Error printing QR code. Please try again.');
@@ -1248,6 +1365,35 @@
                 });
             } catch (error) {
                 return dateString;
+            }
+        }
+
+        // Generate unique session ID for events
+        function generateEventSessionId(eventName, date) {
+            const dateStr = date.replace(/-/g, '');
+            const eventCode = eventName.replace(/[^A-Z]/g, '').substring(0, 3) || 'EVT';
+            const random = Math.random().toString(36).substring(2, 5).toUpperCase();
+            return `${eventCode}-${dateStr}-${random}`;
+        }
+
+        // Check if QR code library is loaded
+        function isQRCodeLibraryLoaded() {
+            return typeof QRCode !== 'undefined' && QRCode;
+        }
+
+        // Show QR code library error
+        function showQRCodeLibraryError() {
+            const sessionsList = document.getElementById('sessions-list');
+            if (sessionsList) {
+                sessionsList.innerHTML = `
+                    <div class="no-sessions">
+                        <p style="color: #ff0000;">⚠️ QR Code Library Error</p>
+                        <p>The QR code library failed to load. Please refresh the page and try again.</p>
+                        <button class="btn btn-primary" onclick="location.reload()">
+                            <i class="fas fa-sync-alt"></i> Refresh Page
+                        </button>
+                    </div>
+                `;
             }
         }
     </script>
