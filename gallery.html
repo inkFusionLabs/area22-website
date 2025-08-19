@@ -117,6 +117,23 @@
     <section id="gallery" class="gallery">
         <div class="container">
             <h2 class="section-title">Event Gallery</h2>
+            
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <button class="category-btn active" data-category="all">
+                    <i class="fas fa-th"></i> All Events
+                </button>
+                <button class="category-btn" data-category="dj">
+                    <i class="fas fa-music"></i> DJ Performance
+                </button>
+                <button class="category-btn" data-category="lighting">
+                    <i class="fas fa-lightbulb"></i> Lighting & Effects
+                </button>
+                <button class="category-btn" data-category="music-request">
+                    <i class="fas fa-qrcode"></i> Music Request
+                </button>
+            </div>
+            
             <div class="gallery-grid">
                 <div class="gallery-item" data-category="dj">
                     <img src="985b51a5-322d-4049-a1d0-ebc1a7396c99.JPG" alt="DJ Performance" class="gallery-image">
@@ -144,6 +161,16 @@
                     <div class="gallery-overlay">
                         <h4>Professional Stage Lighting</h4>
                         <p>Professional stage lighting and effects</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="music-request">
+                    <div class="gallery-image-placeholder">
+                        <i class="fas fa-qrcode" style="font-size: 4rem; color: #00ff00;"></i>
+                    </div>
+                    <div class="gallery-overlay">
+                        <h4>Music Request System</h4>
+                        <p>Interactive song requests with QR code access</p>
+                        <a href="music-request.html" class="btn btn-primary btn-small">Try Music Request</a>
                     </div>
                 </div>
             </div>
@@ -183,6 +210,11 @@
     <script>
         // Debug script for gallery page
         console.log('Gallery page loaded');
+        
+        // Initialize gallery category filtering
+        document.addEventListener('DOMContentLoaded', function() {
+            initGalleryFilter();
+        });
         
         // Check if elements exist
         setTimeout(() => {
