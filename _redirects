@@ -1,1 +1,5 @@
+# Allow direct access to HTML files
+/*.html    /:splat    200
+
+# Redirect all other routes to index.html for SPA
 /*    /index.html   200 
