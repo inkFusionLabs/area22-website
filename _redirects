@@ -1,5 +1,9 @@
 # Allow direct access to HTML files
 /*.html    /:splat    200
 
+# Specific music request redirects
+/music-request    /music-request.html    200
+/music-request/   /music-request.html    200
+
 # Redirect all other routes to index.html for SPA
 /*    /index.html   200 

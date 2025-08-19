@@ -32,6 +32,16 @@
   ],
   "routes": [
     {
+      "src": "/music-request",
+      "dest": "/music-request.html",
+      "status": 200
+    },
+    {
+      "src": "/music-request.html",
+      "dest": "/music-request.html",
+      "status": 200
+    },
+    {
       "src": "/(.*\\.(css|js|png|jpg|jpeg|JPG|gif|ico|svg|woff|woff2|ttf|eot))",
       "headers": {
         "Cache-Control": "public, max-age=31536000, immutable"
