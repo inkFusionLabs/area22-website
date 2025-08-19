@@ -555,8 +555,19 @@
 
     <!-- Supabase Client Library -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <!-- QR Code Library -->
+    <!-- QR Code Library - Multiple CDN sources for reliability -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script>
+        // Fallback QR code library if primary CDN fails
+        if (typeof QRCode === 'undefined') {
+            console.log('Primary QR code library failed, trying fallback...');
+            const fallbackScript = document.createElement('script');
+            fallbackScript.src = 'https://unpkg.com/qrcode@1.5.3/build/qrcode.min.js';
+            fallbackScript.onload = () => console.log('Fallback QR code library loaded successfully');
+            fallbackScript.onerror = () => console.error('Fallback QR code library also failed');
+            document.head.appendChild(fallbackScript);
+        }
+    </script>
     <script src="supabase-backend.js"></script>
     <script>
         class DJDashboard {
@@ -1023,13 +1034,9 @@
 
         async function loadSessions() {
             try {
-                // Check if QR code library is loaded
-                if (!isQRCodeLibraryLoaded()) {
-                    console.error('QR Code library not loaded');
-                    showQRCodeLibraryError();
-                    return;
-                }
-
+                // Wait for QR code library to load
+                await waitForQRCodeLibrary();
+                
                 // Use the new EventService to get all events
                 const result = await EventService.getEventsByDJ('Area22');
                 
@@ -1049,14 +1056,19 @@
                 }
             } catch (error) {
                 console.error('Error loading sessions:', error);
-                document.getElementById('sessions-list').innerHTML = `
-                    <div class="no-sessions">
-                        <p>Error loading sessions. Please try again.</p>
-                        <button class="btn btn-primary" onclick="loadSessions()">
-                            <i class="fas fa-sync-alt"></i> Retry
-                        </button>
-                    </div>
-                `;
+                
+                if (error.message === 'QR Code library failed to load') {
+                    showQRCodeLibraryError();
+                } else {
+                    document.getElementById('sessions-list').innerHTML = `
+                        <div class="no-sessions">
+                            <p>Error loading sessions. Please try again.</p>
+                            <button class="btn btn-primary" onclick="loadSessions()">
+                                <i class="fas fa-sync-alt"></i> Retry
+                            </button>
+                        </div>
+                    `;
+                }
             }
         }
 
@@ -1140,8 +1152,8 @@
                 
                 // Check if QRCode library is available
                 if (typeof QRCode === 'undefined') {
-                    console.error('QRCode library not loaded');
-                    canvas.innerHTML = '<p style="color: #ff0000; text-align: center;">QR Code Library Error</p>';
+                    console.error('QRCode library not loaded, using fallback');
+                    generateFallbackQR(sessionId, eventName);
                     return;
                 }
 
@@ -1157,7 +1169,8 @@
                 }, function (error) {
                     if (error) {
                         console.error('Error generating QR code:', error);
-                        canvas.innerHTML = '<p style="color: #ff0000; text-align: center;">QR Code Error</p>';
+                        console.log('Using fallback QR code generator');
+                        generateFallbackQR(sessionId, eventName);
                     } else {
                         console.log(`QR code generated successfully for session: ${sessionId}`);
                         
@@ -1189,10 +1202,8 @@
 
             } catch (error) {
                 console.error('Error generating QR code:', error);
-                const canvas = document.getElementById(`canvas-${sessionId}`);
-                if (canvas) {
-                    canvas.innerHTML = '<p style="color: #ff0000; text-align: center;">QR Code Generation Failed</p>';
-                }
+                console.log('Using fallback QR code generator');
+                generateFallbackQR(sessionId, eventName);
             }
         }
 
@@ -1378,7 +1389,32 @@
 
         // Check if QR code library is loaded
         function isQRCodeLibraryLoaded() {
-            return typeof QRCode !== 'undefined' && QRCode;
+            const isLoaded = typeof QRCode !== 'undefined' && QRCode;
+            console.log('QR Code library loaded:', isLoaded);
+            return isLoaded;
+        }
+
+        // Wait for QR code library to load
+        function waitForQRCodeLibrary() {
+            return new Promise((resolve, reject) => {
+                let attempts = 0;
+                const maxAttempts = 100; // Wait up to 10 seconds
+                
+                const checkLibrary = () => {
+                    attempts++;
+                    if (isQRCodeLibraryLoaded()) {
+                        console.log('QR Code library found after', attempts * 100, 'ms');
+                        resolve(true);
+                    } else if (attempts >= maxAttempts) {
+                        console.error('QR Code library not loaded after 10 seconds');
+                        reject(new Error('QR Code library failed to load'));
+                    } else {
+                        setTimeout(checkLibrary, 100);
+                    }
+                };
+                
+                checkLibrary();
+            });
         }
 
         // Show QR code library error
@@ -1388,13 +1424,99 @@
                 sessionsList.innerHTML = `
                     <div class="no-sessions">
                         <p style="color: #ff0000;">⚠️ QR Code Library Error</p>
-                        <p>The QR code library failed to load. Please refresh the page and try again.</p>
-                        <button class="btn btn-primary" onclick="location.reload()">
-                            <i class="fas fa-sync-alt"></i> Refresh Page
-                        </button>
+                        <p>The QR code library failed to load. Please try one of these solutions:</p>
+                        <div style="margin: 1rem 0;">
+                            <button class="btn btn-primary" onclick="retryQRCodeLibrary()" style="margin: 0.5rem;">
+                                <i class="fas fa-sync-alt"></i> Retry Loading
+                            </button>
+                            <button class="btn btn-secondary" onclick="location.reload()" style="margin: 0.5rem;">
+                                <i class="fas fa-redo"></i> Refresh Page
+                            </button>
+                        </div>
+                        <p style="font-size: 0.9rem; color: #888;">
+                            If the problem persists, check your internet connection or try again later.
+                        </p>
                     </div>
                 `;
             }
+        }
+
+        // Retry loading QR code library
+        async function retryQRCodeLibrary() {
+            const sessionsList = document.getElementById('sessions-list');
+            sessionsList.innerHTML = `
+                <div class="loading-sessions">
+                    <p><i class="fas fa-spinner fa-spin"></i> Retrying to load QR code library...</p>
+                </div>
+            `;
+            
+            try {
+                await waitForQRCodeLibrary();
+                await loadSessions();
+            } catch (error) {
+                console.error('Retry failed:', error);
+                showQRCodeLibraryError();
+            }
+        }
+
+        // Fallback QR code generator (simple text-based)
+        function generateFallbackQR(sessionId, eventName) {
+            const canvas = document.getElementById(`canvas-${sessionId}`);
+            if (!canvas) return;
+
+            const currentUrl = `${window.location.origin}/music-request.html?session=${sessionId}`;
+            
+            // Create a simple text-based "QR code" as fallback
+            const ctx = canvas.getContext('2d');
+            canvas.width = 200;
+            canvas.height = 200;
+            
+            // Clear canvas
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, 200, 200);
+            
+            // Draw border
+            ctx.strokeStyle = '#00ff00';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(10, 10, 180, 180);
+            
+            // Draw text
+            ctx.fillStyle = '#000000';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('QR CODE', 100, 50);
+            ctx.fillText('UNAVAILABLE', 100, 70);
+            
+            ctx.font = '12px Arial';
+            ctx.fillText('Session ID:', 100, 100);
+            ctx.fillText(sessionId, 100, 120);
+            
+            ctx.font = '10px Arial';
+            ctx.fillText('URL:', 100, 150);
+            ctx.fillText(currentUrl, 100, 170);
+            
+            // Add URL display below
+            const urlDisplay = document.createElement('p');
+            urlDisplay.style.cssText = 'margin-top: 0.5rem; font-size: 0.8rem; color: #666; text-align: center; word-break: break-all; max-width: 200px; cursor: pointer;';
+            urlDisplay.textContent = currentUrl;
+            urlDisplay.title = 'Click to copy URL';
+            
+            // Make URL clickable to copy
+            urlDisplay.addEventListener('click', () => {
+                navigator.clipboard.writeText(currentUrl).then(() => {
+                    urlDisplay.style.color = '#00ff00';
+                    urlDisplay.textContent = 'URL Copied!';
+                    setTimeout(() => {
+                        urlDisplay.style.color = '#666';
+                        urlDisplay.textContent = currentUrl;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy URL:', err);
+                    alert('Failed to copy URL. Please copy manually: ' + currentUrl);
+                });
+            });
+            
+            canvas.parentNode.appendChild(urlDisplay);
         }
     </script>
 </body>
