@@ -217,6 +217,60 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* New Request Notification Styles */
+        .new-request-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #00ff00, #00cc00);
+            color: #000;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.3);
+            z-index: 10000;
+            max-width: 350px;
+            animation: slideInRight 0.5s ease-out;
+            border: 2px solid #00ff00;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification-content h4 {
+            margin: 0 0 1rem 0;
+            font-size: 1.2rem;
+            color: #000;
+        }
+
+        .notification-content p {
+            margin: 0.5rem 0;
+            color: #000;
+        }
+
+        .notification-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .notification-close:hover {
+            color: #333;
+        }
+
         @media (max-width: 768px) {
             .dashboard-header h1 {
                 font-size: 2rem;
@@ -308,6 +362,7 @@
                 this.loadRequests();
                 this.startAutoRefresh();
                 this.updateStats();
+                this.setupRealTimeSubscription();
             }
 
                     async loadRequests() {
@@ -399,7 +454,42 @@
                 document.getElementById('completed-requests').textContent = completed;
             }
 
-                    async updateStatus(requestId, status) {
+            // Set up real-time subscription to Supabase
+            setupRealTimeSubscription() {
+                try {
+                    const subscription = supabase
+                        .channel('song_requests_changes')
+                        .on('postgres_changes', 
+                            { 
+                                event: '*', 
+                                schema: 'public', 
+                                table: 'song_requests' 
+                            }, 
+                            (payload) => {
+                                console.log('Real-time update received:', payload);
+                                
+                                if (payload.eventType === 'INSERT') {
+                                    // New request added
+                                    this.showNewRequestNotification(payload.new);
+                                    this.loadRequests(); // Refresh the list
+                                } else if (payload.eventType === 'UPDATE') {
+                                    // Request updated
+                                    this.loadRequests(); // Refresh the list
+                                } else if (payload.eventType === 'DELETE') {
+                                    // Request deleted
+                                    this.loadRequests(); // Refresh the list
+                                }
+                            }
+                        )
+                        .subscribe();
+
+                    console.log('Real-time subscription established');
+                } catch (error) {
+                    console.error('Error setting up real-time subscription:', error);
+                }
+            }
+
+            async updateStatus(requestId, status) {
             try {
                 const { error } = await supabase
                     .from('song_requests')
@@ -477,6 +567,61 @@
                 if (this.refreshInterval) {
                     clearInterval(this.refreshInterval);
                     this.refreshInterval = null;
+                }
+            }
+
+            // Show notification for new requests
+            showNewRequestNotification(request) {
+                // Create a notification element
+                const notification = document.createElement('div');
+                notification.className = 'new-request-notification';
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <h4>🎵 New Song Request!</h4>
+                        <p><strong>${request.song_title}</strong> by ${request.artist_name}</p>
+                        <p>Guest: ${request.guest_name || 'Anonymous'}</p>
+                        <p>Priority: <span class="priority-badge ${request.priority}">${request.priority}</span></p>
+                        ${request.note ? `<p>Note: ${request.note}</p>` : ''}
+                    </div>
+                    <button class="notification-close" onclick="this.parentElement.remove()">×</button>
+                `;
+                
+                // Add to page
+                document.body.appendChild(notification);
+                
+                // Auto-remove after 10 seconds
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 10000);
+
+                // Play notification sound (if supported)
+                this.playNotificationSound();
+            }
+
+            // Play notification sound
+            playNotificationSound() {
+                try {
+                    // Create a simple notification sound
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.2);
+                    
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.3);
+                } catch (error) {
+                    console.log('Audio notification not supported');
                 }
             }
         }
