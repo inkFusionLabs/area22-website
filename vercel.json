@@ -32,23 +32,13 @@
   ],
   "routes": [
     {
-      "src": "/music-request",
-      "dest": "/music-request.html",
-      "status": 200
-    },
-    {
-      "src": "/music-request.html",
-      "dest": "/music-request.html",
-      "status": 200
-    },
-    {
       "src": "/(.*\\.(css|js|png|jpg|jpeg|JPG|gif|ico|svg|woff|woff2|ttf|eot))",
       "headers": {
         "Cache-Control": "public, max-age=31536000, immutable"
       }
     },
     {
-      "src": "/(.*\\.html)",
+      "src": "/maintenance.html",
       "headers": {
         "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
         "Pragma": "no-cache",
@@ -57,16 +47,18 @@
     },
     {
       "src": "/(.*)",
+      "dest": "/maintenance.html",
+      "status": 503,
       "headers": {
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
         "X-XSS-Protection": "1; mode=block",
         "Referrer-Policy": "strict-origin-when-cross-origin",
-        "Permissions-Policy": "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+        "Permissions-Policy": "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer()"
       }
     }
   ],
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "maintenance"
   }
 } 
