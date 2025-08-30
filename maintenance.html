@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00ff00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Area22">
+    <title>Area22 - Under Maintenance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #00ff00;
+            --secondary-green: #00cc00;
+            --accent-green: #00ff88;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #000000;
+            --card-bg: rgba(26, 26, 26, 0.9);
+            --text-white: #ffffff;
+            --text-light: rgba(255, 255, 255, 0.8);
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --border-green: rgba(0, 255, 0, 0.3);
+            --shadow-green: rgba(0, 255, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-white);
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 50%, var(--darker-bg) 100%);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Strobe Light Effects */
+        .strobe-lights {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .light {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-green) 0%, transparent 70%);
+            box-shadow: 0 0 50px var(--primary-green), 0 0 100px var(--primary-green);
+            opacity: 0;
+            animation: strobe 3s ease-in-out infinite;
+        }
+
+        .light-1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .light-2 { top: 20%; left: 80%; animation-delay: 0.5s; }
+        .light-3 { top: 60%; left: 20%; animation-delay: 1s; }
+        .light-4 { top: 70%; left: 70%; animation-delay: 1.5s; }
+        .light-5 { top: 30%; left: 50%; animation-delay: 2s; }
+        .light-6 { top: 80%; left: 10%; animation-delay: 2.5s; }
+        .light-7 { top: 15%; left: 30%; animation-delay: 0.3s; }
+        .light-8 { top: 85%; left: 60%; animation-delay: 0.8s; }
+
+        @keyframes strobe {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+        }
+
+        /* Maintenance Content */
+        .maintenance-container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .maintenance-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--border-green);
+            border-radius: 25px;
+            padding: 4rem;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.2);
+            animation: cardGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes cardGlow {
+            0% { box-shadow: 0 0 30px rgba(0, 255, 0, 0.2); }
+            100% { box-shadow: 0 0 50px rgba(0, 255, 0, 0.4); }
+        }
+
+        .maintenance-logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--primary-green);
+            text-shadow: 0 0 30px var(--primary-green);
+            margin-bottom: 1rem;
+            animation: logoGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            0% { text-shadow: 0 0 20px var(--primary-green), 0 0 40px var(--primary-green); }
+            100% { text-shadow: 0 0 30px var(--primary-green), 0 0 50px var(--primary-green), 0 0 60px var(--primary-green); }
+        }
+
+        .maintenance-icon {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+            animation: wrench 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px var(--primary-green));
+        }
+
+        @keyframes wrench {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(15deg) scale(1.05); }
+            75% { transform: rotate(-15deg) scale(1.05); }
+        }
+
+        .maintenance-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        }
+
+        .maintenance-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .maintenance-description {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .status-card {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid var(--border-green);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .status-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px var(--primary-green);
+        }
+
+        .status-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .status-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-green);
+        }
+
+        .status-label {
+            font-weight: bold;
+            color: var(--primary-green);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-value {
+            color: var(--text-white);
+            font-size: 1rem;
+        }
+
+        .contact-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px var(--primary-green);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .contact-item {
+            background: rgba(0, 255, 0, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-green);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.2);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .contact-label {
+            font-weight: bold;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .contact-value {
+            color: var(--text-white);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .contact-value:hover {
+            color: var(--primary-green);
+            text-shadow: 0 0 10px var(--primary-green);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-green), var(--accent-green));
+            border-radius: 4px;
+            animation: progress 2s ease-in-out infinite;
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 75%; }
+            100% { width: 100%; }
+        }
+
+        .social-links {
+            margin-top: 2rem;
+        }
+
+        .social-links h4 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-green);
+            border-radius: 50%;
+            color: var(--primary-green);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            background: var(--primary-green);
+            color: var(--darker-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 255, 0, 0.3);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .maintenance-card {
+                padding: 2rem 1rem;
+            }
+
+            .maintenance-logo {
+                font-size: 3rem;
+            }
+
+            .maintenance-title {
+                font-size: 2rem;
+            }
+
+            .maintenance-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .status-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .light, .maintenance-icon, .progress-fill {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Strobe Light Effects -->
+    <div class="strobe-lights">
+        <div class="light light-1"></div>
+        <div class="light light-2"></div>
+        <div class="light light-3"></div>
+        <div class="light light-4"></div>
+        <div class="light light-5"></div>
+        <div class="light light-6"></div>
+        <div class="light light-7"></div>
+        <div class="light light-8"></div>
+    </div>
+
+    <!-- Maintenance Content -->
+    <main class="maintenance-container">
+        <div class="maintenance-card">
+            <div class="maintenance-logo">AREA22</div>
+            <div class="maintenance-icon">🔧</div>
+            <h1 class="maintenance-title">Under Maintenance</h1>
+            <p class="maintenance-subtitle">Professional DJ Services</p>
+            <p class="maintenance-description">
+                We're currently performing some maintenance on our website to improve your experience.
+                Our professional DJ services remain fully operational and we're available for bookings during this time.
+            </p>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+
+            <div class="status-card">
+                <h3 class="status-title">Maintenance Status</h3>
+                <div class="status-info">
+                    <div class="status-item">
+                        <div class="status-label">Status</div>
+                        <div class="status-value">Scheduled Maintenance</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Expected Duration</div>
+                        <div class="status-value">24-48 Hours</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Services</div>
+                        <div class="status-value">Fully Operational</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <h3 class="contact-title">Get In Touch</h3>
+                <p style="color: var(--text-light); margin-bottom: 1rem;">
+                    Need to book a DJ or have questions? We're here to help!
+                </p>
+
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-label">Call Us</div>
+                        <a href="tel:07934284930" class="contact-value">07934 284 930</a>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-label">Email Us</div>
+                        <a href="mailto:area-22@mail.co.uk" class="contact-value">area-22@mail.co.uk</a>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-label">Location</div>
+                        <div class="contact-value">Basingstoke Area</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-label">Available</div>
+                        <div class="contact-value">24/7 for Inquiries</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#" class="social-icon" aria-label="Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Add some interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click effect to contact items
+            const contactItems = document.querySelectorAll('.contact-item');
+            contactItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-5px)';
+                    }, 150);
+                });
+            });
+
+            // Add loading animation
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registered successfully:', registration);
+                    })
+                    .catch(error => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
