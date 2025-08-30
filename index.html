@@ -13,90 +13,29 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Area22">
     <title>Area22 - Professional DJ Services</title>
-    <!-- Cache bust: Updated for Supabase integration -->
-    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RVT1L6B0F"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-2RVT1L6B0F');
-    </script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Laser Light Effects -->
-    <div class="laser-lights">
-        <!-- Vertical laser beams -->
-        <div class="laser-beam laser-1"></div>
-        <div class="laser-beam laser-2"></div>
-        <div class="laser-beam laser-3"></div>
-        <div class="laser-beam laser-4"></div>
-        <div class="laser-beam laser-5"></div>
-        <div class="laser-beam laser-6"></div>
-        <div class="laser-beam laser-7"></div>
-        <div class="laser-beam laser-8"></div>
-        <div class="laser-beam laser-9"></div>
-        <div class="laser-beam laser-10"></div>
-        
-        <!-- Horizontal laser beams -->
-        <div class="laser-horizontal laser-h-1"></div>
-        <div class="laser-horizontal laser-h-2"></div>
-        <div class="laser-horizontal laser-h-3"></div>
-        <div class="laser-horizontal laser-h-4"></div>
-    </div>
-    
-    <!-- Laser Grid Effect -->
-    <div class="laser-grid">
-        <div class="grid-line grid-vertical" style="left: 10%;"></div>
-        <div class="grid-line grid-vertical" style="left: 20%;"></div>
-        <div class="grid-line grid-vertical" style="left: 30%;"></div>
-        <div class="grid-line grid-vertical" style="left: 40%;"></div>
-        <div class="grid-line grid-vertical" style="left: 50%;"></div>
-        <div class="grid-line grid-vertical" style="left: 60%;"></div>
-        <div class="grid-line grid-vertical" style="left: 70%;"></div>
-        <div class="grid-line grid-vertical" style="left: 80%;"></div>
-        <div class="grid-line grid-vertical" style="left: 90%;"></div>
-        
-        <div class="grid-line grid-horizontal" style="top: 10%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 20%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 30%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 40%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 50%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 60%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 70%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 80%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 90%;"></div>
-    </div>
-
-    <!-- Watermark -->
-    <div class="watermark">inkFusionLabs</div>
-    
-    <!-- Accessibility Controls -->
-    <button class="accessibility-toggle" id="accessibilityToggle" aria-label="Toggle accessibility controls">
-        <i class="fas fa-universal-access"></i>
-    </button>
-    
-    <div class="font-size-controls" id="fontSizeControls" style="display: none;">
-        <h4>Accessibility</h4>
-        <button class="font-size-btn" data-size="small">Small Text</button>
-        <button class="font-size-btn active" data-size="medium">Medium Text</button>
-        <button class="font-size-btn" data-size="large">Large Text</button>
-        <button class="font-size-btn" data-size="xlarge">Extra Large</button>
-        <button class="font-size-btn" id="darkModeToggle">Dark Mode</button>
+    <!-- Strobe Light Effects -->
+    <div class="strobe-lights">
+        <div class="light light-1"></div>
+        <div class="light light-2"></div>
+        <div class="light light-3"></div>
+        <div class="light light-4"></div>
+        <div class="light light-5"></div>
+        <div class="light light-6"></div>
+        <div class="light light-7"></div>
+        <div class="light light-8"></div>
     </div>
 
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="index.html" style="text-decoration: none; color: inherit;">
-                    <h2>AREA22</h2>
-                    <span class="tagline">Professional DJ Services</span>
-                </a>
+                <h2>AREA22</h2>
+                <span class="tagline">Professional DJ Services</span>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
@@ -109,54 +48,122 @@
                     <a href="about.html" class="nav-link">About</a>
                 </li>
                 <li class="nav-item">
-                    <a href="booking.html" class="nav-link">Book Now</a>
-                </li>
-                <li class="nav-item">
                     <a href="gallery.html" class="nav-link">Gallery</a>
                 </li>
                 <li class="nav-item">
                     <a href="pricing.html" class="nav-link">Pricing</a>
                 </li>
                 <li class="nav-item">
-                    <a href="music-request.html" class="nav-link">Music Request</a>
-                </li>
-                <li class="nav-item">
                     <a href="contact.html" class="nav-link">Contact</a>
                 </li>
             </ul>
-            <div class="hamburger" role="button" aria-label="Toggle navigation menu" aria-expanded="false" tabindex="0">
-                <span class="bar" aria-hidden="true"></span>
-                <span class="bar" aria-hidden="true"></span>
-                <span class="bar" aria-hidden="true"></span>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </div>
         </div>
     </nav>
 
-    <!-- Header Banner -->
-    <div class="header-banner">
-        <img src="1b2168d3-69c4-4aa4-abb2-9309f521a45c.JPG" alt="Area22 Banner" class="header-banner-image">
-    </div>
-
     <!-- Hero Section -->
-    <main id="main-content" class="hero">
+    <section class="hero">
+        <div class="hero-background">
+            <div class="hero-overlay"></div>
+        </div>
         <div class="hero-content">
-            <h1 class="hero-title" style="text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;">AREA22</h1>
-            <p class="hero-subtitle">Professional DJ Services</p>
-            <p class="hero-description">Creating unforgettable experiences with the perfect mix of music and atmosphere</p>
-            <div class="hero-buttons">
-                <a href="services.html" class="btn btn-primary">View Services</a>
-                <a href="contact.html" class="btn btn-secondary">Contact Us</a>
+            <div class="hero-text">
+                <h1 class="hero-title">AREA22</h1>
+                <p class="hero-subtitle">Professional DJ Services</p>
+                <p class="hero-description">Creating unforgettable experiences with the perfect mix of music and atmosphere</p>
+                <div class="hero-buttons">
+                    <a href="services.html" class="btn btn-primary">View Services</a>
+                    <a href="contact.html" class="btn btn-secondary">Contact Us</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-logo">
+                    <img src="bee16901-3162-409b-a3d4-6fd2c9feb800 Copy.JPG" alt="Area22 Logo" class="logo-image">
+                </div>
             </div>
         </div>
-        <div class="hero-visual">
-            <div class="centered-logo">
-                <img src="bee16901-3162-409b-a3d4-6fd2c9feb800 Copy.JPG" alt="Area22 Logo" class="logo-image">
+    </section>
+
+    <!-- Services Preview -->
+    <section class="services-preview">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Weddings</h3>
+                    <p>Make your special day unforgettable with our professional wedding DJ services.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-birthday-cake"></i>
+                    </div>
+                    <h3>Birthday Parties</h3>
+                    <p>Celebrate your special day with music that gets everyone dancing.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Private Events</h3>
+                    <p>Intimate gatherings and private celebrations with personalized music selection.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>Corporate Events</h3>
+                    <p>Professional entertainment for business functions and team building events.</p>
+                </div>
             </div>
         </div>
-    </main>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose-us">
+        <div class="container">
+            <h2 class="section-title">Why Choose Area22?</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3>Professional Equipment</h3>
+                    <p>State-of-the-art sound systems and lighting for the perfect atmosphere</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Experienced DJs</h3>
+                    <p>Professional DJs with years of experience in creating memorable events</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>24/7 Availability</h3>
+                    <p>Always available to discuss your event requirements and provide quotes</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Local Service</h3>
+                    <p>Serving Basingstoke and surrounding areas with reliable, on-time service</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact">
+    <section class="contact-section">
         <div class="container">
             <h2 class="section-title">Get In Touch</h2>
             <div class="contact-content">
@@ -197,16 +204,11 @@
                         <a href="#" class="social-icon" aria-label="YouTube">
                             <i class="fab fa-youtube"></i>
                         </a>
-                        <a href="#" class="social-icon" aria-label="TikTok">
-                            <i class="fab fa-tiktok"></i>
-                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-
 
     <!-- Footer -->
     <footer class="footer">
@@ -215,12 +217,15 @@
                 <div class="footer-section">
                     <h3>AREA22</h3>
                     <p>Professional DJ Services</p>
+                    <p>Creating unforgettable experiences with the perfect mix of music and atmosphere.</p>
                 </div>
                 <div class="footer-section">
                     <h4>Services</h4>
                     <ul>
                         <li>Weddings</li>
-                        <li>Private Parties</li>
+                        <li>Birthday Parties</li>
+                        <li>Private Events</li>
+                        <li>Corporate Functions</li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -228,71 +233,25 @@
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li><a href="services.html">Services</a></li>
-                                                <li><a href="about.html">About</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                        <li><a href="contact.html">Contact</a></li>
                     </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>Email: area-22@mail.co.uk</p>
+                    <p>Phone: <a href="tel:07934284930">07934 284 930</a></p>
+                    <p>Location: Basingstoke</p>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2025 Area22 DJ Services. All rights reserved.</p>
-                <p style="font-size: 14px; margin-top: 10px;">
-                    <strong>Contact:</strong> <a href="tel:07934284930" style="color: #00ff00; text-decoration: none;">07934 284 930</a> | 
-                    <a href="mailto:area-22@mail.co.uk" style="color: #00ff00; text-decoration: none;">area-22@mail.co.uk</a>
-                </p>
-                <p style="font-size: 12px; opacity: 0.7; margin-top: 10px;">
-                    <a href="admin.html" style="color: rgba(0, 255, 0, 0.5); text-decoration: none;">Admin Panel</a>
-                </p>
             </div>
         </div>
     </footer>
 
-    <script src="backup-system.js"></script>
-    <script src="performance-monitor.js"></script>
-    <script src="accessibility.js"></script>
     <script src="script.js"></script>
-    <script>
-        // Debug script for main site
-        console.log('Main site loaded');
-        
-        // Check if elements exist
-        setTimeout(() => {
-            const hamburger = document.querySelector('.hamburger');
-            const navMenu = document.querySelector('.nav-menu');
-            
-            console.log('Main site - Hamburger:', hamburger);
-            console.log('Main site - Nav menu:', navMenu);
-            console.log('Main site - Hamburger display:', hamburger ? getComputedStyle(hamburger).display : 'N/A');
-            console.log('Main site - Window width:', window.innerWidth);
-            
-            // Add direct click handler for testing
-            if (hamburger) {
-                hamburger.onclick = function(e) {
-                    console.log('Main site - Direct click on hamburger!');
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    if (navMenu) {
-                        this.classList.toggle('active');
-                        navMenu.classList.toggle('active');
-                        console.log('Main site - Direct toggle - Hamburger active:', this.classList.contains('active'));
-                        console.log('Main site - Direct toggle - Nav menu active:', navMenu.classList.contains('active'));
-                    }
-                };
-                console.log('Main site - Direct click handler added to hamburger');
-            }
-        }, 1000);
-        
-        // Register service worker for PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('Service Worker registered successfully:', registration);
-                    })
-                    .catch(error => {
-                        console.error('Service Worker registration failed:', error);
-                    });
-            });
-        }
-    </script>
 </body>
 </html> 
