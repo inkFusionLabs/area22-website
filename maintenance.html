@@ -329,6 +329,46 @@
             box-shadow: 0 10px 20px rgba(0, 255, 0, 0.3);
         }
 
+        /* Go Live Button */
+        .go-live-section {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .go-live-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem 2.5rem;
+            background: linear-gradient(135deg, #00ff00, #00cc00);
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
+            border: 2px solid #00ff00;
+            animation: goLiveGlow 2s ease-in-out infinite alternate;
+        }
+
+        .go-live-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 255, 0, 0.6);
+            background: linear-gradient(135deg, #00ff88, #00ff00);
+            text-decoration: none;
+            color: #000;
+        }
+
+        .go-live-button i {
+            font-size: 1.5rem;
+        }
+
+        @keyframes goLiveGlow {
+            0% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.4); }
+            100% { box-shadow: 0 0 40px rgba(0, 255, 0, 0.8); }
+        }
+
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .maintenance-card {
@@ -466,6 +506,14 @@
                         <i class="fab fa-youtube"></i>
                     </a>
                 </div>
+            </div>
+
+            <!-- Direct Go Live Button -->
+            <div class="go-live-section">
+                <a href="/" class="go-live-button">
+                    <i class="fas fa-rocket"></i>
+                    <span>🚀 Go Live - Return to Main Site</span>
+                </a>
             </div>
         </div>
     </main>
