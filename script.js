@@ -1423,51 +1423,5 @@ window.addEventListener('load', () => {
     }
 });
 
-// QR Code Generation for Main Page
-function generateMainQRCode() {
-    const qrContainer = document.getElementById('main-qr-code');
-    if (!qrContainer) return;
 
-    // Create QR code using canvas
-    const canvas = document.createElement('canvas');
-    canvas.width = 200;
-    canvas.height = 200;
-    const ctx = canvas.getContext('2d');
 
-    // Generate a simple QR-like pattern
-    generateSimpleQR(ctx, 'https://area22-website.vercel.app/music-request');
-
-    qrContainer.appendChild(canvas);
-}
-
-function generateSimpleQR(ctx, url) {
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, 200, 200);
-    
-    ctx.fillStyle = '#00ff00';
-    ctx.fillRect(20, 20, 160, 160);
-    
-    ctx.fillStyle = '#000';
-    ctx.fillRect(40, 40, 120, 120);
-    
-    ctx.fillStyle = '#00ff00';
-    ctx.fillRect(60, 60, 80, 80);
-    
-    ctx.fillStyle = '#000';
-    ctx.fillRect(80, 80, 40, 40);
-    
-    // Add pattern elements
-    for (let i = 0; i < 8; i++) {
-        for (let j = 0; j < 8; j++) {
-            if ((i + j) % 2 === 0) {
-                ctx.fillStyle = '#00ff00';
-                ctx.fillRect(20 + i * 20, 20 + j * 20, 20, 20);
-            }
-        }
-    }
-}
-
-// Initialize QR code when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    generateMainQRCode();
-});

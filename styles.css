@@ -2680,44 +2680,7 @@ textarea:focus {
     }
 }
 
-/* Music Request System Styles */
-.music-request-section {
-    padding: 60px 0;
-    background: linear-gradient(135deg, #000 0%, #111 100%);
-    min-height: 100vh;
-}
 
-.music-request-header {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.music-request-header .section-title {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    background: linear-gradient(45deg, #00ff00, #00ff88);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.section-subtitle {
-    font-size: 1.2rem;
-    color: #ccc;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-
-
-/* Music Request Form */
-.music-request-form {
-    background: rgba(0, 0, 0, 0.8);
-    border: 1px solid rgba(0, 255, 0, 0.2);
-    border-radius: 15px;
-    padding: 2rem;
-    margin-bottom: 3rem;
-}
 
 .current-event-info {
     text-align: center;
@@ -3142,14 +3105,7 @@ textarea:focus {
     }
 }
 
-/* Music Request Showcase Section */
-.music-request-showcase {
-    background: linear-gradient(135deg, #000 0%, #111 100%);
-    padding: 80px 0;
-    border-top: 2px solid rgba(0, 255, 0, 0.2);
-    position: relative;
-    overflow: hidden;
-}
+
 
 .showcase-content {
     display: grid;
@@ -3447,13 +3403,7 @@ textarea:focus {
     }
 }
 
-/* Main QR Code Section */
-.qr-section-main {
-    background: linear-gradient(135deg, #000 0%, #111 100%);
-    padding: 80px 0;
-    border-top: 2px solid rgba(0, 255, 0, 0.2);
-    border-bottom: 2px solid rgba(0, 255, 0, 0.2);
-}
+
 
 .qr-content {
     display: grid;
