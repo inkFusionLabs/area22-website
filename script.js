@@ -11,9 +11,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Close menu when clicking on a link
         document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
+            link.addEventListener('click', (e) => {
+                // Close mobile menu
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+                
+                // Ensure navigation proceeds normally
+                console.log('Navigation link clicked:', link.getAttribute('href'));
             });
         });
     }
@@ -29,20 +33,50 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Smooth scroll for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const navbarHeight = document.querySelector('.navbar').offsetHeight;
-            const targetPosition = target.offsetTop - navbarHeight - 20;
+// Smooth scroll for anchor links only (internal page navigation)
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                const targetPosition = target.offsetTop - navbarHeight - 20;
 
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        }
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+});
+
+// Ensure external navigation links work properly
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href*=".html"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Allow normal navigation for HTML files
+            if (this.getAttribute('href').includes('.html')) {
+                // Navigation will proceed normally
+                console.log('Navigating to:', this.getAttribute('href'));
+                
+                // Ensure no event prevention interferes with navigation
+                e.stopPropagation();
+                
+                // Test navigation by logging the click
+                console.log('Link clicked, should navigate to:', this.getAttribute('href'));
+            }
+        });
+    });
+});
+
+// Debug: Log all navigation links to ensure they're properly selected
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.nav-link');
+    console.log('Found navigation links:', navLinks.length);
+    navLinks.forEach((link, index) => {
+        console.log(`Link ${index + 1}:`, link.getAttribute('href'), link.textContent);
     });
 });
 
