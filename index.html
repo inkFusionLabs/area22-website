@@ -30,6 +30,24 @@
                 // Test if links are clickable
                 link.addEventListener('click', function(e) {
                     console.log('Link clicked:', this.href, this.textContent);
+                    
+                    // Test navigation
+                    if (this.href.includes('services.html')) {
+                        console.log('Attempting to navigate to services...');
+                        window.location.href = 'services.html';
+                    } else if (this.href.includes('about.html')) {
+                        console.log('Attempting to navigate to about...');
+                        window.location.href = 'about.html';
+                    } else if (this.href.includes('gallery.html')) {
+                        console.log('Attempting to navigate to gallery...');
+                        window.location.href = 'gallery.html';
+                    } else if (this.href.includes('pricing.html')) {
+                        console.log('Attempting to navigate to pricing...');
+                        window.location.href = 'pricing.html';
+                    } else if (this.href.includes('contact.html')) {
+                        console.log('Attempting to navigate to contact...');
+                        window.location.href = 'contact.html';
+                    }
                 });
             });
         });
@@ -47,22 +65,22 @@
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="index.html" class="nav-link" onclick="console.log('Home clicked!');">Home</a>
+                    <a href="index.html" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="services.html" class="nav-link" onclick="console.log('Services clicked!'); window.location.href='services.html';">Services</a>
+                    <a href="services.html" class="nav-link">Services</a>
                 </li>
                 <li class="nav-item">
-                    <a href="about.html" class="nav-link" onclick="console.log('About clicked!'); window.location.href='about.html';">About</a>
+                    <a href="about.html" class="nav-link">About</a>
                 </li>
                 <li class="nav-item">
-                    <a href="gallery.html" class="nav-link" onclick="console.log('Gallery clicked!'); window.location.href='gallery.html';">Gallery</a>
+                    <a href="gallery.html" class="nav-link">Gallery</a>
                 </li>
                 <li class="nav-item">
-                    <a href="pricing.html" class="nav-link" onclick="console.log('Pricing clicked!'); window.location.href='pricing.html';">Pricing</a>
+                    <a href="pricing.html" class="nav-link">Pricing</a>
                 </li>
                 <li class="nav-item">
-                    <a href="contact.html" class="nav-link" onclick="console.log('Contact clicked!'); window.location.href='contact.html';">Contact</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
                 </li>
             </ul>
             <div class="hamburger">

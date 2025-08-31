@@ -5,19 +5,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (hamburger && navMenu) {
         hamburger.addEventListener('click', function() {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
         });
         
         // Close menu when clicking on a link
         document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
+            link.addEventListener('click', () => {
                 // Close mobile menu
                 hamburger.classList.remove('active');
                 navMenu.classList.remove('active');
-                
-                // Ensure navigation proceeds normally
-                console.log('Navigation link clicked:', link.getAttribute('href'));
             });
         });
     }
@@ -49,34 +46,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
-    });
-});
-
-// Ensure external navigation links work properly
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('a[href*=".html"]').forEach(link => {
-        link.addEventListener('click', function(e) {
-            // Allow normal navigation for HTML files
-            if (this.getAttribute('href').includes('.html')) {
-                // Navigation will proceed normally
-                console.log('Navigating to:', this.getAttribute('href'));
-                
-                // Ensure no event prevention interferes with navigation
-                e.stopPropagation();
-                
-                // Test navigation by logging the click
-                console.log('Link clicked, should navigate to:', this.getAttribute('href'));
-            }
-        });
-    });
-});
-
-// Debug: Log all navigation links to ensure they're properly selected
-document.addEventListener('DOMContentLoaded', function() {
-    const navLinks = document.querySelectorAll('.nav-link');
-    console.log('Found navigation links:', navLinks.length);
-    navLinks.forEach((link, index) => {
-        console.log(`Link ${index + 1}:`, link.getAttribute('href'), link.textContent);
     });
 });
 
