@@ -48,11 +48,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const serviceCards = document.querySelectorAll('.service-card');
     serviceCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px) scale(1.02)';
+            this.style.transform = 'scale(1.02)';
         });
         
         card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
+            this.style.transform = 'scale(1)';
         });
     });
     
@@ -60,24 +60,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const featureItems = document.querySelectorAll('.feature-item');
     featureItems.forEach(item => {
         item.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px)';
+            this.style.transform = 'scale(1.02)';
         });
         
         item.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
+            this.style.transform = 'scale(1)';
         });
     });
 });
 
 // Add parallax effect to strobe lights
 window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const lights = document.querySelectorAll('.light');
-    
-    lights.forEach((light, index) => {
-        const speed = 0.3 + (index * 0.1);
-        light.style.transform = `translateY(${scrolled * speed}px) scale(${0.5 + (index * 0.1)})`;
-    });
+    // Strobe lights remain stationary for cleaner effect
 });
 
 // Add loading animation
