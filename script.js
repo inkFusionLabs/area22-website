@@ -46,26 +46,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Stats counter animation
-function animateStats() {
-    const stats = document.querySelectorAll('.stat-number');
-
-    stats.forEach(stat => {
-        const target = parseInt(stat.textContent.replace(/[^0-9]/g, ''));
-        let current = 0;
-        const increment = target / 100;
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                stat.textContent = target.toLocaleString() + (stat.textContent.includes('+') ? '+' : '');
-                clearInterval(timer);
-            } else {
-                stat.textContent = Math.floor(current).toLocaleString() + (stat.textContent.includes('+') ? '+' : '');
-            }
-        }, 30);
-    });
-}
-
 // Intersection Observer for animations
 const observerOptions = {
     threshold: 0.1,
@@ -82,22 +62,6 @@ const observer = new IntersectionObserver((entries) => {
 
 // Observe elements for animation
 document.addEventListener('DOMContentLoaded', function() {
-    // Observe stats section
-    const statsSection = document.querySelector('.stats-section');
-    if (statsSection) {
-        observer.observe(statsSection);
-        // Animate stats when they come into view
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateStats();
-                    statsObserver.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-        statsObserver.observe(statsSection);
-    }
-
     // Observe other sections
     document.querySelectorAll('.service-card, .feature-item, .testimonial-card').forEach(card => {
         observer.observe(card);
