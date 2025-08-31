@@ -36,7 +36,7 @@ function createOptimizationInstructions() {
 # Image Optimization Instructions
 
 ## Current Image Sizes:
-- 1b2168d3-69c4-4aa4-abb2-9309f521a45c.JPG: 113KB
+- BRINGING PASSION TO EVERY GIG-2: 113KB
 - 1fc648c3-ee2a-4358-82f4-a26a3280238e.JPG: 200KB
 - 3276866b-6597-4161-bcd2-80b2c1a0a2da.JPG: 206KB
 - 985b51a5-322d-4049-a1d0-ebc1a7396c99.JPG: 280KB
@@ -91,7 +91,7 @@ createOptimizationInstructions();
 
 // Create responsive image HTML snippets
 const imageHTML = {
-    banner: generateResponsiveImageHTML('1b2168d3-69c4-4aa4-abb2-9309f521a45c.JPG', 'Area22 Banner'),
+    banner: generateResponsiveImageHTML('BRINGING PASSION TO EVERY GIG-2', 'Area22 Banner'),
     gallery1: generateResponsiveImageHTML('985b51a5-322d-4049-a1d0-ebc1a7396c99.JPG', 'DJ Performance'),
     gallery2: generateResponsiveImageHTML('3276866b-6597-4161-bcd2-80b2c1a0a2da.JPG', 'Lighting Show'),
     gallery3: generateResponsiveImageHTML('1fc648c3-ee2a-4358-82f4-a26a3280238e.JPG', 'DJ Equipment'),
