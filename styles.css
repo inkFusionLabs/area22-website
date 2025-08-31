@@ -23,6 +23,15 @@
     --gradient-secondary: linear-gradient(135deg, var(--accent-green), var(--primary-green));
     --shadow-green: 0 8px 32px rgba(0, 255, 0, 0.2);
     --shadow-primary: 0 8px 32px rgba(0, 255, 0, 0.15);
+    
+    /* Disco strobe effect variables */
+    --strobe-fast: 0.12s;
+    --strobe-medium: 0.2s;
+    --strobe-slow: 0.3s;
+    --strobe-glow-min: 15px;
+    --strobe-glow-max: 75px;
+    --strobe-opacity-min: 0.4;
+    --strobe-opacity-max: 1;
 }
 
 body {
@@ -49,24 +58,26 @@ body {
 
 .laser-line {
     position: absolute;
-    height: 2px;
+    height: 3px;
     background: linear-gradient(90deg, transparent, var(--primary-green), transparent);
     box-shadow: 
-        0 0 10px var(--primary-green),
-        0 0 20px var(--primary-green),
-        0 0 30px rgba(0, 255, 0, 0.5);
+        0 0 15px var(--primary-green),
+        0 0 30px var(--primary-green),
+        0 0 45px rgba(0, 255, 0, 0.6);
     opacity: 0.8;
-    animation: laserMove 8s linear infinite;
+    animation: laserMove 8s linear infinite, discoStrobe 0.3s ease-in-out infinite;
     transform-origin: left center;
+    filter: blur(0.5px);
 }
 
-/* Laser line positions and angles */
+/* Laser line positions and angles with disco strobe effects */
 .laser-1 {
     top: 10%;
     left: -20%;
     width: 120%;
     transform: rotate(15deg);
     animation-delay: 0s;
+    animation: laserMove 8s linear infinite, discoStrobe 0.2s ease-in-out infinite;
 }
 
 .laser-2 {
@@ -75,6 +86,7 @@ body {
     width: 130%;
     transform: rotate(-20deg);
     animation-delay: 1s;
+    animation: laserMove 8s linear infinite, discoStrobe 0.15s ease-in-out infinite;
 }
 
 .laser-3 {
@@ -83,6 +95,7 @@ body {
     width: 150%;
     transform: rotate(35deg);
     animation-delay: 2s;
+    animation: laserMove 8s linear infinite, discoStrobe 0.25s ease-in-out infinite;
 }
 
 .laser-4 {
@@ -91,6 +104,7 @@ body {
     width: 140%;
     transform: rotate(-25deg);
     animation-delay: 3s;
+    animation: laserMove 8s linear infinite, discoStrobe 0.18s ease-in-out infinite;
 }
 
 .laser-5 {
@@ -99,6 +113,7 @@ body {
     width: 160%;
     transform: rotate(45deg);
     animation-delay: 4s;
+    animation: laserMove 8s linear infinite, discoStrobe 0.22s ease-in-out infinite;
 }
 
 .laser-6 {
@@ -107,6 +122,7 @@ body {
     width: 130%;
     transform: rotate(-30deg);
     animation-delay: 5s;
+    animation: laserMove 8s linear infinite, discoStrobe 0.12s ease-in-out infinite;
 }
 
 .laser-7 {
@@ -115,6 +131,7 @@ body {
     width: 120%;
     transform: rotate(60deg);
     animation-delay: 1.5s;
+    animation: laserMove 8s linear infinite, discoStrobe 0.28s ease-in-out infinite;
 }
 
 .laser-8 {
@@ -123,6 +140,7 @@ body {
     width: 170%;
     transform: rotate(-40deg);
     animation-delay: 2.5s;
+    animation: laserMove 8s linear infinite, discoStrobe 0.16s ease-in-out infinite;
 }
 
 .laser-9 {
@@ -131,6 +149,7 @@ body {
     width: 150%;
     transform: rotate(25deg);
     animation-delay: 3.5s;
+    animation: laserMove 8s linear infinite, discoStrobe 0.19s ease-in-out infinite;
 }
 
 .laser-10 {
@@ -139,6 +158,7 @@ body {
     width: 140%;
     transform: rotate(-35deg);
     animation-delay: 4.5s;
+    animation: laserMove 8s linear infinite, discoStrobe 0.14s ease-in-out infinite;
 }
 
 .laser-11 {
@@ -147,6 +167,7 @@ body {
     width: 160%;
     transform: rotate(50deg);
     animation-delay: 5.5s;
+    animation: laserMove 8s linear infinite, discoStrobe 0.21s ease-in-out infinite;
 }
 
 .laser-12 {
@@ -155,6 +176,7 @@ body {
     width: 180%;
     transform: rotate(-15deg);
     animation-delay: 0.5s;
+    animation: laserMove 8s linear infinite, discoStrobe 0.17s ease-in-out infinite;
 }
 
 .laser-13 {
@@ -163,6 +185,7 @@ body {
     width: 130%;
     transform: rotate(40deg);
     animation-delay: 1.8s;
+    animation: laserMove 8s linear infinite, discoStrobe 0.23s ease-in-out infinite;
 }
 
 .laser-14 {
@@ -171,6 +194,7 @@ body {
     width: 170%;
     transform: rotate(-50deg);
     animation-delay: 2.8s;
+    animation: laserMove 8s linear infinite, discoStrobe 0.26s ease-in-out infinite;
 }
 
 .laser-15 {
@@ -179,6 +203,7 @@ body {
     width: 150%;
     transform: rotate(30deg);
     animation-delay: 3.8s;
+    animation: laserMove 8s linear infinite, discoStrobe 0.13s ease-in-out infinite;
 }
 
 @keyframes laserMove {
@@ -198,7 +223,38 @@ body {
     }
 }
 
-/* Laser grid background effect */
+@keyframes discoStrobe {
+    0%, 100% {
+        opacity: 0.8;
+        box-shadow: 
+            0 0 15px var(--primary-green),
+            0 0 30px var(--primary-green),
+            0 0 45px rgba(0, 255, 0, 0.6);
+    }
+    25% {
+        opacity: 1;
+        box-shadow: 
+            0 0 25px var(--primary-green),
+            0 0 50px var(--primary-green),
+            0 0 75px rgba(0, 255, 0, 0.8);
+    }
+    50% {
+        opacity: 0.4;
+        box-shadow: 
+            0 0 5px var(--primary-green),
+            0 0 15px var(--primary-green),
+            0 0 25px rgba(0, 255, 0, 0.4);
+    }
+    75% {
+        opacity: 0.9;
+        box-shadow: 
+            0 0 20px var(--primary-green),
+            0 0 40px var(--primary-green),
+            0 0 60px rgba(0, 255, 0, 0.7);
+    }
+}
+
+/* Disco laser grid background effect */
 .laser-lights::before {
     content: '';
     position: fixed;
@@ -207,10 +263,10 @@ body {
     width: 100%;
     height: 100%;
     background-image: 
-        linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(0, 255, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 0, 0.05) 1px, transparent 1px);
     background-size: 50px 50px;
-    animation: gridPulse 6s ease-in-out infinite;
+    animation: gridPulse 3s ease-in-out infinite, discoGridStrobe 0.4s ease-in-out infinite;
     pointer-events: none;
     z-index: 0;
 }
@@ -218,6 +274,33 @@ body {
 @keyframes gridPulse {
     0%, 100% { opacity: 0.3; }
     50% { opacity: 0.6; }
+}
+
+@keyframes discoGridStrobe {
+    0%, 100% { 
+        opacity: 0.3;
+        background-image: 
+            linear-gradient(rgba(0, 255, 0, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 255, 0, 0.05) 1px, transparent 1px);
+    }
+    25% { 
+        opacity: 0.7;
+        background-image: 
+            linear-gradient(rgba(0, 255, 0, 0.08) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 255, 0, 0.08) 1px, transparent 1px);
+    }
+    50% { 
+        opacity: 0.2;
+        background-image: 
+            linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
+    }
+    75% { 
+        opacity: 0.8;
+        background-image: 
+            linear-gradient(rgba(0, 255, 0, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 255, 0, 0.1) 1px, transparent 1px);
+    }
 }
 
 
