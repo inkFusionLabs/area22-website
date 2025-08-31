@@ -16,8 +16,28 @@ class MaintenanceToggle {
         // Check if we're in maintenance mode
         this.checkMaintenanceStatus();
         
+        // For production sites, completely hide admin controls by default
+        if (this.isProductionSite() && !this.isExplicitlyEnabled()) {
+            console.log('🔒 Area22 Maintenance System: Admin controls hidden for production site');
+            return;
+        }
+        
         // Only show toggle for authenticated users
         this.checkAuthentication();
+    }
+    
+    isProductionSite() {
+        // Check if this is a production site (not localhost)
+        return window.location.hostname !== 'localhost' && 
+               window.location.hostname !== '127.0.0.1' &&
+               !window.location.hostname.includes('dev') &&
+               !window.location.hostname.includes('staging');
+    }
+    
+    isExplicitlyEnabled() {
+        // Check if admin controls are explicitly enabled via URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('admin') === 'true' || urlParams.get('maintenance') === 'true';
     }
 
     checkMaintenanceStatus() {
@@ -43,7 +63,7 @@ class MaintenanceToggle {
         }
     }
 
-    addLoginButton() {
+        addLoginButton() {
         // Only show login button if user is likely an admin
         // Check for specific conditions that suggest admin access
         if (this.isLikelyAdmin()) {
@@ -82,13 +102,22 @@ class MaintenanceToggle {
             
             document.body.appendChild(loginButton);
         }
+        
+        // For production sites, completely hide admin controls by default
+        // Only show if explicitly enabled via URL parameter
+        if (window.location.hostname !== 'localhost' && 
+            window.location.hostname !== '127.0.0.1' && 
+            !window.location.search.includes('admin=true')) {
+            console.log('🔒 Admin controls hidden for production site');
+            return;
+        }
     }
 
     isLikelyAdmin() {
         // Only show admin controls in specific conditions
         // This prevents public access while allowing legitimate admin access
         
-        // Method 1: Check for admin URL parameter
+        // Method 1: Check for admin URL parameter (most secure)
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('admin') === 'true') {
             return true;
@@ -107,6 +136,11 @@ class MaintenanceToggle {
         
         // Method 4: Check for specific IP ranges (if you have internal access)
         // This would require server-side implementation
+        
+        // Method 5: Check for localhost/development environment
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            return true;
+        }
         
         // By default, don't show admin controls to public users
         return false;
@@ -394,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.maintenanceToggle = new MaintenanceToggle();
     
     // Add some helpful console messages for admins
-    if (window.maintenanceToggle.isLikelyAdmin()) {
+    if (window.maintenanceToggle.isLikelyAdmin() && !window.maintenanceToggle.isProductionSite()) {
         console.log(`
 🎵 Area22 Maintenance System Loaded! 🎵
 
@@ -412,6 +446,8 @@ Quick Commands (after authentication):
 
 Current Status: ${window.maintenanceToggle.isMaintenanceMode ? '🛠️ MAINTENANCE MODE' : '✅ LIVE'}
         `);
+    } else if (window.maintenanceToggle.isProductionSite()) {
+        console.log('🔒 Area22 Maintenance System: Admin controls hidden for production site. Add ?admin=true to URL to enable.');
     }
 });
 
