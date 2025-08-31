@@ -69,54 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Add parallax effect to strobe lights
-window.addEventListener('scroll', () => {
-    // Strobe lights remain stationary for cleaner effect
-});
 
-// Enhanced strobe light interactions
-document.addEventListener('DOMContentLoaded', function() {
-    const lights = document.querySelectorAll('.light');
-    
-    // Add mouse movement effect to strobe lights
-    document.addEventListener('mousemove', (e) => {
-        const mouseX = e.clientX / window.innerWidth;
-        const mouseY = e.clientY / window.innerHeight;
-        
-        lights.forEach((light, index) => {
-            const rect = light.getBoundingClientRect();
-            const lightCenterX = rect.left + rect.width / 2;
-            const lightCenterY = rect.top + rect.height / 2;
-            
-            const distance = Math.sqrt(
-                Math.pow(e.clientX - lightCenterX, 2) + 
-                Math.pow(e.clientY - lightCenterY, 2)
-            );
-            
-            if (distance < 200) {
-                light.style.transform = `scale(${1.5 + (200 - distance) / 100})`;
-                light.style.opacity = '0.8';
-            } else {
-                light.style.transform = 'scale(1)';
-                light.style.opacity = '0';
-            }
-        });
-    });
-    
-    // Add click effect to strobe lights
-    lights.forEach(light => {
-        light.addEventListener('click', function() {
-            this.style.animation = 'none';
-            this.style.transform = 'scale(3)';
-            this.style.opacity = '1';
-            
-            setTimeout(() => {
-                this.style.animation = 'strobe 2.5s ease-in-out infinite';
-                this.style.transform = 'scale(1)';
-            }, 1000);
-        });
-    });
-});
 
 // Add loading animation
 window.addEventListener('load', () => {
