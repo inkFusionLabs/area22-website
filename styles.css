@@ -1044,3 +1044,142 @@ body {
         animation: none;
     }
 }
+
+/* Quick Services Preview */
+.quick-services {
+    padding: 80px 0;
+    background: var(--darker-bg);
+}
+
+.quick-services .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.quick-services .service-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.quick-services .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.quick-services .service-card:hover::before {
+    transform: scaleX(1);
+}
+
+.quick-services .service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-primary);
+    border-color: var(--border-accent);
+}
+
+.quick-services .service-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--darker-bg);
+    box-shadow: var(--shadow-primary);
+}
+
+.quick-services .service-card h3 {
+    color: var(--primary-green);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.quick-services .service-card p {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.quick-services .service-card .btn {
+    margin-top: auto;
+}
+
+/* Quick Contact */
+.quick-contact {
+    padding: 80px 0;
+    background: var(--dark-bg);
+}
+
+.quick-contact .contact-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.quick-contact .contact-highlight {
+    text-align: center;
+    padding: 2rem;
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border-light);
+    transition: all 0.3s ease;
+}
+
+.quick-contact .contact-highlight:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-primary);
+    border-color: var(--border-accent);
+}
+
+.quick-contact .contact-highlight i {
+    font-size: 3rem;
+    color: var(--primary-green);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 20px var(--primary-green);
+}
+
+.quick-contact .contact-highlight h3 {
+    color: var(--text-white);
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.quick-contact .contact-highlight p {
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.quick-contact .contact-highlight a {
+    color: var(--primary-green);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.quick-contact .contact-highlight a:hover {
+    color: var(--accent-green);
+    text-shadow: 0 0 10px var(--accent-green);
+}
+
+.text-center {
+    text-align: center;
+}
