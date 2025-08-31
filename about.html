@@ -6,79 +6,25 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#00ff00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Area22">
-    <title>About - Area22 Professional DJ Services</title>
-    <link rel="stylesheet" href="styles.css?v=2.0">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>About Us - Area22 Professional DJ Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RVT1L6B0F"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-2RVT1L6B0F');
-    </script>
+    <link rel="stylesheet" href="styles.css?v=2.0">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <!-- Laser Light Effects -->
-    <div class="laser-lights">
-        <!-- Vertical laser beams -->
-        <div class="laser-beam laser-1"></div>
-        <div class="laser-beam laser-2"></div>
-        <div class="laser-beam laser-3"></div>
-        <div class="laser-beam laser-4"></div>
-        <div class="laser-beam laser-5"></div>
-        <div class="laser-beam laser-6"></div>
-        <div class="laser-beam laser-7"></div>
-        <div class="laser-beam laser-8"></div>
-        <div class="laser-beam laser-9"></div>
-        <div class="laser-beam laser-10"></div>
-        
-        <!-- Horizontal laser beams -->
-        <div class="laser-horizontal laser-h-1"></div>
-        <div class="laser-horizontal laser-h-2"></div>
-        <div class="laser-horizontal laser-h-3"></div>
-        <div class="laser-horizontal laser-h-4"></div>
-    </div>
-    
-    <!-- Laser Grid Effect -->
-    <div class="laser-grid">
-        <div class="grid-line grid-vertical" style="left: 10%;"></div>
-        <div class="grid-line grid-vertical" style="left: 20%;"></div>
-        <div class="grid-line grid-vertical" style="left: 30%;"></div>
-        <div class="grid-line grid-vertical" style="left: 40%;"></div>
-        <div class="grid-line grid-vertical" style="left: 50%;"></div>
-        <div class="grid-line grid-vertical" style="left: 60%;"></div>
-        <div class="grid-line grid-vertical" style="left: 70%;"></div>
-        <div class="grid-line grid-vertical" style="left: 80%;"></div>
-        <div class="grid-line grid-vertical" style="left: 90%;"></div>
-        
-        <div class="grid-line grid-horizontal" style="top: 10%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 20%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 30%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 40%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 50%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 60%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 70%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 80%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 90%;"></div>
-    </div>
-
-    <!-- Watermark -->
-    <div class="watermark">inkFusionLabs</div>
-
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="index.html" style="text-decoration: none; color: inherit;">
-                    <h2>AREA22</h2>
-                    <span class="tagline">Professional DJ Services</span>
-                </a>
+                <h2>AREA22</h2>
+                <span class="tagline">Professional DJ Services</span>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
@@ -88,9 +34,8 @@
                     <a href="services.html" class="nav-link">Services</a>
                 </li>
                 <li class="nav-item">
-                    <a href="about.html" class="nav-link">About</a>
+                    <a href="about.html" class="nav-link active">About</a>
                 </li>
-
                 <li class="nav-item">
                     <a href="gallery.html" class="nav-link">Gallery</a>
                 </li>
@@ -109,121 +54,249 @@
         </div>
     </nav>
 
-    <!-- Header Banner -->
-    <div class="header-banner">
-                        <img src="BRINGING PASSION TO EVERY GIG-2" alt="Area22 Banner" class="header-banner-image">
-    </div>
-
-    <!-- About Section -->
-    <main id="main-content">
-        <section id="about" class="about">
+    <!-- Page Header -->
+    <section class="page-header">
         <div class="container">
-            <h2 class="section-title">About Area22</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>Our Mission</h3>
-                    <p>At Area22, we believe that music has the power to transform any event into an unforgettable experience. Our mission is to create the perfect atmosphere for your special occasions, whether it's a wedding, birthday party, or any celebration that deserves exceptional entertainment.</p>
-                    
-                    <h4>Our Experience</h4>
-                    <p>With experience in the entertainment industry, we've had the privilege of being part of countless special moments. From intimate gatherings to large-scale events, we've developed the expertise to read crowds, adapt to different atmospheres, and ensure that every guest has an amazing time.</p>
-                    
-                    <h4>What Sets Us Apart</h4>
-                    <ul>
-                        <li>Professional-grade equipment and sound systems</li>
-                        <li>Extensive music library spanning all genres and decades</li>
-                        <li>Experienced DJs who know how to work any crowd</li>
-                        <li>Custom playlists tailored to your preferences</li>
-                        <li>Reliable, punctual, and professional service</li>
-                        <li>Flexible packages to fit any budget</li>
-                    </ul>
+            <h1 class="page-title">About Area22</h1>
+            <p class="page-subtitle">Your trusted partner for unforgettable events</p>
+        </div>
+    </section>
+
+    <!-- Our Story -->
+    <section class="our-story">
+        <div class="container">
+            <div class="story-content">
+                <div class="story-text">
+                    <h2>Our Story</h2>
+                    <p>Area22 was born from a passion for music and a desire to create unforgettable experiences. Founded in the heart of Basingstoke, we've been bringing the perfect mix of music and atmosphere to events across the region for over a decade.</p>
+                    <p>What started as a small operation has grown into one of the most trusted names in professional DJ services, known for our attention to detail, extensive music library, and commitment to making every event special.</p>
+                    <p>We believe that great music has the power to transform any gathering into an extraordinary celebration, and we're dedicated to ensuring that every client receives the personalized service they deserve.</p>
                 </div>
-                <div class="dj-setup">
-                    <i class="fas fa-music"></i>
-                    <h3>Professional Setup</h3>
-                    <p>State-of-the-art equipment ensures crystal clear sound and stunning visual effects for your event.</p>
+                <div class="story-image">
+                    <img src="bee16901-3162-409b-a3d4-6fd2c9feb800 Copy.JPG" alt="Area22 Team" class="about-image">
                 </div>
             </div>
         </div>
     </section>
-    </main>
+
+    <!-- Mission & Values -->
+    <section class="mission-values">
+        <div class="container">
+            <div class="mission-section">
+                <h2>Our Mission</h2>
+                <p>To create extraordinary musical experiences that bring people together, celebrate life's special moments, and leave lasting memories through the perfect blend of professional service and passionate music curation.</p>
+            </div>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Excellence</h3>
+                    <p>We strive for excellence in every aspect of our service, from equipment quality to music selection.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Passion</h3>
+                    <p>Our love for music drives everything we do, ensuring every event is infused with energy and enthusiasm.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community</h3>
+                    <p>We're proud to be part of the Basingstoke community and committed to serving our local area with dedication.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Reliability</h3>
+                    <p>You can count on us to deliver consistent, professional service every time, without exception.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose-us">
+        <div class="container">
+            <h2 class="section-title">Why Choose Area22?</h2>
+            <div class="reasons-grid">
+                <div class="reason-item">
+                    <div class="reason-number">01</div>
+                    <h3>Experience</h3>
+                    <p>Over 10 years of experience in the industry, handling events of all sizes and types.</p>
+                </div>
+                
+                <div class="reason-item">
+                    <div class="reason-number">02</div>
+                    <h3>Equipment</h3>
+                    <p>State-of-the-art sound systems and professional lighting to ensure the best audio and visual experience.</p>
+                </div>
+                
+                <div class="reason-item">
+                    <div class="reason-number">03</div>
+                    <h3>Music Library</h3>
+                    <p>Extensive collection spanning all genres and decades, ensuring we have the perfect song for every moment.</p>
+                </div>
+                
+                <div class="reason-item">
+                    <div class="reason-number">04</div>
+                    <h3>Personalization</h3>
+                    <p>Every event is unique, and we work closely with clients to create the perfect musical atmosphere.</p>
+                </div>
+                
+                <div class="reason-item">
+                    <div class="reason-number">05</div>
+                    <h3>Professionalism</h3>
+                    <p>From initial consultation to the final song, we maintain the highest standards of professional service.</p>
+                </div>
+                
+                <div class="reason-item">
+                    <div class="reason-number">06</div>
+                    <h3>Local Knowledge</h3>
+                    <p>Deep understanding of the local area and venues, ensuring smooth coordination with your event.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Team -->
+    <section class="our-team">
+        <div class="container">
+            <h2 class="section-title">Meet Our Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="bee16901-3162-409b-a3d4-6fd2c9feb800 Copy.JPG" alt="Lead DJ" class="team-photo">
+                    </div>
+                    <h3>Lead DJ</h3>
+                    <p class="member-role">Music Director & Lead Performer</p>
+                    <p>With over a decade of experience, our lead DJ brings passion and expertise to every event, ensuring the perfect musical journey for your celebration.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="bee16901-3162-409b-a3d4-6fd2c9feb800 Copy.JPG" alt="Sound Engineer" class="team-photo">
+                    </div>
+                    <h3>Sound Engineer</h3>
+                    <p class="member-role">Technical Specialist</p>
+                    <p>Our technical expert ensures crystal-clear sound quality and seamless equipment operation, so you can focus on enjoying your event.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="bee16901-3162-409b-a3d4-6fd2c9feb800 Copy.JPG" alt="Event Coordinator" class="team-photo">
+                    </div>
+                    <h3>Event Coordinator</h3>
+                    <p class="member-role">Planning & Logistics</p>
+                    <p>From initial consultation to event execution, our coordinator ensures every detail is perfect and your vision becomes reality.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Clients Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Area22 made our wedding reception absolutely perfect! The music selection was spot-on and kept everyone dancing all night long."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <strong>Sarah & James</strong>
+                        <span>Wedding Clients</span>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Professional, reliable, and amazing music! Our corporate event was a huge success thanks to Area22's excellent service."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <strong>Marketing Team</strong>
+                        <span>Corporate Client</span>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The best birthday party ever! Area22 knew exactly what music to play to get everyone on the dance floor."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <strong>Emma</strong>
+                        <span>Birthday Party Host</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Work With Us?</h2>
+                <p>Let's discuss how we can make your next event unforgettable</p>
+                <div class="cta-buttons">
+                    <a href="contact.html" class="btn btn-primary">Get Started</a>
+                    <a href="services.html" class="btn btn-secondary">View Services</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>AREA22</h3>
-                <p>Professional DJ Services</p>
-                <p>Creating unforgettable experiences with the perfect mix of music and atmosphere.</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AREA22</h3>
+                    <p>Professional DJ Services</p>
+                    <p>Creating unforgettable experiences with the perfect mix of music and atmosphere.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li>Weddings</li>
+                        <li>Birthday Parties</li>
+                        <li>Private Events</li>
+                        <li>Corporate Functions</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>Email: area-22@mail.co.uk</p>
+                    <p>Phone: <a href="tel:07934284930">07934 284 930</a></p>
+                    <p>Location: Basingstoke</p>
+                </div>
             </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="services.html">Services</a></li>
-                    <li><a href="about.html">About</a></li>
-                    
-                </ul>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Area22 DJ Services. All rights reserved.</p>
             </div>
-            <div class="footer-section">
-                <h3>Contact Info</h3>
-                <p>Email: area-22@mail.co.uk</p>
-                <p>Phone: <a href="tel:07934284930">07934 284 930</a></p>
-                <p>Location: Basingstoke</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Area22. All rights reserved.</p>
-            <p style="font-size: 12px; opacity: 0.7; margin-top: 10px;">
-                <a href="admin.html" style="color: rgba(0, 255, 0, 0.5); text-decoration: none;">Admin Panel</a>
-            </p>
         </div>
     </footer>
 
     <script src="script.js?v=2.0"></script>
-    <script>
-        // Debug script for about page
-        console.log('About page loaded');
-        
-        // Check if elements exist
-        setTimeout(() => {
-            const hamburger = document.querySelector('.hamburger');
-            const navMenu = document.querySelector('.nav-menu');
-            
-            console.log('About page - Hamburger:', hamburger);
-            console.log('About page - Nav menu:', navMenu);
-            console.log('About page - Hamburger display:', hamburger ? getComputedStyle(hamburger).display : 'N/A');
-            console.log('About page - Window width:', window.innerWidth);
-            
-            // Add direct click handler for testing
-            if (hamburger) {
-                hamburger.onclick = function(e) {
-                    console.log('About page - Direct click on hamburger!');
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    if (navMenu) {
-                        this.classList.toggle('active');
-                        navMenu.classList.toggle('active');
-                        console.log('About page - Direct toggle - Hamburger active:', this.classList.contains('active'));
-                        console.log('About page - Direct toggle - Nav menu active:', navMenu.classList.contains('active'));
-                    }
-                };
-                console.log('About page - Direct click handler added to hamburger');
-            }
-        }, 1000);
-        
-        // Register service worker for PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('Service Worker registered successfully:', registration);
-                    })
-                    .catch(error => {
-                        console.error('Service Worker registration failed:', error);
-                    });
-            });
-        }
-    </script>
+    <script src="maintenance-toggle.js?v=2.0"></script>
 </body>
 </html> 

@@ -6,76 +6,25 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00ff00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Area22">
     <title>Gallery - Area22 Professional DJ Services</title>
-    <link rel="stylesheet" href="styles.css?v=2.0">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RVT1L6B0F"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-2RVT1L6B0F');
-    </script>
+    <link rel="stylesheet" href="styles.css?v=2.0">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <!-- Laser Light Effects -->
-    <div class="laser-lights">
-        <!-- Vertical laser beams -->
-        <div class="laser-beam laser-1"></div>
-        <div class="laser-beam laser-2"></div>
-        <div class="laser-beam laser-3"></div>
-        <div class="laser-beam laser-4"></div>
-        <div class="laser-beam laser-5"></div>
-        <div class="laser-beam laser-6"></div>
-        <div class="laser-beam laser-7"></div>
-        <div class="laser-beam laser-8"></div>
-        <div class="laser-beam laser-9"></div>
-        <div class="laser-beam laser-10"></div>
-        
-        <!-- Horizontal laser beams -->
-        <div class="laser-horizontal laser-h-1"></div>
-        <div class="laser-horizontal laser-h-2"></div>
-        <div class="laser-horizontal laser-h-3"></div>
-        <div class="laser-horizontal laser-h-4"></div>
-    </div>
-    
-    <!-- Laser Grid Effect -->
-    <div class="laser-grid">
-        <div class="grid-line grid-vertical" style="left: 10%;"></div>
-        <div class="grid-line grid-vertical" style="left: 20%;"></div>
-        <div class="grid-line grid-vertical" style="left: 30%;"></div>
-        <div class="grid-line grid-vertical" style="left: 40%;"></div>
-        <div class="grid-line grid-vertical" style="left: 50%;"></div>
-        <div class="grid-line grid-vertical" style="left: 60%;"></div>
-        <div class="grid-line grid-vertical" style="left: 70%;"></div>
-        <div class="grid-line grid-vertical" style="left: 80%;"></div>
-        <div class="grid-line grid-vertical" style="left: 90%;"></div>
-        
-        <div class="grid-line grid-horizontal" style="top: 10%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 20%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 30%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 40%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 50%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 60%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 70%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 80%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 90%;"></div>
-    </div>
-
-    <!-- Watermark -->
-    <div class="watermark">inkFusionLabs</div>
-
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="index.html" style="text-decoration: none; color: inherit;">
-                    <h2>AREA22</h2>
-                    <span class="tagline">Professional DJ Services</span>
-                </a>
+                <h2>AREA22</h2>
+                <span class="tagline">Professional DJ Services</span>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
@@ -87,9 +36,8 @@
                 <li class="nav-item">
                     <a href="about.html" class="nav-link">About</a>
                 </li>
-
                 <li class="nav-item">
-                    <a href="gallery.html" class="nav-link">Gallery</a>
+                    <a href="gallery.html" class="nav-link active">Gallery</a>
                 </li>
                 <li class="nav-item">
                     <a href="pricing.html" class="nav-link">Pricing</a>
@@ -106,130 +54,299 @@
         </div>
     </nav>
 
-    <!-- Header Banner -->
-    <div class="header-banner">
-                        <img src="BRINGING PASSION TO EVERY GIG-2" alt="Area22 Banner" class="header-banner-image">
-    </div>
-
-    <!-- Gallery Section -->
-    <section id="gallery" class="gallery">
+    <!-- Page Header -->
+    <section class="page-header">
         <div class="container">
-            <h2 class="section-title">Event Gallery</h2>
-            
-            <!-- Category Tabs -->
-            <div class="category-tabs">
-                <button class="category-btn active" data-category="all">
-                    <i class="fas fa-th"></i> All Events
-                </button>
-                <button class="category-btn" data-category="dj">
-                    <i class="fas fa-music"></i> DJ Performance
-                </button>
-                <button class="category-btn" data-category="lighting">
-                    <i class="fas fa-lightbulb"></i> Lighting & Effects
-                </button>
+            <h1 class="page-title">Event Gallery</h1>
+            <p class="page-subtitle">Capturing the magic of our events</p>
+        </div>
+    </section>
 
+    <!-- Gallery Filter -->
+    <section class="gallery-filter">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Events</button>
+                <button class="filter-btn" data-filter="weddings">Weddings</button>
+                <button class="filter-btn" data-filter="parties">Parties</button>
+                <button class="filter-btn" data-filter="corporate">Corporate</button>
+                <button class="filter-btn" data-filter="equipment">Equipment</button>
             </div>
-            
-            <div class="gallery-grid">
-                <div class="gallery-item" data-category="dj">
-                    <img src="985b51a5-322d-4049-a1d0-ebc1a7396c99.JPG" alt="DJ Performance" class="gallery-image">
-                    <div class="gallery-overlay">
-                        <h4>Live DJ Performance</h4>
-                        <p>Engaging live performance with professional equipment</p>
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="lighting">
-                    <img src="3276866b-6597-4161-bcd2-80b2c1a0a2da.JPG" alt="Lighting Show" class="gallery-image">
-                    <div class="gallery-overlay">
-                        <h4>Spectacular Lighting</h4>
-                        <p>Amazing lighting effects and atmosphere</p>
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="dj">
-                    <img src="1fc648c3-ee2a-4358-82f4-a26a3280238e.JPG" alt="DJ Equipment" class="gallery-image">
-                    <div class="gallery-overlay">
-                        <h4>State-of-the-Art Equipment</h4>
-                        <p>Modern DJ controller and professional setup</p>
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="lighting">
-                    <img src="e82bf8ca-cf23-4351-9a1f-35ec4b4e02a1.JPG" alt="Stage Lighting" class="gallery-image">
-                    <div class="gallery-overlay">
-                        <h4>Professional Stage Lighting</h4>
-                        <p>Professional stage lighting and effects</p>
+        </div>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section class="gallery-grid">
+        <div class="container">
+            <div class="gallery-container">
+                <!-- Wedding Events -->
+                <div class="gallery-item" data-category="weddings">
+                    <div class="gallery-image">
+                        <img src="1b2168d3-69c4-4aa4-abb2-9309f521a45c.JPG" alt="Wedding Reception Setup" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <h3>Wedding Reception</h3>
+                                <p>Beautiful setup for Sarah & James' special day</p>
+                                <span class="event-date">Summer 2024</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
+                <div class="gallery-item" data-category="weddings">
+                    <div class="gallery-image">
+                        <img src="1fc648c3-ee2a-4358-82f4-a26a3280238e.JPG" alt="Wedding Ceremony Music" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <h3>Wedding Ceremony</h3>
+                                <p>Perfect atmosphere for the ceremony</p>
+                                <span class="event-date">Spring 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Party Events -->
+                <div class="gallery-item" data-category="parties">
+                    <div class="gallery-image">
+                        <img src="3276866b-6597-4161-bcd2-80b2c1a0a2da.JPG" alt="Birthday Party Celebration" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <h3>Birthday Celebration</h3>
+                                <p>Emma's 30th birthday party</p>
+                                <span class="event-date">Autumn 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="parties">
+                    <div class="gallery-image">
+                        <img src="985b51a5-322d-4049-a1d0-ebc1a7396c99.JPG" alt="Private Party Setup" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <h3>Private Celebration</h3>
+                                <p>Intimate gathering with perfect atmosphere</p>
+                                <span class="event-date">Winter 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Corporate Events -->
+                <div class="gallery-item" data-category="corporate">
+                    <div class="gallery-image">
+                        <img src="e82bf8ca-cf23-4351-9a1f-35ec4b4e02a1.JPG" alt="Corporate Event Setup" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <h3>Corporate Function</h3>
+                                <p>Annual company celebration</p>
+                                <span class="event-date">December 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Equipment Showcase -->
+                <div class="gallery-item" data-category="equipment">
+                    <div class="gallery-image">
+                        <img src="bee16901-3162-409b-a3d4-6fd2c9feb800 Copy.JPG" alt="Professional DJ Equipment" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <h3>Professional Setup</h3>
+                                <p>State-of-the-art sound and lighting</p>
+                                <span class="event-date">Always Available</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Event Photos -->
+                <div class="gallery-item" data-category="parties">
+                    <div class="gallery-image">
+                        <img src="1b2168d3-69c4-4aa4-abb2-9309f521a45c.JPG" alt="Graduation Party" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <h3>Graduation Celebration</h3>
+                                <p>Academic achievement party</p>
+                                <span class="event-date">Summer 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="weddings">
+                    <div class="gallery-image">
+                        <img src="1fc648c3-ee2a-4358-82f4-a26a3280238e.JPG" alt="Wedding Dance Floor" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <h3>Wedding Dance Floor</h3>
+                                <p>Everyone on their feet dancing</p>
+                                <span class="event-date">Spring 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="corporate">
+                    <div class="gallery-image">
+                        <img src="3276866b-6597-4161-bcd2-80b2c1a0a2da.JPG" alt="Holiday Office Party" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <h3>Holiday Office Party</h3>
+                                <p>Festive corporate celebration</p>
+                                <span class="event-date">December 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Highlights -->
+    <section class="video-highlights">
+        <div class="container">
+            <h2 class="section-title">Event Highlights</h2>
+            <div class="video-grid">
+                <div class="video-item">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle"></i>
+                        <h3>Wedding Reception Highlights</h3>
+                        <p>Watch the magic unfold at Sarah & James' wedding</p>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle"></i>
+                        <h3>Birthday Party Fun</h3>
+                        <p>See the energy at Emma's birthday celebration</p>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle"></i>
+                        <h3>Corporate Event Success</h3>
+                        <p>Professional entertainment for business functions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Behind the Scenes -->
+    <section class="behind-scenes">
+        <div class="container">
+            <h2 class="section-title">Behind the Scenes</h2>
+            <div class="behind-grid">
+                <div class="behind-item">
+                    <div class="behind-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Setup Process</h3>
+                    <p>See how we transform any venue into the perfect entertainment space</p>
+                </div>
+                <div class="behind-item">
+                    <div class="behind-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3>Music Selection</h3>
+                    <p>Discover how we curate the perfect playlist for every event</p>
+                </div>
+                <div class="behind-item">
+                    <div class="behind-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Lighting Design</h3>
+                    <p>Learn about our atmospheric lighting techniques</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Create Your Own Memories?</h2>
+                <p>Let's make your next event as special as the ones in our gallery</p>
+                <div class="cta-buttons">
+                    <a href="contact.html" class="btn btn-primary">Book Your Event</a>
+                    <a href="services.html" class="btn btn-secondary">View Services</a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>AREA22</h3>
-                <p>Professional DJ Services</p>
-                <p>Creating unforgettable experiences with the perfect mix of music and atmosphere.</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AREA22</h3>
+                    <p>Professional DJ Services</p>
+                    <p>Creating unforgettable experiences with the perfect mix of music and atmosphere.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li>Weddings</li>
+                        <li>Birthday Parties</li>
+                        <li>Private Events</li>
+                        <li>Corporate Functions</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>Email: area-22@mail.co.uk</p>
+                    <p>Phone: <a href="tel:07934284930">07934 284 930</a></p>
+                    <p>Location: Basingstoke</p>
+                </div>
             </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="services.html">Services</a></li>
-                    <li><a href="about.html">About</a></li>
-
-                </ul>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Area22 DJ Services. All rights reserved.</p>
             </div>
-            <div class="footer-section">
-                <h3>Contact Info</h3>
-                <p>Email: area-22@mail.co.uk</p>
-                <p>Phone: <a href="tel:07934284930">07934 284 930</a></p>
-                <p>Location: Basingstoke</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Area22. All rights reserved.</p>
         </div>
     </footer>
 
     <script src="script.js?v=2.0"></script>
+    <script src="maintenance-toggle.js?v=2.0"></script>
     <script>
-        // Debug script for gallery page
-        console.log('Gallery page loaded');
-        
-        // Initialize gallery category filtering
+        // Gallery filter functionality
         document.addEventListener('DOMContentLoaded', function() {
-            initGalleryFilter();
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    const filter = this.getAttribute('data-filter');
+
+                    galleryItems.forEach(item => {
+                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
         });
-        
-        // Check if elements exist
-        setTimeout(() => {
-            const hamburger = document.querySelector('.hamburger');
-            const navMenu = document.querySelector('.nav-menu');
-            
-            console.log('Gallery page - Hamburger:', hamburger);
-            console.log('Gallery page - Nav menu:', navMenu);
-            console.log('Gallery page - Hamburger display:', hamburger ? getComputedStyle(hamburger).display : 'N/A');
-            console.log('Gallery page - Window width:', window.innerWidth);
-            
-            // Add direct click handler for testing
-            if (hamburger) {
-                hamburger.onclick = function(e) {
-                    console.log('Gallery page - Direct click on hamburger!');
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    if (navMenu) {
-                        this.classList.toggle('active');
-                        navMenu.classList.toggle('active');
-                        console.log('Gallery page - Direct toggle - Hamburger active:', this.classList.contains('active'));
-                        console.log('Gallery page - Direct toggle - Nav menu active:', navMenu.classList.contains('active'));
-                    }
-                };
-                console.log('Gallery page - Direct click handler added to hamburger');
-            }
-        }, 1000);
     </script>
 </body>
 </html> 

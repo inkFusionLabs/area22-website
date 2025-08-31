@@ -6,95 +6,42 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00ff00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Area22">
     <title>Services - Area22 Professional DJ Services</title>
-    <link rel="stylesheet" href="styles.css?v=2.0">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RVT1L6B0F"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-2RVT1L6B0F');
-    </script>
+    <link rel="stylesheet" href="styles.css?v=2.0">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <!-- Laser Light Effects -->
-    <div class="laser-lights">
-        <!-- Vertical laser beams -->
-        <div class="laser-beam laser-1"></div>
-        <div class="laser-beam laser-2"></div>
-        <div class="laser-beam laser-3"></div>
-        <div class="laser-beam laser-4"></div>
-        <div class="laser-beam laser-5"></div>
-        <div class="laser-beam laser-6"></div>
-        <div class="laser-beam laser-7"></div>
-        <div class="laser-beam laser-8"></div>
-        <div class="laser-beam laser-9"></div>
-        <div class="laser-beam laser-10"></div>
-        
-        <!-- Horizontal laser beams -->
-        <div class="laser-horizontal laser-h-1"></div>
-        <div class="laser-horizontal laser-h-2"></div>
-        <div class="laser-horizontal laser-h-3"></div>
-        <div class="laser-horizontal laser-h-4"></div>
-    </div>
-    
-    <!-- Laser Grid Effect -->
-    <div class="laser-grid">
-        <div class="grid-line grid-vertical" style="left: 10%;"></div>
-        <div class="grid-line grid-vertical" style="left: 20%;"></div>
-        <div class="grid-line grid-vertical" style="left: 30%;"></div>
-        <div class="grid-line grid-vertical" style="left: 40%;"></div>
-        <div class="grid-line grid-vertical" style="left: 50%;"></div>
-        <div class="grid-line grid-vertical" style="left: 60%;"></div>
-        <div class="grid-line grid-vertical" style="left: 70%;"></div>
-        <div class="grid-line grid-vertical" style="left: 80%;"></div>
-        <div class="grid-line grid-vertical" style="left: 90%;"></div>
-        
-        <div class="grid-line grid-horizontal" style="top: 10%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 20%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 30%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 40%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 50%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 60%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 70%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 80%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 90%;"></div>
-    </div>
-
-    <!-- Watermark -->
-    <div class="watermark">inkFusionLabs</div>
-
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="index.html" style="text-decoration: none; color: inherit;">
-                    <h2>AREA22</h2>
-                    <span class="tagline">Professional DJ Services</span>
-                </a>
+                <h2>AREA22</h2>
+                <span class="tagline">Professional DJ Services</span>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
                     <a href="index.html" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="services.html" class="nav-link">Services</a>
+                    <a href="services.html" class="nav-link active">Services</a>
                 </li>
                 <li class="nav-item">
                     <a href="about.html" class="nav-link">About</a>
                 </li>
-
                 <li class="nav-item">
                     <a href="gallery.html" class="nav-link">Gallery</a>
                 </li>
                 <li class="nav-item">
                     <a href="pricing.html" class="nav-link">Pricing</a>
                 </li>
-
                 <li class="nav-item">
                     <a href="contact.html" class="nav-link">Contact</a>
                 </li>
@@ -107,29 +54,32 @@
         </div>
     </nav>
 
-    <!-- Header Banner -->
-    <div class="header-banner">
-                        <img src="BRINGING PASSION TO EVERY GIG-2" alt="Area22 Banner" class="header-banner-image">
-    </div>
-
-    <!-- Services Section -->
-    <section id="services" class="services">
+    <!-- Page Header -->
+    <section class="page-header">
         <div class="container">
-            <h2 class="section-title">Our Services</h2>
+            <h1 class="page-title">Our Services</h1>
+            <p class="page-subtitle">Professional DJ services for every occasion</p>
+        </div>
+    </section>
+
+    <!-- Services Overview -->
+    <section class="services-overview">
+        <div class="container">
             <div class="services-grid">
-                <div class="service-card">
+                <div class="service-card featured">
                     <div class="service-icon">
                         <i class="fas fa-heart"></i>
                     </div>
-                    <h3>Wedding Receptions</h3>
-                    <p>Make your special day unforgettable with our professional wedding DJ services. We create the perfect atmosphere for your ceremony and reception.</p>
+                    <h3>Weddings</h3>
+                    <p>Make your special day unforgettable with our comprehensive wedding DJ services. We handle everything from ceremony music to reception entertainment.</p>
                     <ul class="service-features">
-                        <li>Ceremony Music</li>
-                        <li>Reception Entertainment</li>
-                        <li>Custom Playlists</li>
-                        <li>Professional MC Services</li>
+                        <li>Ceremony & Reception Music</li>
+                        <li>Custom Playlist Creation</li>
+                        <li>Professional Sound System</li>
+                        <li>MC Services Available</li>
+                        <li>Pre-event Consultation</li>
                     </ul>
-                    <a href="booking.html" class="btn btn-outline">Book Wedding</a>
+                    <a href="contact.html" class="btn btn-primary">Book Wedding DJ</a>
                 </div>
 
                 <div class="service-card">
@@ -137,58 +87,139 @@
                         <i class="fas fa-birthday-cake"></i>
                     </div>
                     <h3>Birthday Parties</h3>
-                    <p>Celebrate your special day with music that gets everyone dancing. We cater to all ages and musical preferences.</p>
+                    <p>Celebrate your special day with music that gets everyone dancing. Perfect for all ages and music preferences.</p>
                     <ul class="service-features">
-                        <li>Age-Appropriate Music</li>
-                        <li>Interactive Games</li>
-                        <li>Custom Song Requests</li>
-                        <li>Party Atmosphere</li>
+                        <li>Age-appropriate Music Selection</li>
+                        <li>Interactive Games & Activities</li>
+                        <li>Professional Lighting</li>
+                        <li>Flexible Duration Options</li>
                     </ul>
-                    <a href="booking.html" class="btn btn-outline">Book Birthday</a>
+                    <a href="contact.html" class="btn btn-secondary">Book Birthday DJ</a>
                 </div>
 
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-users"></i>
                     </div>
-                    <h3>Private Parties</h3>
+                    <h3>Private Events</h3>
                     <p>Intimate gatherings and private celebrations with personalized music selection and professional service.</p>
                     <ul class="service-features">
-                        <li>Personalized Playlists</li>
-                        <li>Intimate Atmosphere</li>
-                        <li>Flexible Setup</li>
-                        <li>Professional Service</li>
+                        <li>Personalized Music Selection</li>
+                        <li>Flexible Setup Options</li>
+                        <li>Professional Equipment</li>
+                        <li>Custom Duration Packages</li>
                     </ul>
-                    <a href="booking.html" class="btn btn-outline">Book Private Party</a>
+                    <a href="contact.html" class="btn btn-secondary">Book Private Event</a>
                 </div>
 
                 <div class="service-card">
                     <div class="service-icon">
-                        <i class="fas fa-music"></i>
+                        <i class="fas fa-building"></i>
                     </div>
-                    <h3>Music Request System</h3>
-                    <p>Interactive song requests for your events! Guests can scan QR codes and request songs in real-time, keeping everyone engaged.</p>
+                    <h3>Corporate Functions</h3>
+                    <p>Professional entertainment for corporate events, holiday parties, and business celebrations.</p>
                     <ul class="service-features">
-                        <li>QR Code Access</li>
-                        <li>Real-time Requests</li>
-                        <li>Priority Levels</li>
-                                                <li>Mobile-Friendly</li>
+                        <li>Professional Atmosphere</li>
+                        <li>Corporate-appropriate Music</li>
+                        <li>Background & Dance Music</li>
+                        <li>Flexible Scheduling</li>
                     </ul>
-                    <a href="contact.html" class="btn btn-outline">Contact Us</a>
+                    <a href="contact.html" class="btn btn-secondary">Book Corporate Event</a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Graduation Parties</h3>
+                    <p>Celebrate academic achievements with music that appeals to graduates and their families.</p>
+                    <ul class="service-features">
+                        <li>Multi-generational Music</li>
+                        <li>Graduation-themed Activities</li>
+                        <li>Professional Presentation</li>
+                        <li>Memorable Experience</li>
+                    </ul>
+                    <a href="contact.html" class="btn btn-secondary">Book Graduation Party</a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Seasonal Events</h3>
+                    <p>Special celebrations for holidays and seasonal occasions throughout the year.</p>
+                    <ul class="service-features">
+                        <li>Holiday-themed Music</li>
+                        <li>Seasonal Decorations</li>
+                        <li>Special Pricing Available</li>
+                        <li>Flexible Booking</li>
+                    </ul>
+                    <a href="contact.html" class="btn btn-secondary">Book Seasonal Event</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Call to Action Section -->
+    <!-- What's Included -->
+    <section class="whats-included">
+        <div class="container">
+            <h2 class="section-title">What's Included in Every Service</h2>
+            <div class="included-grid">
+                <div class="included-item">
+                    <div class="included-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h4>Professional Sound System</h4>
+                    <p>High-quality audio equipment for crystal clear sound</p>
+                </div>
+                <div class="included-item">
+                    <div class="included-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h4>Professional Lighting</h4>
+                    <p>Atmospheric lighting to enhance your event</p>
+                </div>
+                <div class="included-item">
+                    <div class="included-icon">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <h4>Extensive Music Library</h4>
+                    <p>Thousands of songs across all genres and decades</p>
+                </div>
+                <div class="included-item">
+                    <div class="included-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>Flexible Duration</h4>
+                    <p>Customizable packages to fit your schedule</p>
+                </div>
+                <div class="included-item">
+                    <div class="included-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h4>Pre-event Consultation</h4>
+                    <p>Personalized planning to ensure your perfect event</p>
+                </div>
+                <div class="included-item">
+                    <div class="included-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Fully Insured</h4>
+                    <p>Professional coverage for your peace of mind</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
     <section class="cta-section">
         <div class="container">
             <div class="cta-content">
                 <h2>Ready to Book Your Event?</h2>
-                <p>Contact us to discuss your event requirements and get a personalized quote!</p>
+                <p>Contact us today to discuss your requirements and get a personalized quote</p>
                 <div class="cta-buttons">
-                    <a href="contact.html" class="btn btn-primary">Contact Us</a>
-                    <a href="services.html" class="btn btn-secondary">View Services</a>
+                    <a href="contact.html" class="btn btn-primary">Get Quote</a>
+                    <a href="tel:07934284930" class="btn btn-secondary">Call Now</a>
                 </div>
             </div>
         </div>
@@ -196,65 +227,47 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>AREA22</h3>
-                <p>Professional DJ Services</p>
-                <p>Creating unforgettable experiences with the perfect mix of music and atmosphere.</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AREA22</h3>
+                    <p>Professional DJ Services</p>
+                    <p>Creating unforgettable experiences with the perfect mix of music and atmosphere.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li>Weddings</li>
+                        <li>Birthday Parties</li>
+                        <li>Private Events</li>
+                        <li>Corporate Functions</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>Email: area-22@mail.co.uk</p>
+                    <p>Phone: <a href="tel:07934284930">07934 284 930</a></p>
+                    <p>Location: Basingstoke</p>
+                </div>
             </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="services.html">Services</a></li>
-                    <li><a href="about.html">About</a></li>
-
-                </ul>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Area22 DJ Services. All rights reserved.</p>
             </div>
-            <div class="footer-section">
-                <h3>Contact Info</h3>
-                <p>Email: area-22@mail.co.uk</p>
-                <p>Phone: <a href="tel:07934284930">07934 284 930</a></p>
-                <p>Location: Basingstoke</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Area22. All rights reserved.</p>
         </div>
     </footer>
 
     <script src="script.js?v=2.0"></script>
-    <script>
-        // Debug script for services page
-        console.log('Services page loaded');
-        
-        // Check if elements exist
-        setTimeout(() => {
-            const hamburger = document.querySelector('.hamburger');
-            const navMenu = document.querySelector('.nav-menu');
-            
-            console.log('Services page - Hamburger:', hamburger);
-            console.log('Services page - Nav menu:', navMenu);
-            console.log('Services page - Hamburger display:', hamburger ? getComputedStyle(hamburger).display : 'N/A');
-            console.log('Services page - Window width:', window.innerWidth);
-            
-            // Add direct click handler for testing
-            if (hamburger) {
-                hamburger.onclick = function(e) {
-                    console.log('Services page - Direct click on hamburger!');
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    if (navMenu) {
-                        this.classList.toggle('active');
-                        navMenu.classList.toggle('active');
-                        console.log('Services page - Direct toggle - Hamburger active:', this.classList.contains('active'));
-                        console.log('Services page - Direct toggle - Nav menu active:', navMenu.classList.contains('active'));
-                    }
-                };
-                console.log('Services page - Direct click handler added to hamburger');
-            }
-        }, 1000);
-    </script>
+    <script src="maintenance-toggle.js?v=2.0"></script>
 </body>
 </html> 

@@ -6,76 +6,25 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Contact - Area22 Professional DJ Services</title>
-    <link rel="stylesheet" href="styles.css?v=2.0">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00ff00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Area22">
+    <title>Contact Us - Area22 Professional DJ Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RVT1L6B0F"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-2RVT1L6B0F');
-    </script>
+    <link rel="stylesheet" href="styles.css?v=2.0">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <!-- Laser Light Effects -->
-    <div class="laser-lights">
-        <!-- Vertical laser beams -->
-        <div class="laser-beam laser-1"></div>
-        <div class="laser-beam laser-2"></div>
-        <div class="laser-beam laser-3"></div>
-        <div class="laser-beam laser-4"></div>
-        <div class="laser-beam laser-5"></div>
-        <div class="laser-beam laser-6"></div>
-        <div class="laser-beam laser-7"></div>
-        <div class="laser-beam laser-8"></div>
-        <div class="laser-beam laser-9"></div>
-        <div class="laser-beam laser-10"></div>
-        
-        <!-- Horizontal laser beams -->
-        <div class="laser-horizontal laser-h-1"></div>
-        <div class="laser-horizontal laser-h-2"></div>
-        <div class="laser-horizontal laser-h-3"></div>
-        <div class="laser-horizontal laser-h-4"></div>
-    </div>
-    
-    <!-- Laser Grid Effect -->
-    <div class="laser-grid">
-        <div class="grid-line grid-vertical" style="left: 10%;"></div>
-        <div class="grid-line grid-vertical" style="left: 20%;"></div>
-        <div class="grid-line grid-vertical" style="left: 30%;"></div>
-        <div class="grid-line grid-vertical" style="left: 40%;"></div>
-        <div class="grid-line grid-vertical" style="left: 50%;"></div>
-        <div class="grid-line grid-vertical" style="left: 60%;"></div>
-        <div class="grid-line grid-vertical" style="left: 70%;"></div>
-        <div class="grid-line grid-vertical" style="left: 80%;"></div>
-        <div class="grid-line grid-vertical" style="left: 90%;"></div>
-        
-        <div class="grid-line grid-horizontal" style="top: 10%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 20%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 30%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 40%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 50%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 60%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 70%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 80%;"></div>
-        <div class="grid-line grid-horizontal" style="top: 90%;"></div>
-    </div>
-
-    <!-- Watermark -->
-    <div class="watermark">inkFusionLabs</div>
-
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="index.html" style="text-decoration: none; color: inherit;">
-                    <h2>AREA22</h2>
-                    <span class="tagline">Professional DJ Services</span>
-                </a>
+                <h2>AREA22</h2>
+                <span class="tagline">Professional DJ Services</span>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
@@ -87,7 +36,6 @@
                 <li class="nav-item">
                     <a href="about.html" class="nav-link">About</a>
                 </li>
-
                 <li class="nav-item">
                     <a href="gallery.html" class="nav-link">Gallery</a>
                 </li>
@@ -95,7 +43,7 @@
                     <a href="pricing.html" class="nav-link">Pricing</a>
                 </li>
                 <li class="nav-item">
-                    <a href="contact.html" class="nav-link">Contact</a>
+                    <a href="contact.html" class="nav-link active">Contact</a>
                 </li>
             </ul>
             <div class="hamburger">
@@ -106,58 +54,233 @@
         </div>
     </nav>
 
-    <!-- Header Banner -->
-    <div class="header-banner">
-                        <img src="BRINGING PASSION TO EVERY GIG-2" alt="Area22 Banner" class="header-banner-image">
-    </div>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
+    <!-- Page Header -->
+    <section class="page-header">
         <div class="container">
-            <h2 class="section-title">Contact Us</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <h4>Email</h4>
-                        <p>area-22@mail.co.uk</p>
-                    </div>
-                    <div class="contact-item">
+            <h1 class="page-title">Contact Us</h1>
+            <p class="page-subtitle">Let's make your event unforgettable</p>
+        </div>
+    </section>
+
+    <!-- Contact Information -->
+    <section class="contact-info">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">
                         <i class="fas fa-phone"></i>
-                        <h4>Phone</h4>
-                        <p><a href="tel:07934284930">07934 284 930</a></p>
-                        <!-- Updated phone number -->
                     </div>
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <h4>Location</h4>
-                        <p>Basingstoke</p>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-clock"></i>
-                        <h4>Hours</h4>
-                        <p>Available 24/7 for inquiries</p>
-                    </div>
+                    <h3>Call Us</h3>
+                    <p><a href="tel:07934284930">07934 284 930</a></p>
+                    <span class="contact-note">Available 7 days a week</span>
                 </div>
-                <div class="social-links">
-                    <h4>Follow Us</h4>
-                    <div class="social-icons">
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-tiktok"></i>
-                        </a>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
                     </div>
+                    <h3>Email Us</h3>
+                    <p><a href="mailto:area-22@mail.co.uk">area-22@mail.co.uk</a></p>
+                    <span class="contact-note">We respond within 24 hours</span>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Location</h3>
+                    <p>Basingstoke Area</p>
+                    <span class="contact-note">Serving Hampshire & surrounding areas</span>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Business Hours</h3>
+                    <p>Monday - Sunday</p>
+                    <span class="contact-note">9:00 AM - 11:00 PM</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="contact-form-section">
+        <div class="container">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Get Your Free Quote</h2>
+                    <p>Tell us about your event and we'll get back to you with a personalized quote</p>
+                </div>
+                
+                <form class="contact-form" id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="eventType">Event Type *</label>
+                        <select id="eventType" name="eventType" required>
+                            <option value="">Select Event Type</option>
+                            <option value="wedding">Wedding</option>
+                            <option value="birthday">Birthday Party</option>
+                            <option value="corporate">Corporate Event</option>
+                            <option value="private">Private Party</option>
+                            <option value="graduation">Graduation Party</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="eventDate">Event Date *</label>
+                            <input type="date" id="eventDate" name="eventDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventDuration">Event Duration</label>
+                            <select id="eventDuration" name="eventDuration">
+                                <option value="">Select Duration</option>
+                                <option value="2-3 hours">2-3 hours</option>
+                                <option value="3-4 hours">3-4 hours</option>
+                                <option value="4-5 hours">4-5 hours</option>
+                                <option value="5+ hours">5+ hours</option>
+                                <option value="full day">Full Day</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="venue">Venue/Location</label>
+                        <input type="text" id="venue" name="venue" placeholder="e.g., Basingstoke Town Hall">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="guestCount">Expected Guest Count</label>
+                        <select id="guestCount" name="guestCount">
+                            <option value="">Select Guest Count</option>
+                            <option value="1-50">1-50 guests</option>
+                            <option value="51-100">51-100 guests</option>
+                            <option value="101-200">101-200 guests</option>
+                            <option value="200+">200+ guests</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Additional Details</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Tell us about your event, special requirements, or any questions you have..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="newsletter" value="yes">
+                            <span class="checkmark"></span>
+                            Subscribe to our newsletter for special offers and updates
+                        </label>
+                    </div>
+                    
+                    <div class="form-submit">
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Areas -->
+    <section class="service-areas">
+        <div class="container">
+            <h2 class="section-title">Areas We Serve</h2>
+            <div class="areas-grid">
+                <div class="area-item">
+                    <h3>Primary Service Area</h3>
+                    <ul>
+                        <li>Basingstoke</li>
+                        <li>Reading</li>
+                        <li>Newbury</li>
+                        <li>Andover</li>
+                        <li>Winchester</li>
+                    </ul>
+                </div>
+                <div class="area-item">
+                    <h3>Extended Coverage</h3>
+                    <ul>
+                        <li>Southampton</li>
+                        <li>Portsmouth</li>
+                        <li>Guildford</li>
+                        <li>Farnborough</li>
+                        <li>Fleet</li>
+                    </ul>
+                </div>
+                <div class="area-item">
+                    <h3>Special Events</h3>
+                    <ul>
+                        <li>Weddings</li>
+                        <li>Corporate Functions</li>
+                        <li>Private Parties</li>
+                        <li>Festivals</li>
+                        <li>Community Events</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>How far in advance should I book?</h3>
+                    <p>We recommend booking at least 3-6 months in advance for weddings and 1-2 months for other events. However, we can often accommodate last-minute bookings if available.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>What's included in your service?</h3>
+                    <p>All our packages include professional sound equipment, lighting, extensive music library, setup/teardown, and professional DJ services. Additional services like MC work can be added.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>Do you provide music requests?</h3>
+                    <p>Absolutely! We encourage music requests and can work with you to create custom playlists. We also have a QR code system for guests to request songs during events.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>What if I need to cancel or reschedule?</h3>
+                    <p>We understand that plans can change. We offer flexible cancellation policies and will work with you to reschedule when possible. Please contact us as soon as possible.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Get Started?</h2>
+                <p>Contact us today to discuss your event and get a personalized quote</p>
+                <div class="cta-buttons">
+                    <a href="tel:07934284930" class="btn btn-primary">Call Now</a>
+                    <a href="services.html" class="btn btn-secondary">View Services</a>
                 </div>
             </div>
         </div>
@@ -165,67 +288,76 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>AREA22</h3>
-                <p>Professional DJ Services</p>
-                <p>Creating unforgettable experiences with the perfect mix of music and atmosphere.</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AREA22</h3>
+                    <p>Professional DJ Services</p>
+                    <p>Creating unforgettable experiences with the perfect mix of music and atmosphere.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li>Weddings</li>
+                        <li>Birthday Parties</li>
+                        <li>Private Events</li>
+                        <li>Corporate Functions</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>Email: area-22@mail.co.uk</p>
+                    <p>Phone: <a href="tel:07934284930">07934 284 930</a></p>
+                    <p>Location: Basingstoke</p>
+                </div>
             </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="services.html">Services</a></li>
-                    <li><a href="about.html">About</a></li>
-                    
-                </ul>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Area22 DJ Services. All rights reserved.</p>
             </div>
-            <div class="footer-section">
-                <h3>Contact Info</h3>
-                <p>Email: area-22@mail.co.uk</p>
-                <p>Phone: <a href="tel:07934284930">07934 284 930</a></p>
-                <p>Location: Basingstoke</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Area22. All rights reserved.</p>
         </div>
     </footer>
 
-    <script src="backup-system.js"></script>
-    <script src="performance-monitor.js"></script>
-    <script src="script.js"></script>
+    <script src="script.js?v=2.0"></script>
+    <script src="maintenance-toggle.js?v=2.0"></script>
     <script>
-        // Debug script for contact page
-        console.log('Contact page loaded');
-        
-        // Check if elements exist
-        setTimeout(() => {
-            const hamburger = document.querySelector('.hamburger');
-            const navMenu = document.querySelector('.nav-menu');
+        // Contact form handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contactForm');
             
-            console.log('Contact page - Hamburger:', hamburger);
-            console.log('Contact page - Nav menu:', navMenu);
-            console.log('Contact page - Hamburger display:', hamburger ? getComputedStyle(hamburger).display : 'N/A');
-            console.log('Contact page - Window width:', window.innerWidth);
-            
-            // Add direct click handler for testing
-            if (hamburger) {
-                hamburger.onclick = function(e) {
-                    console.log('Contact page - Direct click on hamburger!');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    e.stopPropagation();
                     
-                    if (navMenu) {
-                        this.classList.toggle('active');
-                        navMenu.classList.toggle('active');
-                        console.log('Contact page - Direct toggle - Hamburger active:', this.classList.contains('active'));
-                        console.log('Contact page - Direct toggle - Nav menu active:', navMenu.classList.contains('active'));
+                    // Get form data
+                    const formData = new FormData(this);
+                    const formObject = {};
+                    formData.forEach((value, key) => {
+                        formObject[key] = value;
+                    });
+                    
+                    // Simple form validation
+                    if (!formObject.firstName || !formObject.lastName || !formObject.email || !formObject.phone || !formObject.eventType || !formObject.eventDate) {
+                        alert('Please fill in all required fields.');
+                        return;
                     }
-                };
-                console.log('Contact page - Direct click handler added to hamburger');
+                    
+                    // Show success message (in a real application, this would send data to a server)
+                    alert('Thank you for your message! We will get back to you within 24 hours.');
+                    this.reset();
+                });
             }
-        }, 1000);
+        });
     </script>
 </body>
 </html> 
