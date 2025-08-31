@@ -239,7 +239,7 @@
         }
 
         .contact-item:hover {
-            transform: translateY(-5px);
+            transform: scale(1.05);
             box-shadow: 0 10px 30px rgba(0, 255, 0, 0.2);
         }
 
@@ -325,7 +325,7 @@
         .social-icon:hover {
             background: var(--primary-green);
             color: var(--darker-bg);
-            transform: translateY(-3px);
+            transform: scale(1.1);
             box-shadow: 0 10px 20px rgba(0, 255, 0, 0.3);
         }
 
@@ -353,7 +353,7 @@
         }
 
         .go-live-button:hover {
-            transform: translateY(-5px);
+            transform: scale(1.05);
             box-shadow: 0 15px 40px rgba(0, 255, 0, 0.6);
             background: linear-gradient(135deg, #00ff88, #00ff00);
             text-decoration: none;
@@ -527,7 +527,7 @@
                 item.addEventListener('click', function() {
                     this.style.transform = 'scale(0.95)';
                     setTimeout(() => {
-                        this.style.transform = 'translateY(-5px)';
+                        this.style.transform = 'scale(1.05)';
                     }, 150);
                 });
             });
