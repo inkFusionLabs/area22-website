@@ -12,9 +12,9 @@ class MaintenanceToggle {
         this.init();
     }
 
-    init() {
-        // Check if we're in maintenance mode
-        this.checkMaintenanceStatus();
+    async init() {
+        // Check if we're in maintenance mode (including Vercel env var)
+        await this.checkMaintenanceStatus();
         
         // For production sites, completely hide admin controls by default
         if (this.isProductionSite() && !this.isExplicitlyEnabled()) {
@@ -40,14 +40,34 @@ class MaintenanceToggle {
         return urlParams.get('admin') === 'true' || urlParams.get('maintenance') === 'true';
     }
 
-    checkMaintenanceStatus() {
-        // Check current URL to determine mode
+    async checkMaintenanceStatus() {
+        // First check current URL to determine mode
         if (window.location.pathname === this.maintenanceUrl) {
             this.isMaintenanceMode = true;
-            console.log('🛠️ Area22 is currently in MAINTENANCE MODE');
-        } else {
+            console.log('🛠️ Area22 is currently in MAINTENANCE MODE (via URL)');
+            return;
+        }
+
+        // Check if maintenance mode is enabled via Vercel environment variable
+        try {
+            const isVercelMaintenance = await this.checkVercelMaintenanceMode();
+            if (isVercelMaintenance) {
+                this.isMaintenanceMode = true;
+                console.log('🛠️ Area22 is currently in MAINTENANCE MODE (via Vercel MAINTENANCE_MODE=true)');
+                // Redirect to maintenance page if not already there
+                if (window.location.pathname !== this.maintenanceUrl) {
+                    console.log('🔄 Redirecting to maintenance page...');
+                    window.location.href = this.maintenanceUrl;
+                    return;
+                }
+            } else {
+                this.isMaintenanceMode = false;
+                console.log('✅ Area22 is currently LIVE (no maintenance mode detected)');
+            }
+        } catch (error) {
+            console.log('⚠️ Could not check Vercel maintenance status:', error);
+            // Fallback to URL-based detection
             this.isMaintenanceMode = false;
-            console.log('✅ Area22 is currently LIVE');
         }
     }
 
@@ -398,6 +418,107 @@ class MaintenanceToggle {
             console.log('Could not check remote maintenance status:', error);
             return this.isMaintenanceMode;
         }
+    }
+
+    async checkVercelMaintenanceMode() {
+        console.log('🔍 Checking Vercel maintenance mode...');
+        
+        try {
+            // Method 1: Check for Vercel environment variable via API endpoint
+            console.log('📡 Trying API endpoint: /api/maintenance-status');
+            const response = await fetch('/api/maintenance-status', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Cache-Control': 'no-cache'
+                }
+            });
+            
+            console.log('📡 API Response status:', response.status);
+            console.log('📡 API Response ok:', response.ok);
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log('📡 API Response data:', data);
+                const isMaintenance = data.maintenanceMode === true;
+                console.log('📡 Maintenance mode from API:', isMaintenance);
+                return isMaintenance;
+            } else {
+                console.log('📡 API returned error status:', response.status);
+            }
+        } catch (error) {
+            console.log('❌ API endpoint error:', error.message);
+        }
+
+        try {
+            // Method 2: Check for maintenance mode via a simple text file
+            console.log('📄 Trying text file: /maintenance-status.txt');
+            const response = await fetch('/maintenance-status.txt', {
+                method: 'GET',
+                headers: {
+                    'Cache-Control': 'no-cache'
+                }
+            });
+            
+            if (response.ok) {
+                const text = await response.text();
+                console.log('📄 Text file content:', text);
+                const isMaintenance = text.trim().toLowerCase() === 'true';
+                console.log('📄 Maintenance mode from text file:', isMaintenance);
+                return isMaintenance;
+            } else {
+                console.log('📄 Text file returned status:', response.status);
+            }
+        } catch (error) {
+            console.log('❌ Text file error:', error.message);
+        }
+
+        try {
+            // Method 3: Check for maintenance mode via a JSON file
+            console.log('📋 Trying JSON file: /maintenance-status.json');
+            const response = await fetch('/maintenance-status.json', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Cache-Control': 'no-cache'
+                }
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log('📋 JSON file data:', data);
+                const isMaintenance = data.maintenanceMode === true;
+                console.log('📋 Maintenance mode from JSON file:', isMaintenance);
+                return isMaintenance;
+            } else {
+                console.log('📋 JSON file returned status:', response.status);
+            }
+        } catch (error) {
+            console.log('❌ JSON file error:', error.message);
+        }
+
+        // Method 4: Check for maintenance mode via meta tag (if available)
+        const maintenanceMeta = document.querySelector('meta[name="maintenance-mode"]');
+        if (maintenanceMeta) {
+            const content = maintenanceMeta.getAttribute('content');
+            console.log('🏷️ Meta tag content:', content);
+            const isMaintenance = content === 'true';
+            console.log('🏷️ Maintenance mode from meta tag:', isMaintenance);
+            return isMaintenance;
+        }
+
+        // Method 5: Check for maintenance mode via URL parameter (for testing)
+        const urlParams = new URLSearchParams(window.location.search);
+        const maintenanceParam = urlParams.get('maintenance');
+        if (maintenanceParam) {
+            const isMaintenance = maintenanceParam === 'true';
+            console.log('🔗 Maintenance mode from URL parameter:', isMaintenance);
+            return isMaintenance;
+        }
+
+        console.log('❌ No maintenance mode detected from any method');
+        // Default: no maintenance mode
+        return false;
     }
 
     // Method to set maintenance duration
