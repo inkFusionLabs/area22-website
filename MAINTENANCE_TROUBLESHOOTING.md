@@ -4,11 +4,8 @@ If your maintenance mode isn't working when you set `MAINTENANCE_MODE=true`, fol
 
 ## 🚨 Quick Fix Steps
 
-### Step 1: Test the API Endpoint
-Visit `/test-maintenance` on your site to run diagnostics:
-```
-https://your-site.vercel.app/test-maintenance
-```
+### Step 1: Test the Maintenance System
+Visit your site and check the browser console for maintenance system logs.
 
 ### Step 2: Check Vercel Environment Variables
 Make sure the environment variable is set correctly:

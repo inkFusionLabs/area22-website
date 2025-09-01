@@ -1,6 +1,6 @@
 # Area22 Maintenance System - Vercel Integration
 
-This maintenance system allows you to easily toggle your Area22 website between normal operation and maintenance mode using Vercel environment variables.
+This maintenance system allows you to easily toggle your Area22 website between normal operation and maintenance mode using file-based status checks.
 
 ## 🚀 Quick Start
 

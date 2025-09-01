@@ -29,33 +29,7 @@ class VercelMaintenanceIntegration {
     }
 
     async checkVercelMaintenanceMode() {
-        try {
-            // Method 1: Try the API endpoint first
-            const response = await fetch('/api/maintenance-status', {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Cache-Control': 'no-cache'
-                }
-            });
-            
-            if (response.ok) {
-                const data = await response.json();
-                console.log('📡 Vercel API Response:', data);
-                
-                if (data.maintenanceMode === true) {
-                    this.enableMaintenanceMode();
-                    return;
-                } else {
-                    this.disableMaintenanceMode();
-                    return;
-                }
-            }
-        } catch (error) {
-            console.log('📡 Vercel API not available, trying fallbacks...');
-        }
-
-        // Method 2: Check status files as fallback
+        // Method 1: Check status files
         try {
             const textResponse = await fetch('/maintenance-status.txt');
             if (textResponse.ok) {
@@ -82,7 +56,7 @@ class VercelMaintenanceIntegration {
             console.log('📋 JSON file not accessible');
         }
 
-        // Method 3: Check meta tag
+        // Method 2: Check meta tag
         const maintenanceMeta = document.querySelector('meta[name="maintenance-mode"]');
         if (maintenanceMeta && maintenanceMeta.getAttribute('content') === 'true') {
             this.enableMaintenanceMode();
