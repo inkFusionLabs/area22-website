@@ -642,8 +642,8 @@ body {
 /* Gallery Styles */
 .gallery-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+    gap: var(--space-3);
     padding: var(--space-6) 0;
 }
 
@@ -675,14 +675,14 @@ body {
 /* Responsive Gallery */
 @media (max-width: 768px) {
     .gallery-container {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        gap: var(--space-3);
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        gap: var(--space-2);
     }
 }
 
 @media (max-width: 480px) {
     .gallery-container {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
         gap: var(--space-2);
     }
 }
