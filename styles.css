@@ -51,40 +51,40 @@
     --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.3);
     --shadow-glow-primary: 0 0 20px rgba(0, 255, 136, 0.15);
 
-    /* Spacing System (10% smaller than original) */
-    --space-1: 0.225rem;   /* 0.175 * 1.2 = 0.21, but adjusted to match scale */
-    --space-2: 0.42rem;    /* 0.35 * 1.2 */
-    --space-3: 0.63rem;    /* 0.525 * 1.2 */
-    --space-4: 0.84rem;    /* 0.7 * 1.2 */
-    --space-5: 1.05rem;    /* 0.875 * 1.2 */
-    --space-6: 1.26rem;    /* 1.05 * 1.2 */
-    --space-8: 1.68rem;    /* 1.4 * 1.2 */
-    --space-10: 2.1rem;    /* 1.75 * 1.2 */
-    --space-12: 2.52rem;   /* 2.1 * 1.2 */
-    --space-16: 3.36rem;   /* 2.8 * 1.2 */
-    --space-20: 4.2rem;    /* 3.5 * 1.2 */
-    --space-24: 5.04rem;   /* 4.2 * 1.2 */
+    /* Spacing System (Original Size) */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-20: 5rem;
+    --space-24: 6rem;
 
-    /* Border Radius (10% smaller than original) */
-    --radius-sm: 0.225rem;    /* 0.175 * 1.2 = 0.21 */
-    --radius-md: 0.315rem;    /* 0.2625 * 1.2 */
-    --radius-lg: 0.42rem;     /* 0.35 * 1.2 */
-    --radius-xl: 0.63rem;     /* 0.525 * 1.2 */
-    --radius-2xl: 0.84rem;    /* 0.7 * 1.2 */
-    --radius-3xl: 1.26rem;    /* 1.05 * 1.2 */
+    /* Border Radius (Original Size) */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-2xl: 1rem;
+    --radius-3xl: 1.5rem;
     --radius-full: 9999px;
 
-    /* Typography (10% smaller than original) */
-    --font-size-xs: 0.63rem;    /* 0.525 * 1.2 */
-    --font-size-sm: 0.735rem;   /* 0.6125 * 1.2 */
-    --font-size-base: 0.84rem;  /* 0.7 * 1.2 */
-    --font-size-lg: 0.945rem;   /* 0.7875 * 1.2 */
-    --font-size-xl: 1.05rem;    /* 0.875 * 1.2 */
-    --font-size-2xl: 1.26rem;   /* 1.05 * 1.2 */
-    --font-size-3xl: 1.575rem;  /* 1.3125 * 1.2 */
-    --font-size-4xl: 1.89rem;   /* 1.575 * 1.2 */
-    --font-size-5xl: 2.52rem;   /* 2.1 * 1.2 */
-    --font-size-6xl: 3.15rem;   /* 2.625 * 1.2 */
+    /* Typography (Original Size) */
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
+    --font-size-5xl: 3rem;
+    --font-size-6xl: 3.75rem;
 
     /* Transitions */
     --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -101,7 +101,7 @@ body {
     overflow-x: hidden;
     position: relative;
     font-weight: 400;
-    padding-top: 4.2rem; /* 20% larger (3.5rem * 1.2) */
+    padding-top: 5rem; /* Original navigation height */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -109,9 +109,9 @@ body {
 /* Utility Classes */
 .container {
     width: 100%;
-    max-width: 1008px; /* 20% larger (840px * 1.2) */
+    max-width: 1200px; /* Original max-width */
     margin: 0 auto;
-    padding: 0 var(--space-4); /* 20% larger padding */
+    padding: 0 var(--space-4);
 }
 
 .btn {
@@ -231,10 +231,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--space-4) var(--space-5); /* 20% larger padding */
-    max-width: 1008px; /* 20% larger (840px * 1.2) */
+    padding: var(--space-4) var(--space-6);
+    max-width: 1200px; /* Original max-width */
     margin: 0 auto;
-    height: 4.2rem; /* 20% larger (3.5rem * 1.2) */
+    height: 5rem; /* Original height */
 }
 
 .nav-logo {
@@ -369,13 +369,13 @@ body {
 
 /* Hero sections spacing from fixed navigation */
 .hero, .contact-hero, .pricing-hero {
-    padding-top: var(--space-10); /* 20% larger */
-    margin-top: var(--space-5);  /* 20% larger */
+    padding-top: var(--space-8);
+    margin-top: var(--space-4);
 }
 
 .page-header {
-    padding-top: var(--space-16); /* 20% larger */
-    margin-top: var(--space-10);  /* 20% larger */
+    padding-top: var(--space-12);
+    margin-top: var(--space-8);
 }
 
 /* Card Components */
@@ -482,7 +482,7 @@ body {
 
 /* Hero Section */
 .hero {
-    min-height: 84vh; /* 20% larger (70vh * 1.2) */
+    min-height: 100vh; /* Original height */
     display: flex;
     align-items: center;
     position: relative;
@@ -558,15 +558,15 @@ body {
 }
 
 .service-icon {
-    width: 67.2px; /* 20% larger (56px * 1.2) */
-    height: 67.2px; /* 20% larger (56px * 1.2) */
+    width: 80px; /* Original size */
+    height: 80px; /* Original size */
     background: var(--gradient-primary);
     border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto var(--space-5); /* 20% larger margin */
-    font-size: var(--font-size-3xl); /* 20% larger font */
+    margin: 0 auto var(--space-6);
+    font-size: var(--font-size-3xl);
     color: var(--text-inverse);
 }
 
