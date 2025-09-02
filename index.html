@@ -96,86 +96,113 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-background">
-            <div class="hero-overlay"></div>
-        </div>
-        <div class="hero-content">
-            <div class="hero-text">
+        <div class="container">
+            <div class="hero-content">
                 <h1 class="hero-title">AREA22</h1>
-            <p class="hero-subtitle">Professional DJ Services</p>
-            <p class="hero-description">Creating unforgettable experiences with the perfect mix of music and atmosphere</p>
-            <div class="hero-buttons">
-                    <a href="services.html" class="btn btn-primary">View Services</a>
-                    <a href="contact.html" class="btn btn-secondary">Contact Us</a>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="hero-logo">
-                    <img src="bee16901-3162-409b-a3d4-6fd2c9feb800 Copy.JPG" alt="Area22 Logo" class="logo-image">
+                <p class="hero-subtitle">Professional DJ Services for Unforgettable Events</p>
+                <div class="hero-buttons">
+                    <a href="services.html" class="btn btn-primary">
+                        <i class="fas fa-music"></i> View Services
+                    </a>
+                    <a href="contact.html" class="btn btn-secondary">
+                        <i class="fas fa-calendar-check"></i> Book Now
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Quick Services Preview -->
-    <section class="quick-services">
+    <!-- Services Section -->
+    <section class="services-section section">
         <div class="container">
             <h2 class="section-title">Our Services</h2>
+            <p class="section-subtitle">Professional entertainment for every occasion</p>
+
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-heart"></i>
                     </div>
                     <h3>Weddings</h3>
-                    <p>Make your special day unforgettable with our professional wedding DJ services.</p>
-                    <a href="services.html#weddings" class="btn btn-secondary">Learn More</a>
+                    <p>Make your special day unforgettable with our professional wedding DJ services. From ceremony to reception, we handle it all.</p>
+                    <a href="services.html#weddings" class="btn btn-outline">Learn More</a>
                 </div>
+
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-birthday-cake"></i>
                     </div>
                     <h3>Birthday Parties</h3>
-                    <p>Celebrate your special day with music that gets everyone dancing.</p>
-                    <a href="services.html#parties" class="btn btn-secondary">Learn More</a>
+                    <p>Celebrate milestones with music that gets everyone dancing. Perfect for all ages and celebrations.</p>
+                    <a href="services.html#parties" class="btn btn-outline">Learn More</a>
                 </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>Corporate Events</h3>
+                    <p>Professional entertainment for business functions, holiday parties, and company celebrations.</p>
+                    <a href="services.html#corporate" class="btn btn-outline">Learn More</a>
+                </div>
+
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-users"></i>
                     </div>
                     <h3>Private Events</h3>
-                    <p>Intimate gatherings and private celebrations with personalized music selection.</p>
-                    <a href="services.html#private" class="btn btn-secondary">Learn More</a>
+                    <p>Intimate gatherings and private celebrations with personalized music selection and professional service.</p>
+                    <a href="services.html#private" class="btn btn-outline">Learn More</a>
                 </div>
             </div>
-            <div class="text-center" style="margin-top: 3rem; text-align: center;">
+
+            <div class="text-center" style="margin-top: var(--space-12);">
                 <a href="services.html" class="btn btn-primary">View All Services</a>
             </div>
         </div>
     </section>
 
-    <!-- Quick Contact -->
-    <section class="quick-contact">
+    <!-- Contact Section -->
+    <section class="contact-section section">
         <div class="container">
             <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-summary">
-                <div class="contact-highlight">
-                    <i class="fas fa-phone"></i>
-                    <h3>Call Us</h3>
-                    <p><a href="tel:07934284930">07934 284 930</a></p>
+            <p class="section-subtitle">Ready to make your event unforgettable?</p>
+
+            <div class="grid grid-cols-3 gap-8">
+                <div class="card text-center">
+                    <div class="text-4xl text-primary mb-4">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Call Us</h3>
+                    <p class="text-muted mb-4">Available 7 days a week</p>
+                    <a href="tel:07934284930" class="text-primary font-semibold hover:text-primary-dark transition-colors">
+                        07934 284 930
+                    </a>
                 </div>
-                <div class="contact-highlight">
-                    <i class="fas fa-envelope"></i>
-                    <h3>Email Us</h3>
-                    <p><a href="mailto:area-22@mail.co.uk">area-22@mail.co.uk</a></p>
+
+                <div class="card text-center">
+                    <div class="text-4xl text-secondary mb-4">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Email Us</h3>
+                    <p class="text-muted mb-4">Response within 24 hours</p>
+                    <a href="mailto:area-22@mail.co.uk" class="text-secondary font-semibold hover:text-secondary-dark transition-colors">
+                        area-22@mail.co.uk
+                    </a>
                 </div>
-                <div class="contact-highlight">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <h3>Location</h3>
-                    <p>Basingstoke Area</p>
+
+                <div class="card text-center">
+                    <div class="text-4xl text-accent mb-4">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Location</h3>
+                    <p class="text-muted mb-4">Serving Hampshire & surrounding areas</p>
+                    <span class="text-accent font-semibold">Basingstoke Area</span>
                 </div>
             </div>
-            <div class="text-center" style="margin-top: 2rem; text-align: center;">
-                <a href="contact.html" class="btn btn-primary">Full Contact Details</a>
+
+            <div class="text-center mt-12">
+                <a href="contact.html" class="btn btn-primary">Book Your Event</a>
             </div>
         </div>
     </section>
@@ -185,39 +212,54 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>AREA22</h3>
-                    <p>Professional DJ Services</p>
-                    <p>Creating unforgettable experiences with the perfect mix of music and atmosphere.</p>
+                    <h3 class="text-2xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent">AREA22</h3>
+                    <p class="text-muted mb-4">Professional DJ Services</p>
+                    <p class="text-subtle">Creating unforgettable experiences with the perfect mix of music and atmosphere.</p>
                 </div>
+
                 <div class="footer-section">
-                    <h4>Services</h4>
-                    <ul>
-                        <li>Weddings</li>
-                        <li>Birthday Parties</li>
-                        <li>Private Events</li>
-                        <li>Corporate Functions</li>
+                    <h4 class="text-lg font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2">
+                        <li><a href="services.html#weddings" class="text-muted hover:text-primary transition-colors">Weddings</a></li>
+                        <li><a href="services.html#parties" class="text-muted hover:text-primary transition-colors">Birthday Parties</a></li>
+                        <li><a href="services.html#corporate" class="text-muted hover:text-primary transition-colors">Corporate Events</a></li>
+                        <li><a href="services.html#private" class="text-muted hover:text-primary transition-colors">Private Events</a></li>
                     </ul>
                 </div>
+
                 <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="services.html">Services</a></li>
-                                                <li><a href="about.html">About</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="pricing.html">Pricing</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-muted hover:text-primary transition-colors">Home</a></li>
+                        <li><a href="services.html" class="text-muted hover:text-primary transition-colors">Services</a></li>
+                        <li><a href="about.html" class="text-muted hover:text-primary transition-colors">About</a></li>
+                        <li><a href="gallery.html" class="text-muted hover:text-primary transition-colors">Gallery</a></li>
+                        <li><a href="pricing.html" class="text-muted hover:text-primary transition-colors">Pricing</a></li>
+                        <li><a href="contact.html" class="text-muted hover:text-primary transition-colors">Contact</a></li>
                     </ul>
                 </div>
+
                 <div class="footer-section">
-                    <h4>Contact Info</h4>
-                    <p>Email: area-22@mail.co.uk</p>
-                    <p>Phone: <a href="tel:07934284930">07934 284 930</a></p>
-                    <p>Location: Basingstoke</p>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <div class="space-y-2">
+                        <p class="text-muted">
+                            <i class="fas fa-envelope text-primary mr-2"></i>
+                            <a href="mailto:area-22@mail.co.uk" class="hover:text-primary transition-colors">area-22@mail.co.uk</a>
+                        </p>
+                        <p class="text-muted">
+                            <i class="fas fa-phone text-secondary mr-2"></i>
+                            <a href="tel:07934284930" class="hover:text-secondary transition-colors">07934 284 930</a>
+                        </p>
+                        <p class="text-muted">
+                            <i class="fas fa-map-marker-alt text-accent mr-2"></i>
+                            Basingstoke Area
+                        </p>
+                    </div>
                 </div>
             </div>
+
             <div class="footer-bottom">
-                <p>&copy; 2025 Area22 DJ Services. All rights reserved.</p>
+                <p class="text-subtle">&copy; 2025 Area22 DJ Services. All rights reserved.</p>
             </div>
         </div>
     </footer>
