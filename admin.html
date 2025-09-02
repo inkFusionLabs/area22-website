@@ -147,6 +147,115 @@
             font-size: 14px;
             margin-top: 5px;
         }
+
+        /* Maintenance Mode Styles */
+        .maintenance-toggle-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .maintenance-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .status-indicator.active i {
+            color: #ff006e;
+        }
+
+        .status-indicator.inactive i {
+            color: #00ff88;
+        }
+
+        .status-indicator i {
+            font-size: 12px;
+        }
+
+        .maintenance-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .maintenance-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .maintenance-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .maintenance-btn:active {
+            transform: translateY(0);
+        }
+
+        .maintenance-config {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .config-form textarea,
+        .config-form input[type="datetime-local"] {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 5px;
+            color: #fff;
+            padding: 10px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .config-form textarea:focus,
+        .config-form input[type="datetime-local"]:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Toast Animation */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
         
         .admin-btn {
             background: linear-gradient(135deg, #00ff00, #00cc00);
@@ -325,6 +434,21 @@
             }
         }
     </style>
+
+    <!-- INJECTED ENV VARS START -->
+    <script>
+// Injected environment variables from Vercel build process
+window.VERCEL_ENV = {
+  VERCEL_MAINTENANCE_ENABLED: undefined,
+  VERCEL_MAINTENANCE_MESSAGE: undefined,
+  VERCEL_MAINTENANCE_RETURN: undefined
+};
+
+window.VERCEL_MAINTENANCE_ENABLED = window.VERCEL_ENV.VERCEL_MAINTENANCE_ENABLED;
+window.VERCEL_MAINTENANCE_MESSAGE = window.VERCEL_ENV.VERCEL_MAINTENANCE_MESSAGE;
+window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
+    </script>
+    <!-- INJECTED ENV VARS END -->
 </head>
 <body>
     <!-- Login Screen -->
@@ -562,6 +686,47 @@
                         </div>
                         <button type="button" class="admin-btn">Save Settings</button>
                     </form>
+                </div>
+
+                <!-- Maintenance Mode Section -->
+                <div class="admin-section">
+                    <h2>Maintenance Mode</h2>
+                    <p style="color: #ccc; margin-bottom: 20px;">Control whether your website shows a maintenance page to visitors.</p>
+
+                    <div class="maintenance-toggle-container">
+                        <div class="maintenance-status">
+                            <span class="status-indicator" id="maintenance-status">
+                                <i class="fas fa-circle"></i>
+                                Status: <span id="status-text">Loading...</span>
+                            </span>
+                        </div>
+
+                        <div class="maintenance-controls">
+                            <button type="button" class="admin-btn maintenance-btn" id="enable-maintenance" style="background: linear-gradient(135deg, #ff006e, #cc0057);">
+                                <i class="fas fa-tools"></i> Enable Maintenance Mode
+                            </button>
+                            <button type="button" class="admin-btn maintenance-btn" id="disable-maintenance" style="background: linear-gradient(135deg, #00ff88, #00cc6a);">
+                                <i class="fas fa-play"></i> Disable Maintenance Mode
+                            </button>
+                        </div>
+
+                        <div class="maintenance-config" style="margin-top: 20px;">
+                            <h3 style="color: #00ff88; margin-bottom: 15px;">Configuration</h3>
+                            <div class="config-form">
+                                <div style="margin-bottom: 15px;">
+                                    <label for="maintenance-message" style="color: #fff; display: block; margin-bottom: 5px;">Custom Message</label>
+                                    <textarea id="maintenance-message" rows="3" placeholder="Enter custom maintenance message..." style="width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(0,255,136,0.3); border-radius: 5px; color: #fff; padding: 10px;"></textarea>
+                                </div>
+                                <div style="margin-bottom: 15px;">
+                                    <label for="maintenance-return" style="color: #fff; display: block; margin-bottom: 5px;">Estimated Return Date</label>
+                                    <input type="datetime-local" id="maintenance-return" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(0,255,136,0.3); border-radius: 5px; color: #fff; padding: 10px;">
+                                </div>
+                                <button type="button" class="admin-btn" id="save-maintenance-config" style="background: linear-gradient(135deg, #00d4ff, #0099cc);">
+                                    <i class="fas fa-save"></i> Save Configuration
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1090,6 +1255,129 @@ Message: ${contact.message}
             addContactFromWebsite,
             addBookingFromWebsite
         };
+
+        // Maintenance Mode Management
+        let maintenanceConfig = {
+            enabled: false,
+            message: "We're currently performing some essential updates to bring you an even better experience. Our website will be back online shortly. Thank you for your patience!",
+            estimatedReturn: null
+        };
+
+        // Load maintenance config from localStorage
+        function loadMaintenanceConfig() {
+            const saved = localStorage.getItem('area22_maintenance_config');
+            if (saved) {
+                try {
+                    maintenanceConfig = JSON.parse(saved);
+                } catch (e) {
+                    console.warn('Failed to parse maintenance config:', e);
+                }
+            }
+            updateMaintenanceUI();
+        }
+
+        // Save maintenance config to localStorage
+        function saveMaintenanceConfig() {
+            localStorage.setItem('area22_maintenance_config', JSON.stringify(maintenanceConfig));
+        }
+
+        // Update maintenance mode UI
+        function updateMaintenanceUI() {
+            const statusIndicator = document.getElementById('maintenance-status');
+            const statusText = document.getElementById('status-text');
+            const messageTextarea = document.getElementById('maintenance-message');
+            const returnInput = document.getElementById('maintenance-return');
+
+            if (maintenanceConfig.enabled) {
+                statusIndicator.className = 'status-indicator active';
+                statusText.textContent = 'Active';
+                statusText.style.color = '#ff006e';
+            } else {
+                statusIndicator.className = 'status-indicator inactive';
+                statusText.textContent = 'Disabled';
+                statusText.style.color = '#00ff88';
+            }
+
+            messageTextarea.value = maintenanceConfig.message || '';
+            if (maintenanceConfig.estimatedReturn) {
+                // Convert ISO string to datetime-local format
+                const date = new Date(maintenanceConfig.estimatedReturn);
+                const datetimeLocal = date.toISOString().slice(0, 16);
+                returnInput.value = datetimeLocal;
+            } else {
+                returnInput.value = '';
+            }
+        }
+
+        // Enable maintenance mode
+        function enableMaintenance() {
+            maintenanceConfig.enabled = true;
+            saveMaintenanceConfig();
+            updateMaintenanceUI();
+
+            // Show success message
+            showToast('Maintenance mode enabled successfully!', 'success');
+        }
+
+        // Disable maintenance mode
+        function disableMaintenance() {
+            maintenanceConfig.enabled = false;
+            saveMaintenanceConfig();
+            updateMaintenanceUI();
+
+            // Show success message
+            showToast('Maintenance mode disabled successfully!', 'success');
+        }
+
+        // Save maintenance configuration
+        function saveMaintenanceConfiguration() {
+            const messageTextarea = document.getElementById('maintenance-message');
+            const returnInput = document.getElementById('maintenance-return');
+
+            maintenanceConfig.message = messageTextarea.value.trim() || maintenanceConfig.message;
+            maintenanceConfig.estimatedReturn = returnInput.value || null;
+
+            saveMaintenanceConfig();
+            updateMaintenanceUI();
+
+            // Show success message
+            showToast('Maintenance configuration saved!', 'success');
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#00ff88' : type === 'error' ? '#ff006e' : '#00d4ff'};
+                color: #000;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                font-weight: 600;
+                z-index: 10000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                animation: slideInRight 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Initialize maintenance mode when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMaintenanceConfig();
+
+            // Add event listeners
+            document.getElementById('enable-maintenance').addEventListener('click', enableMaintenance);
+            document.getElementById('disable-maintenance').addEventListener('click', disableMaintenance);
+            document.getElementById('save-maintenance-config').addEventListener('click', saveMaintenanceConfiguration);
+        });
     </script>
 </body>
 </html> 

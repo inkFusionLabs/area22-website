@@ -1,0 +1,27 @@
+{
+  "name": "area22-website",
+  "version": "1.0.0",
+  "description": "Area22 DJ Services Website with Maintenance Mode",
+  "main": "index.html",
+  "scripts": {
+    "build": "node build-env.js",
+    "dev": "node build-env.js && echo 'Build complete - serving static files'",
+    "inject-env": "node build-env.js"
+  },
+  "keywords": [
+    "dj",
+    "music",
+    "events",
+    "weddings",
+    "maintenance-mode",
+    "vercel"
+  ],
+  "author": "Area22 DJ Services",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "vercel": {
+    "buildCommand": "npm run build"
+  }
+}

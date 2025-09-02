@@ -228,6 +228,21 @@
             color: #000;
         }
     </style>
+
+    <!-- INJECTED ENV VARS START -->
+    <script>
+// Injected environment variables from Vercel build process
+window.VERCEL_ENV = {
+  VERCEL_MAINTENANCE_ENABLED: undefined,
+  VERCEL_MAINTENANCE_MESSAGE: undefined,
+  VERCEL_MAINTENANCE_RETURN: undefined
+};
+
+window.VERCEL_MAINTENANCE_ENABLED = window.VERCEL_ENV.VERCEL_MAINTENANCE_ENABLED;
+window.VERCEL_MAINTENANCE_MESSAGE = window.VERCEL_ENV.VERCEL_MAINTENANCE_MESSAGE;
+window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
+    </script>
+    <!-- INJECTED ENV VARS END -->
 </head>
 <body>
     <!-- Header -->
@@ -413,5 +428,6 @@
         // Show print button by default
         document.getElementById('printButton').style.display = 'block';
     </script>
+    <script src="maintenance.js"></script>
 </body>
 </html>
