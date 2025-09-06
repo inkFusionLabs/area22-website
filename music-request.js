@@ -19,6 +19,72 @@ document.addEventListener('DOMContentLoaded', function() {
 		const btnText = document.getElementById('btnText');
 		const message = document.getElementById('message');
 
+		// --- Manual Lock System (localStorage + URL param toggle) ---
+		const LOCK_KEY = 'area22_song_requests_locked';
+
+		function setLocked(isLocked) {
+			localStorage.setItem(LOCK_KEY, isLocked ? 'true' : 'false');
+		}
+
+		function isLocked() {
+			return localStorage.getItem(LOCK_KEY) === 'true';
+		}
+
+		function applyLockFromURL() {
+			try {
+				const params = new URLSearchParams(window.location.search);
+				const lockParam = params.get('lock'); // 'on' | 'off' | null
+				if (lockParam === 'on') {
+					setLocked(true);
+					console.log('🔒 Requests locked via URL parameter');
+				} else if (lockParam === 'off') {
+					setLocked(false);
+					console.log('🔓 Requests unlocked via URL parameter');
+				}
+			} catch (e) {
+				console.warn('Failed to parse URL params for lock toggle:', e);
+			}
+		}
+
+		function disableForm() {
+			const inputs = form.querySelectorAll('input, textarea, select');
+			inputs.forEach(input => { input.disabled = true; input.style.opacity = '0.6'; });
+			submitBtn.disabled = true;
+			submitBtn.style.opacity = '0.6';
+			btnText.textContent = 'Requests Locked';
+		}
+
+		function enableForm() {
+			const inputs = form.querySelectorAll('input, textarea, select');
+			inputs.forEach(input => { input.disabled = false; input.style.opacity = ''; });
+			submitBtn.disabled = false;
+			submitBtn.style.opacity = '';
+			btnText.textContent = 'Submit Request';
+		}
+
+		function showLockMessage() {
+			message.textContent = 'Requests are currently locked. Please check back later.';
+			message.className = 'message error';
+			message.style.display = 'block';
+		}
+
+		function clearMessage() {
+			message.textContent = '';
+			message.className = 'message';
+			message.style.display = 'none';
+		}
+
+		// Parse URL to optionally toggle the lock, then apply state
+		applyLockFromURL();
+		if (isLocked()) {
+			disableForm();
+			showLockMessage();
+		} else {
+			enableForm();
+			clearMessage();
+		}
+		// --- End Manual Lock System ---
+
 		console.log('✅ Form initialized, ready for submissions');
 		submitBtn.addEventListener('click', function() {
 			console.log('🔘 Submit button clicked');
@@ -27,6 +93,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		form.addEventListener('submit', async function(e) {
 			console.log('📤 Form submission triggered');
 			e.preventDefault();
+
+			// Block submission if locked
+			if (isLocked()) {
+				showLockMessage();
+				return;
+			}
 
 			const formData = new FormData(form);
 			const requestData = {
@@ -94,8 +166,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				setTimeout(() => { message.style.display = 'none'; }, 5000);
 			}
 		}
-
-
 
 		// Expose manual test helper
 		window.testSupabaseSubmit = async function() {
