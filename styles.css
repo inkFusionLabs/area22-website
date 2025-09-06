@@ -890,6 +890,57 @@ body {
     padding: var(--space-16) 0;
 }
 
+/* Pricing (redesign) */
+.plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-6);
+}
+
+.plan-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    transition: all var(--transition-normal);
+    position: relative;
+}
+
+.plan-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-primary);
+    box-shadow: var(--shadow-lg);
+}
+
+.plan-badge {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    background: var(--gradient-primary);
+    color: var(--text-inverse);
+    padding: 6px 10px;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+}
+
+.plan-title { color: var(--text-primary); margin: 0 0 var(--space-2) 0; }
+.plan-tagline { color: var(--text-muted); margin-bottom: var(--space-4); }
+
+.plan-price { display: flex; align-items: baseline; gap: 8px; margin-bottom: var(--space-6); }
+.plan-price .amount { font-size: var(--font-size-5xl); font-weight: 800; color: var(--text-primary); }
+.plan-price .period { color: var(--text-muted); }
+
+.plan-features { list-style: none; margin: 0 0 var(--space-6) 0; padding: 0; display: grid; gap: var(--space-2); }
+.plan-features li { display: flex; align-items: center; gap: var(--space-3); color: var(--text-secondary); }
+.plan-features li i { color: var(--primary); }
+
+.faq-section { background: var(--bg-secondary); padding: var(--space-16) 0; }
+.faq-grid { max-width: 900px; margin: 0 auto; display: grid; gap: var(--space-4); }
+.faq-grid details { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-xl); padding: var(--space-4) var(--space-6); }
+.faq-grid summary { cursor: pointer; color: var(--text-primary); font-weight: 600; }
+.faq-grid p { color: var(--text-muted); margin-top: var(--space-3); }
+
 .included-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
