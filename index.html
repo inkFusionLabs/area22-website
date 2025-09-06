@@ -16,7 +16,7 @@
     <title>Area22 - Professional DJ Services</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=2.0">
+    <link rel="stylesheet" href="styles.css?v=2.1">
     <script>
         // Debug navigation
         document.addEventListener('DOMContentLoaded', function() {
@@ -294,7 +294,51 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
         </div>
     </footer>
 
-    <script src="script.js?v=2.0"></script>
+    <script src="script.js?v=2.1"></script>
     <script src="maintenance.js"></script>
+    
+    <!-- Cache busting and service worker update script -->
+    <script>
+        // Force cache invalidation for existing users
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(function(registration) {
+                // Force update the service worker
+                registration.update();
+                
+                // Listen for the updated service worker
+                registration.addEventListener('updatefound', function() {
+                    const newWorker = registration.installing;
+                    newWorker.addEventListener('statechange', function() {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            // New content is available, notify user or auto-reload
+                            console.log('New content available, reloading...');
+                            window.location.reload();
+                        }
+                    });
+                });
+            });
+            
+            // Register new service worker
+            navigator.serviceWorker.register('/sw.js?v=2.0.1').then(function(registration) {
+                console.log('Service Worker registered successfully');
+            }).catch(function(error) {
+                console.log('Service Worker registration failed:', error);
+            });
+        }
+        
+        // Clear all caches on page load for this version
+        if ('caches' in window) {
+            caches.keys().then(function(cacheNames) {
+                return Promise.all(
+                    cacheNames.map(function(cacheName) {
+                        if (cacheName.startsWith('area22-') && cacheName !== 'area22-v2.0.1') {
+                            console.log('Deleting old cache:', cacheName);
+                            return caches.delete(cacheName);
+                        }
+                    })
+                );
+            });
+        }
+    </script>
 </body>
 </html> 
