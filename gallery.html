@@ -76,11 +76,13 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
         </div>
     </section>
 
-    <!-- Gallery Filter -->
-    <section class="gallery-filter">
+    <!-- Gallery Hero & Filters -->
+    <section class="gallery-hero">
         <div class="container">
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">All Events</button>
+            <h2 class="section-title">Explore Our Work</h2>
+            <p class="section-subtitle">Browse events and setups. Click any image to enlarge.</p>
+            <div class="filter-buttons filter-chips">
+                <button class="filter-btn active" data-filter="all">All</button>
                 <button class="filter-btn" data-filter="weddings">Weddings</button>
                 <button class="filter-btn" data-filter="parties">Parties</button>
                 <a href="birthday-parties.html" class="filter-btn" role="link">Birthday Parties</a>
@@ -95,8 +97,12 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
     <!-- Gallery Grid -->
     <section class="gallery-grid">
         <div class="container">
-            <div class="gallery-container">
-                <!-- Gallery intentionally empty -->
+            <div class="gallery-container"></div>
+            <div class="gallery-empty" id="gallery-empty">
+                <div class="empty-card">
+                    <h3>No photos yet</h3>
+                    <p>We’re updating our gallery. Check back soon or explore our <a href="birthday-parties.html">Birthday Parties</a>.</p>
+                </div>
             </div>
             <!-- Lightbox Modal -->
             <div class="lightbox-overlay" id="lightbox">
@@ -188,13 +194,14 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
 
                     const filter = this.getAttribute('data-filter');
 
+                    let anyVisible = false;
                     galleryItems.forEach(item => {
-                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
-                            item.style.display = 'block';
-                        } else {
-                            item.style.display = 'none';
-                        }
+                        const show = (filter === 'all' || item.getAttribute('data-category') === filter);
+                        item.style.display = show ? 'block' : 'none';
+                        if (show) anyVisible = true;
                     });
+                    const empty = document.getElementById('gallery-empty');
+                    if (empty) empty.classList.toggle('active', !anyVisible);
                 });
             });
 
