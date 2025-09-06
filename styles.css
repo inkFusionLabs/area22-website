@@ -597,6 +597,26 @@ body {
     box-shadow: var(--shadow-xl);
 }
 
+/* Team Section */
+.our-team .member-image {
+    display: flex;
+    justify-content: center;
+}
+
+.our-team .team-photo {
+    width: 100%;
+    max-width: 260px; /* shrink team photos */
+    height: auto;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+}
+
+@media (max-width: 768px) {
+    .our-team .team-photo {
+        max-width: 220px;
+    }
+}
+
 /* Contact Section */
 .contact-section {
     background: var(--bg-secondary);
