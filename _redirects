@@ -1,7 +1,11 @@
 # Allow direct access to HTML files
 /*.html    /:splat    200
 
-
+# Specific redirects for important pages
+/dj-dashboard    /dj-dashboard.html    200
+/debug-dashboard    /debug-dashboard.html    200
+/mobile-test    /mobile-test.html    200
+/cache-invalidation    /cache-invalidation.html    200
 
 # Redirect all other routes to index.html for SPA
 /*    /index.html   200 

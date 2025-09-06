@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Test - Area22</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        button {
+            background: #00ff00;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+        }
+        button:hover { background: #00cc00; }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success-bg { background: #d4edda; color: #155724; }
+        .error-bg { background: #f8d7da; color: #721c24; }
+        .info-bg { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 DJ Dashboard Test</h1>
+        <p>This page tests if the DJ dashboard is accessible.</p>
+        
+        <div id="status" class="status info-bg">
+            Testing dashboard accessibility...
+        </div>
+        
+        <button onclick="testDashboard()">Test DJ Dashboard</button>
+        <button onclick="testDirectAccess()">Test Direct Access</button>
+        <button onclick="checkFileExists()">Check File Exists</button>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function updateStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type}-bg`;
+        }
+        
+        function addResult(message, type) {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = type;
+            div.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            results.appendChild(div);
+        }
+        
+        async function testDashboard() {
+            updateStatus('Testing dashboard access...', 'info');
+            try {
+                const response = await fetch('/dj-dashboard.html');
+                if (response.ok) {
+                    updateStatus('✅ DJ Dashboard is accessible!', 'success');
+                    addResult('Dashboard fetch successful - Status: ' + response.status, 'success');
+                } else {
+                    updateStatus('❌ Dashboard returned error: ' + response.status, 'error');
+                    addResult('Dashboard fetch failed - Status: ' + response.status, 'error');
+                }
+            } catch (error) {
+                updateStatus('❌ Dashboard access failed: ' + error.message, 'error');
+                addResult('Dashboard fetch error: ' + error.message, 'error');
+            }
+        }
+        
+        async function testDirectAccess() {
+            updateStatus('Testing direct access...', 'info');
+            try {
+                const response = await fetch('/dj-dashboard');
+                if (response.ok) {
+                    updateStatus('✅ Direct access works!', 'success');
+                    addResult('Direct access successful - Status: ' + response.status, 'success');
+                } else {
+                    updateStatus('❌ Direct access failed: ' + response.status, 'error');
+                    addResult('Direct access failed - Status: ' + response.status, 'error');
+                }
+            } catch (error) {
+                updateStatus('❌ Direct access error: ' + error.message, 'error');
+                addResult('Direct access error: ' + error.message, 'error');
+            }
+        }
+        
+        async function checkFileExists() {
+            updateStatus('Checking if file exists...', 'info');
+            try {
+                const response = await fetch('/dj-dashboard.html', { method: 'HEAD' });
+                if (response.ok) {
+                    updateStatus('✅ File exists and is accessible!', 'success');
+                    addResult('File check successful - Status: ' + response.status, 'success');
+                    addResult('Content-Type: ' + response.headers.get('content-type'), 'info');
+                    addResult('Content-Length: ' + response.headers.get('content-length'), 'info');
+                } else {
+                    updateStatus('❌ File not found: ' + response.status, 'error');
+                    addResult('File check failed - Status: ' + response.status, 'error');
+                }
+            } catch (error) {
+                updateStatus('❌ File check error: ' + error.message, 'error');
+                addResult('File check error: ' + error.message, 'error');
+            }
+        }
+        
+        // Auto-test on page load
+        window.addEventListener('load', function() {
+            setTimeout(testDashboard, 1000);
+        });
+    </script>
+</body>
+</html>

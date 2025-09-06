@@ -26,7 +26,11 @@ const htmlFiles = [
     // 'media-consent.html',
     'privacy-policy.html',
     'admin.html',
-    'test-hamburger.html'
+    'test-hamburger.html',
+    'dj-dashboard.html',
+    'debug-dashboard.html',
+    'mobile-test.html',
+    'cache-invalidation.html'
 ];
 
 /**

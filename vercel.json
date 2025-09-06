@@ -43,6 +43,46 @@
       "status": 200
     },
     {
+      "src": "/dj-dashboard",
+      "dest": "/dj-dashboard.html",
+      "status": 200
+    },
+    {
+      "src": "/dj-dashboard.html",
+      "dest": "/dj-dashboard.html",
+      "status": 200
+    },
+    {
+      "src": "/debug-dashboard",
+      "dest": "/debug-dashboard.html",
+      "status": 200
+    },
+    {
+      "src": "/debug-dashboard.html",
+      "dest": "/debug-dashboard.html",
+      "status": 200
+    },
+    {
+      "src": "/mobile-test",
+      "dest": "/mobile-test.html",
+      "status": 200
+    },
+    {
+      "src": "/mobile-test.html",
+      "dest": "/mobile-test.html",
+      "status": 200
+    },
+    {
+      "src": "/cache-invalidation",
+      "dest": "/cache-invalidation.html",
+      "status": 200
+    },
+    {
+      "src": "/cache-invalidation.html",
+      "dest": "/cache-invalidation.html",
+      "status": 200
+    },
+    {
       "src": "/(.*\\.(css|js|png|jpg|jpeg|JPG|gif|ico|svg|woff|woff2|ttf|eot))",
       "headers": {
         "Cache-Control": "public, max-age=31536000, immutable"
