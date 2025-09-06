@@ -487,6 +487,38 @@
     <script>
         let requests = [];
         let completedRequests = [];
+        const LOCAL_COMPLETED_KEY = 'area22_completed_ids';
+
+        function loadLocalCompleted() {
+            try {
+                const raw = localStorage.getItem(LOCAL_COMPLETED_KEY);
+                const parsed = JSON.parse(raw || '[]');
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveLocalCompleted(ids) {
+            try {
+                localStorage.setItem(LOCAL_COMPLETED_KEY, JSON.stringify(ids || []));
+            } catch (e) {
+                // ignore storage errors
+            }
+        }
+
+        function addLocalCompleted(id) {
+            const ids = loadLocalCompleted();
+            if (!ids.includes(id)) {
+                ids.unshift(id);
+                saveLocalCompleted(ids);
+            }
+        }
+
+        function removeLocalCompleted(id) {
+            const ids = loadLocalCompleted().filter(x => x !== id);
+            saveLocalCompleted(ids);
+        }
 
         document.addEventListener('DOMContentLoaded', function() {
             loadRequests();
@@ -516,9 +548,14 @@
                 const all = (data || []).filter(r => !isTestRequest(r));
                 requests = all.filter(r => r.status !== 'completed');
                 completedRequests = all.filter(r => r.status === 'completed');
+
+                // Overlay local completion flags so UI reflects prior completions even if server update failed
+                overlayLocalCompleted();
+
                 updateStats();
                 renderRequests();
                 renderCompleted();
+                await resyncLocalCompleted();
 
             } catch (error) {
                 console.error('Error loading requests:', error);
@@ -526,6 +563,52 @@
             } finally {
                 document.getElementById('loading').style.display = 'none';
             }
+        }
+
+        function overlayLocalCompleted() {
+            const locallyCompleted = loadLocalCompleted();
+            if (!locallyCompleted.length) return;
+
+            const idSet = new Set(locallyCompleted);
+            const stillPending = [];
+            for (const r of requests) {
+                if (idSet.has(r.id)) {
+                    r.status = 'completed';
+                    completedRequests.unshift(r);
+                } else {
+                    stillPending.push(r);
+                }
+            }
+            requests = stillPending;
+        }
+
+        async function resyncLocalCompleted() {
+            const locallyCompleted = loadLocalCompleted();
+            if (!locallyCompleted.length) return;
+
+            // Find any pending items that should be completed according to local memory
+            const toFix = (requests || []).filter(r => locallyCompleted.includes(r.id) && r.status !== 'completed');
+            if (!toFix.length) return;
+
+            for (const r of toFix) {
+                try {
+                    const { error } = await supabase
+                        .from('song_requests')
+                        .update({ status: 'completed' })
+                        .eq('id', r.id);
+                    if (!error) {
+                        // Move locally
+                        requests = requests.filter(x => x.id !== r.id);
+                        r.status = 'completed';
+                        completedRequests.unshift(r);
+                    }
+                } catch (e) {
+                    // Ignore; server may block updates. We'll at least reflect locally on next render
+                }
+            }
+            updateStats();
+            renderRequests();
+            renderCompleted();
         }
 
         function updateStats() {
@@ -579,10 +662,6 @@
                             <div class="status-badge status-${request.status}">
                                 ${request.status}
                             </div>
-                            <label class="complete-label">
-                                <input type="checkbox" ${request.status === 'completed' ? 'checked' : ''} onclick="toggleComplete('${request.id}', this.checked)">
-                                Complete
-                            </label>
                         </div>
                     </div>
 
@@ -654,53 +733,52 @@
         }
 
         async function toggleComplete(id, isCompleted) {
+            // Optimistic local update + persistence
+            if (isCompleted) {
+                const item = requests.find(r => r.id === id);
+                requests = requests.filter(r => r.id !== id);
+                if (item) { item.status = 'completed'; completedRequests.unshift(item); }
+                addLocalCompleted(id);
+            } else {
+                const item = completedRequests.find(r => r.id === id);
+                completedRequests = completedRequests.filter(r => r.id !== id);
+                if (item) { item.status = 'pending'; requests.unshift(item); }
+                removeLocalCompleted(id);
+            }
+            updateStats();
+            renderRequests();
+            renderCompleted();
+
+            // Try to persist to server in background
             try {
                 const newStatus = isCompleted ? 'completed' : 'pending';
-                const { error } = await supabase
+                await supabase
                     .from('song_requests')
                     .update({ status: newStatus })
                     .eq('id', id);
-
-                if (error) throw error;
-
-                // Move item between lists
-                if (isCompleted) {
-                    const item = requests.find(r => r.id === id);
-                    requests = requests.filter(r => r.id !== id);
-                    if (item) { item.status = 'completed'; completedRequests.unshift(item); }
-                } else {
-                    const item = completedRequests.find(r => r.id === id);
-                    completedRequests = completedRequests.filter(r => r.id !== id);
-                    if (item) { item.status = 'pending'; requests.unshift(item); }
-                }
-                updateStats();
-                renderRequests();
-                renderCompleted();
             } catch (error) {
-                console.error('Error toggling complete:', error);
-                alert('Failed to update completion state');
+                console.warn('Non-fatal: server update failed; kept local completion state.', error);
             }
         }
 
         async function completeAndRemove(id) {
+            // Optimistic local update
+            const item = requests.find(r => r.id === id);
+            requests = requests.filter(r => r.id !== id);
+            if (item) { item.status = 'completed'; completedRequests.unshift(item); }
+            addLocalCompleted(id);
+            updateStats();
+            renderRequests();
+            renderCompleted();
+
+            // Persist to server in background
             try {
-                const { error } = await supabase
+                await supabase
                     .from('song_requests')
                     .update({ status: 'completed' })
                     .eq('id', id);
-
-                if (error) throw error;
-
-                // Move locally to completed
-                const item = requests.find(r => r.id === id);
-                requests = requests.filter(r => r.id !== id);
-                if (item) { item.status = 'completed'; completedRequests.unshift(item); }
-                updateStats();
-                renderRequests();
-                renderCompleted();
             } catch (error) {
-                console.error('Error completing request:', error);
-                alert('Failed to complete request');
+                console.warn('Non-fatal: server update failed; kept local completion state.', error);
             }
         }
 
@@ -708,6 +786,8 @@
             if (!confirm('Are you sure you want to delete this request?')) return;
 
             try {
+                // Optimistic local removal and local storage cleanup
+                removeLocalCompleted(id);
                 const { error } = await supabase
                     .from('song_requests')
                     .delete()

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print QR - Request a Song</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --brand:#00ff00;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif;
+            background:#111;
+            color:#fff;
+            margin:0;
+            padding:24px;
+        }
+        .sheet {
+            max-width: 794px; /* A4 width @96dpi */
+            margin: 0 auto;
+            background:#fff;
+            color:#000;
+            border-radius:16px;
+            padding:28px;
+            box-shadow:0 12px 40px rgba(0,0,0,.35);
+        }
+        .heading {
+            text-align:center;
+            margin-bottom:18px;
+        }
+        .heading h1 {
+            margin:0 0 6px;
+            font-size:28px;
+        }
+        .heading p { margin:0; color:#333; }
+
+        .qr-wrap {
+            display:flex; align-items:center; justify-content:center;
+            padding:18px; background:#000; border-radius:16px;
+        }
+        .qr-card {
+            background:#fff; border-radius:18px; padding:18px;
+        }
+        #qrImage { width:540px; height:540px; display:block; }
+        #qrCanvas { display:none; }
+
+        .url-line {
+            text-align:center; margin-top:14px; font-size:14px; color:#333;
+            word-break: break-all;
+        }
+
+        .actions {
+            display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+            margin:20px 0 6px;
+        }
+        .btn { border:none; border-radius:8px; padding:10px 14px; cursor:pointer; font-weight:600; }
+        .btn-primary { background:var(--brand); color:#000; }
+        .btn-ghost { background:#222; color:#fff; }
+        input[type="file"] { display:none; }
+        label[for="fileInput"] { cursor:pointer; }
+
+        @media print {
+            body { background:#fff; padding:0; }
+            .sheet { box-shadow:none; border-radius:0; padding:18mm; max-width:none; }
+            .actions, .controls { display:none !important; }
+            .heading h1 { font-size:22pt; }
+            #qrImage { width:140mm; height:140mm; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sheet">
+        <div class="heading">
+            <h1>Scan to Request a Song</h1>
+            <p>Open your camera and point at the code</p>
+        </div>
+
+        <div class="qr-wrap">
+            <div class="qr-card">
+                <canvas id="qrCanvas" width="540" height="540" aria-label="QR code"></canvas>
+                <img id="qrImage" alt="Request a Song QR" />
+            </div>
+        </div>
+
+        <div class="url-line" id="urlLine"></div>
+
+        <div class="actions controls">
+            <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+            <button class="btn btn-ghost" onclick="downloadPNG()"><i class="fas fa-download"></i> Download PNG</button>
+            <label for="fileInput" class="btn btn-ghost"><i class="fas fa-image"></i> Use Provided Image</label>
+            <input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp" />
+        </div>
+
+        <div class="actions controls" style="justify-content:center;">
+            <small style="opacity:.7">Tip: You can upload a supplied QR image or let this page generate one automatically.</small>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script>
+        const urlDisplay = document.getElementById('urlLine');
+        const canvas = document.getElementById('qrCanvas');
+        const img = document.getElementById('qrImage');
+        const fileInput = document.getElementById('fileInput');
+
+        // Determine target URL: ?url=... or default to current origin music-request page
+        const params = new URLSearchParams(location.search);
+        const targetUrl = params.get('url') || `${location.origin}/music-request.html`;
+        urlDisplay.textContent = targetUrl;
+
+        // Generate QR to canvas, then mirror to <img>
+        function generate() {
+            QRCode.toCanvas(canvas, targetUrl, {
+                width: 540,
+                margin: 2,
+                color: { dark: '#000000', light: '#FFFFFF' },
+                errorCorrectionLevel: 'M'
+            }, function(err){
+                if (err) { console.error(err); return; }
+                try {
+                    img.src = canvas.toDataURL('image/png');
+                    img.style.display = 'block';
+                } catch(e){}
+            });
+        }
+
+        // Allow using a provided QR image file
+        fileInput.addEventListener('change', function(){
+            const file = this.files && this.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(ev){
+                img.src = ev.target.result;
+                img.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        });
+
+        function downloadPNG(){
+            const link = document.createElement('a');
+            link.download = 'area22-request-qr.png';
+            link.href = img.src || canvas.toDataURL('image/png');
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        }
+
+        generate();
+    </script>
+</body>
+</html>
+

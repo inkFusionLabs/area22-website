@@ -288,10 +288,8 @@
             <div class="qr-section">
                 <h2 style="margin-bottom: 10px; color: #333;">Scan to Request a Song</h2>
                 <div class="qr-code" id="qrCode">
-                    <div class="qr-placeholder">
-                        <i class="fas fa-qrcode fa-3x"></i><br>
-                        QR Code will appear here
-                    </div>
+                    <canvas id="qrCanvas" width="256" height="256" aria-label="QR code" style="display:block;"></canvas>
+                    <img id="qrImage" alt="QR code" style="display:none; width:256px; height:256px;"/>
                 </div>
                 <div class="url-display" id="urlDisplay">
                     Loading...
@@ -307,6 +305,9 @@
                 </button>
                 <button class="action-btn btn-outline" onclick="shareQR()">
                     <i class="fas fa-share-alt"></i> Share
+                </button>
+                <button class="action-btn btn-outline" onclick="downloadQR()">
+                    <i class="fas fa-download"></i> Download PNG
                 </button>
             </div>
 
@@ -347,13 +348,10 @@
             document.getElementById('urlDisplay').textContent = currentUrl;
 
             // Generate QR code
-            const qrContainer = document.getElementById('qrCode');
+            const canvas = document.getElementById('qrCanvas');
 
-            // Clear existing content
-            qrContainer.innerHTML = '';
-
-            // Create QR code
-            QRCode.toCanvas(qrContainer, currentUrl, {
+            // Create QR code on canvas
+            QRCode.toCanvas(canvas, currentUrl, {
                 width: 256,
                 height: 256,
                 color: {
@@ -364,8 +362,17 @@
             }, function (error) {
                 if (error) {
                     console.error('QR Code generation error:', error);
-                    qrContainer.innerHTML = '<div class="qr-placeholder">Error generating QR code</div>';
+                    const container = document.getElementById('qrCode');
+                    container.innerHTML = '<div class="qr-placeholder">Error generating QR code</div>';
                 }
+                // Also mirror into an <img> so the code is physically embedded in the page
+                try {
+                    const img = document.getElementById('qrImage');
+                    img.src = canvas.toDataURL('image/png');
+                    img.style.display = 'block';
+                    // Hide the canvas so only the image shows
+                    canvas.style.display = 'none';
+                } catch (e) { /* no-op */ }
             });
         }
 
@@ -401,6 +408,16 @@
             } else {
                 copyUrl();
             }
+        }
+
+        function downloadQR() {
+            const canvas = document.getElementById('qrCanvas');
+            const link = document.createElement('a');
+            link.download = 'area22-music-request-qr.png';
+            link.href = canvas.toDataURL('image/png');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 </body>
