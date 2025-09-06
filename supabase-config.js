@@ -1,6 +1,6 @@
 // Supabase Configuration for Area22 Music Request System
-const SUPABASE_URL = 'https://vwiiwxbncaojngpdtrql.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ3aWl3eGJuY2Fvam5ncGR0cnFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MTMyMzksImV4cCI6MjA3MTE4OTIzOX0.oGer_s1Uft2wZTpCgc6L6XcKrjdEiSoPK8vTPU-9110';
+const SUPABASE_URL = 'https://wcxwadutvxvwuxgxhlhr.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndjeHdhZHV0dnh2d3V4Z3hobGhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxNTYxOTAsImV4cCI6MjA3MjczMjE5MH0.haEeMvPhX9mY2iY7qNrSK-abR4V4JDcXPgm-UriDmI0';
 
 // Initialize Supabase client
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -39,4 +39,4 @@ Columns:
    - Using: auth.role() = 'authenticated'
 */
 
-export { supabase };
+// Note: Do not export in browser script context; keep global `supabase` available.

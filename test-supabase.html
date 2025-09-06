@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Supabase Connection - Area22</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .success { background: #d4edda; border-color: #28a745; }
+        .error { background: #f8d7da; border-color: #dc3545; }
+        .info { background: #d1ecf1; border-color: #17a2b8; }
+        .warning { background: #fff3cd; border-color: #ffc107; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        .code {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Supabase Setup Test</h1>
+        <p>Test your Supabase connection and database setup for the Area22 Music Request System.</p>
+
+        <div id="connectionTest" class="test-section info">
+            <h3>1. Connection Test</h3>
+            <p>Testing connection to Supabase...</p>
+            <div id="connectionResult"></div>
+        </div>
+
+        <div id="tableTest" class="test-section info">
+            <h3>2. Database Table Check</h3>
+            <p>Checking if song_requests table exists...</p>
+            <div id="tableResult"></div>
+        </div>
+
+        <div id="rlsTest" class="test-section info">
+            <h3>3. Row Level Security Check</h3>
+            <p>Checking RLS policies...</p>
+            <div id="rlsResult"></div>
+        </div>
+
+        <div id="insertTest" class="test-section info">
+            <h3>4. Insert Test</h3>
+            <p>Testing if we can insert a sample request...</p>
+            <div id="insertResult"></div>
+        </div>
+
+        <div id="actions" style="margin-top: 30px;">
+            <button onclick="runAllTests()">🔄 Run All Tests</button>
+            <button onclick="createTable()" id="createTableBtn" style="display: none;">📋 Create Table</button>
+            <button onclick="setupRLS()" id="setupRLSBtn" style="display: none;">🔒 Setup RLS</button>
+            <button onclick="clearTestData()" id="clearBtn" style="display: none;">🗑️ Clear Test Data</button>
+        </div>
+
+        <div id="setupInstructions" style="margin-top: 30px; display: none;">
+            <h3>📋 Setup Instructions</h3>
+            <div class="code">
+-- Run this in your Supabase SQL Editor:
+
+-- Create the song_requests table
+CREATE TABLE song_requests (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    song_title TEXT NOT NULL,
+    artist_name TEXT NOT NULL,
+    guest_name TEXT DEFAULT 'Anonymous',
+    note TEXT,
+    priority TEXT DEFAULT 'normal' CHECK (priority IN ('urgent', 'high', 'normal')),
+    status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'playing', 'completed', 'skipped')),
+    event_code TEXT DEFAULT 'default',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create indexes for better performance
+CREATE INDEX idx_song_requests_created_at ON song_requests(created_at DESC);
+CREATE INDEX idx_song_requests_status ON song_requests(status);
+CREATE INDEX idx_song_requests_priority ON song_requests(priority);
+CREATE INDEX idx_song_requests_event_code ON song_requests(event_code);
+
+-- Enable Row Level Security (RLS)
+ALTER TABLE song_requests ENABLE ROW LEVEL SECURITY;
+
+-- Policy: Anyone can insert song requests
+CREATE POLICY "Enable insert for all users" ON song_requests
+    FOR INSERT WITH CHECK (true);
+
+-- Policy: Anyone can view song requests
+CREATE POLICY "Enable select for all users" ON song_requests
+    FOR SELECT USING (true);
+
+-- Policy: Only authenticated users can update/delete (for DJ dashboard)
+CREATE POLICY "Enable update/delete for authenticated users" ON song_requests
+    FOR ALL USING (auth.role() = 'authenticated');
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Supabase Config -->
+    <script src="supabase-config.js"></script>
+
+    <script>
+        let testResults = {};
+
+        async function runAllTests() {
+            testResults = {};
+            await testConnection();
+            await testTable();
+            await testRLS();
+            await testInsert();
+            showActions();
+        }
+
+        async function testConnection() {
+            const resultDiv = document.getElementById('connectionResult');
+            resultDiv.innerHTML = '⏳ Testing...';
+
+            try {
+                // Test basic connection
+                const { data, error } = await supabase.from('song_requests').select('count', { count: 'exact', head: true });
+
+                if (error && !error.message.includes('relation "public.song_requests" does not exist')) {
+                    throw error;
+                }
+
+                resultDiv.innerHTML = '✅ Connection successful!';
+                resultDiv.parentElement.className = 'test-section success';
+                testResults.connection = true;
+
+            } catch (error) {
+                resultDiv.innerHTML = `❌ Connection failed: ${error.message}`;
+                resultDiv.parentElement.className = 'test-section error';
+                testResults.connection = false;
+            }
+        }
+
+        async function testTable() {
+            const resultDiv = document.getElementById('tableResult');
+            resultDiv.innerHTML = '⏳ Checking...';
+
+            try {
+                const { data, error } = await supabase.from('song_requests').select('*').limit(1);
+
+                if (error) {
+                    if (error.message.includes('relation "public.song_requests" does not exist')) {
+                        throw new Error('Table does not exist');
+                    } else {
+                        throw error;
+                    }
+                }
+
+                resultDiv.innerHTML = '✅ Table exists and accessible!';
+                resultDiv.parentElement.className = 'test-section success';
+                testResults.table = true;
+
+            } catch (error) {
+                if (error.message === 'Table does not exist') {
+                    resultDiv.innerHTML = '❌ Table does not exist. Click "Create Table" to set it up.';
+                    resultDiv.parentElement.className = 'test-section warning';
+                    testResults.table = false;
+                } else {
+                    resultDiv.innerHTML = `❌ Error: ${error.message}`;
+                    resultDiv.parentElement.className = 'test-section error';
+                    testResults.table = false;
+                }
+            }
+        }
+
+        async function testRLS() {
+            const resultDiv = document.getElementById('rlsResult');
+            resultDiv.innerHTML = '⏳ Checking...';
+
+            try {
+                // Try to insert a test record
+                const { data, error } = await supabase
+                    .from('song_requests')
+                    .insert([{
+                        song_title: 'Test Song',
+                        artist_name: 'Test Artist',
+                        guest_name: 'Test Guest',
+                        note: 'Test note',
+                        priority: 'normal',
+                        status: 'pending'
+                    }])
+                    .select();
+
+                if (error) {
+                    if (error.message.includes('permission denied') || error.message.includes('policy')) {
+                        throw new Error('RLS policy issue');
+                    } else {
+                        throw error;
+                    }
+                }
+
+                // Clean up test record
+                if (data && data[0]) {
+                    await supabase.from('song_requests').delete().eq('id', data[0].id);
+                }
+
+                resultDiv.innerHTML = '✅ RLS policies configured correctly!';
+                resultDiv.parentElement.className = 'test-section success';
+                testResults.rls = true;
+
+            } catch (error) {
+                if (error.message === 'RLS policy issue') {
+                    resultDiv.innerHTML = '❌ RLS policies need setup. Click "Setup RLS" to configure.';
+                    resultDiv.parentElement.className = 'test-section warning';
+                    testResults.rls = false;
+                } else if (error.message === 'Table does not exist') {
+                    resultDiv.innerHTML = '⏸️ Table needs to be created first.';
+                    resultDiv.parentElement.className = 'test-section info';
+                    testResults.rls = null;
+                } else {
+                    resultDiv.innerHTML = `❌ Error: ${error.message}`;
+                    resultDiv.parentElement.className = 'test-section error';
+                    testResults.rls = false;
+                }
+            }
+        }
+
+        async function testInsert() {
+            const resultDiv = document.getElementById('insertResult');
+            resultDiv.innerHTML = '⏳ Testing...';
+
+            try {
+                const { data, error } = await supabase
+                    .from('song_requests')
+                    .insert([{
+                        song_title: 'Sample Song',
+                        artist_name: 'Sample Artist',
+                        guest_name: 'Test User',
+                        note: 'This is a test request',
+                        priority: 'normal',
+                        status: 'pending'
+                    }])
+                    .select();
+
+                if (error) throw error;
+
+                resultDiv.innerHTML = `✅ Insert successful! Created record with ID: ${data[0].id}`;
+                resultDiv.parentElement.className = 'test-section success';
+                testResults.insert = true;
+
+                // Store the test record ID for cleanup
+                window.testRecordId = data[0].id;
+
+            } catch (error) {
+                resultDiv.innerHTML = `❌ Insert failed: ${error.message}`;
+                resultDiv.parentElement.className = 'test-section error';
+                testResults.insert = false;
+            }
+        }
+
+        function showActions() {
+            const actionsDiv = document.getElementById('actions');
+            const createTableBtn = document.getElementById('createTableBtn');
+            const setupRLSBtn = document.getElementById('setupRLSBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const instructionsDiv = document.getElementById('setupInstructions');
+
+            if (!testResults.table) {
+                createTableBtn.style.display = 'inline-block';
+                instructionsDiv.style.display = 'block';
+            }
+
+            if (testResults.table && !testResults.rls) {
+                setupRLSBtn.style.display = 'inline-block';
+                instructionsDiv.style.display = 'block';
+            }
+
+            if (testResults.insert && window.testRecordId) {
+                clearBtn.style.display = 'inline-block';
+            }
+        }
+
+        async function createTable() {
+            alert('Please run the SQL code shown above in your Supabase SQL Editor, then click "Run All Tests" again.');
+        }
+
+        async function setupRLS() {
+            alert('Please run the RLS policy setup code shown above in your Supabase SQL Editor, then click "Run All Tests" again.');
+        }
+
+        async function clearTestData() {
+            if (window.testRecordId) {
+                try {
+                    await supabase.from('song_requests').delete().eq('id', window.testRecordId);
+                    document.getElementById('clearBtn').style.display = 'none';
+                    document.getElementById('insertResult').innerHTML = '✅ Test data cleared!';
+                    window.testRecordId = null;
+                } catch (error) {
+                    alert('Failed to clear test data: ' + error.message);
+                }
+            }
+        }
+
+        // Auto-run tests on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(runAllTests, 1000);
+        });
+    </script>
+</body>
+</html>

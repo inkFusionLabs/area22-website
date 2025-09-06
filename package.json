@@ -23,5 +23,8 @@
   },
   "vercel": {
     "buildCommand": "npm run build"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.2"
   }
 }
