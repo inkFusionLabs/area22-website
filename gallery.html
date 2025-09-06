@@ -124,6 +124,13 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
                 </div>
                 
             </div>
+            <!-- Lightbox Modal -->
+            <div class="lightbox-overlay" id="lightbox">
+                <div class="lightbox-content">
+                    <img src="" alt="Expanded gallery image" class="lightbox-image" id="lightbox-img">
+                    <button class="lightbox-close" id="lightbox-close" aria-label="Close image">×</button>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -194,6 +201,9 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
         document.addEventListener('DOMContentLoaded', function() {
             const filterButtons = document.querySelectorAll('.filter-btn');
             const galleryItems = document.querySelectorAll('.gallery-item');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxClose = document.getElementById('lightbox-close');
 
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
@@ -212,6 +222,28 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
                         }
                     });
                 });
+            });
+
+            // Lightbox: open on image click
+            document.querySelectorAll('.gallery-img').forEach(img => {
+                img.style.cursor = 'zoom-in';
+                img.addEventListener('click', () => {
+                    lightboxImg.src = img.src;
+                    lightbox.classList.add('active');
+                });
+            });
+
+            // Close handlers
+            const closeLightbox = () => {
+                lightbox.classList.remove('active');
+                lightboxImg.src = '';
+            };
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeLightbox();
             });
         });
     </script>
