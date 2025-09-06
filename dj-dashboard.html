@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>DJ Dashboard - Area22</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -432,6 +435,46 @@
                 font-size: 14px;
             }
         }
+
+        /* Mobile device specific optimizations */
+        .mobile-device .loading {
+            font-size: 16px;
+            padding: 60px 20px;
+        }
+
+        .mobile-device .empty-state {
+            padding: 60px 20px;
+            font-size: 16px;
+        }
+
+        .mobile-device .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        /* Ensure touch targets are large enough */
+        .mobile-device .action-btn {
+            min-height: 44px;
+            font-size: 14px;
+        }
+
+        .mobile-device .refresh-btn {
+            width: 60px;
+            height: 60px;
+            font-size: 20px;
+        }
+
+        /* Improve mobile text readability */
+        .mobile-device .song-info h3 {
+            font-size: 18px;
+            line-height: 1.3;
+        }
+
+        .mobile-device .artist,
+        .mobile-device .guest-name {
+            font-size: 16px;
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
@@ -521,6 +564,17 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('📱 Mobile device check:', /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+            console.log('📱 User agent:', navigator.userAgent);
+            console.log('📱 Screen size:', window.innerWidth + 'x' + window.innerHeight);
+            console.log('📱 Touch support:', 'ontouchstart' in window);
+            
+            // Add mobile-specific error handling
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                console.log('📱 Mobile device detected - applying mobile optimizations');
+                document.body.classList.add('mobile-device');
+            }
+            
             loadRequests();
             setupRealtimeUpdates();
 
@@ -536,6 +590,22 @@
             try {
                 document.getElementById('loading').style.display = 'block';
                 document.getElementById('emptyState').style.display = 'none';
+
+                console.log('📱 Mobile loading attempt - checking Supabase connection...');
+                
+                // Test connection first on mobile
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    console.log('📱 Mobile device - testing connection before full load...');
+                    const { error: testError } = await supabase
+                        .from('song_requests')
+                        .select('count', { count: 'exact', head: true });
+                    
+                    if (testError) {
+                        console.error('📱 Mobile connection test failed:', testError);
+                        throw new Error('Mobile connection failed: ' + testError.message);
+                    }
+                    console.log('📱 Mobile connection test passed');
+                }
 
                 const { data, error } = await supabase
                     .from('song_requests')
@@ -566,7 +636,15 @@
 
             } catch (error) {
                 console.error('Error loading requests:', error);
-                showError('Failed to load requests');
+                console.error('Error details:', { message: error.message, name: error.name, stack: error.stack });
+                
+                // Mobile-specific error handling
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    console.log('📱 Mobile error detected - showing mobile-friendly error');
+                    showMobileError('Mobile connection failed. Please check your internet connection and try refreshing the page.');
+                } else {
+                    showError('Failed to load requests');
+                }
             } finally {
                 document.getElementById('loading').style.display = 'none';
             }
@@ -843,6 +921,47 @@
         function showError(message) {
             // Simple error display - you can enhance this
             alert(message);
+        }
+        
+        function showMobileError(message) {
+            // Mobile-friendly error display
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #ff4444;
+                color: white;
+                padding: 20px;
+                border-radius: 10px;
+                text-align: center;
+                z-index: 10000;
+                max-width: 90%;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            `;
+            errorDiv.innerHTML = `
+                <h3>📱 Mobile Connection Issue</h3>
+                <p>${message}</p>
+                <button onclick="this.parentElement.remove(); window.location.reload();" style="
+                    background: white;
+                    color: #ff4444;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    margin-top: 10px;
+                    cursor: pointer;
+                    font-weight: bold;
+                ">Retry</button>
+            `;
+            document.body.appendChild(errorDiv);
+            
+            // Auto-remove after 10 seconds
+            setTimeout(() => {
+                if (errorDiv.parentElement) {
+                    errorDiv.remove();
+                }
+            }, 10000);
         }
         
         function isTestRequest(r) {
