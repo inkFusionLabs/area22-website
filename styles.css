@@ -611,9 +611,26 @@ body {
     box-shadow: var(--shadow-lg);
 }
 
+.our-team .team-hero {
+    display: flex;
+    justify-content: center;
+    margin: var(--space-6) 0 var(--space-10);
+}
+
+.our-team .team-hero img {
+    width: 100%;
+    max-width: 720px;
+    height: auto;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-xl);
+}
+
 @media (max-width: 768px) {
     .our-team .team-photo {
         max-width: 220px;
+    }
+    .our-team .team-hero img {
+        max-width: 95%;
     }
 }
 
