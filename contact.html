@@ -72,26 +72,32 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
     <section class="contact-hero">
         <div class="container">
             <div class="contact-hero-content">
-                <h1 class="hero-title">Get In Touch</h1>
-                <p class="hero-subtitle">Ready to make your event unforgettable? Let's create something amazing together.</p>
-                <div class="hero-cta">
-                    <a href="#contact-form" class="btn btn-primary">Get Free Quote</a>
-                    <a href="tel:07934284930" class="btn btn-secondary">Call Now</a>
-                </div>
-            </div>
-            <div class="contact-hero-visual">
-                <div class="hero-stats">
-                    <div class="stat">
-                        <div class="stat-number">500+</div>
-                        <div class="stat-label">Events</div>
+                <div class="hero-text">
+                    <h1 class="hero-title">Let's Create Magic Together</h1>
+                    <p class="hero-subtitle">Ready to make your event unforgettable? Get in touch and let's discuss how we can bring your vision to life with the perfect soundtrack.</p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">Events Delivered</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">10+</span>
+                            <span class="stat-label">Years Experience</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">98%</span>
+                            <span class="stat-label">Client Satisfaction</span>
+                        </div>
                     </div>
-                    <div class="stat">
-                        <div class="stat-number">10+</div>
-                        <div class="stat-label">Years</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">98%</div>
-                        <div class="stat-label">Satisfaction</div>
+                    <div class="hero-cta">
+                        <a href="#contact-form" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Get Free Quote
+                        </a>
+                        <a href="tel:07934284930" class="btn btn-secondary">
+                            <i class="fas fa-phone"></i>
+                            Call Now
+                        </a>
                     </div>
                 </div>
             </div>
@@ -102,31 +108,37 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
     <section class="quick-contact">
         <div class="container">
             <div class="quick-contact-grid">
-                <div class="quick-contact-card primary">
-                    <div class="contact-icon">
+                <div class="contact-card primary">
+                    <div class="card-icon">
                         <i class="fas fa-phone-alt"></i>
                     </div>
-                    <h3>Call Us Now</h3>
-                    <p><a href="tel:07934284930">07934 284 930</a></p>
-                    <span class="contact-meta">7 days a week • Instant response</span>
+                    <div class="card-content">
+                        <h3>Call Us Now</h3>
+                        <p class="contact-number"><a href="tel:07934284930">07934 284 930</a></p>
+                        <span class="contact-meta">7 days a week • Instant response</span>
+                    </div>
                 </div>
 
-                <div class="quick-contact-card">
-                    <div class="contact-icon">
+                <div class="contact-card">
+                    <div class="card-icon">
                         <i class="fas fa-envelope"></i>
                     </div>
-                    <h3>Email Us</h3>
-                    <p><a href="mailto:area-22@mail.co.uk">area-22@mail.co.uk</a></p>
-                    <span class="contact-meta">Response within 24 hours</span>
+                    <div class="card-content">
+                        <h3>Email Us</h3>
+                        <p class="contact-email"><a href="mailto:area-22@mail.co.uk">area-22@mail.co.uk</a></p>
+                        <span class="contact-meta">Response within 24 hours</span>
+                    </div>
                 </div>
 
-                <div class="quick-contact-card">
-                    <div class="contact-icon">
+                <div class="contact-card">
+                    <div class="card-icon">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
-                    <h3>Service Area</h3>
-                    <p>Basingstoke & Hampshire</p>
-                    <span class="contact-meta">Travel fees may apply</span>
+                    <div class="card-content">
+                        <h3>Service Area</h3>
+                        <p class="contact-location">Basingstoke & Hampshire</p>
+                        <span class="contact-meta">Travel fees may apply</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -135,26 +147,50 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
     <!-- Contact Form Section -->
     <section id="contact-form" class="contact-form-section">
         <div class="container">
+            <div class="form-header">
+                <h2>Book Your Perfect Event</h2>
+                <p>Tell us about your vision and we'll create an unforgettable experience tailored just for you.</p>
+            </div>
+            
             <div class="contact-form-container">
                 <div class="form-info">
-                    <h2>Book Your Event</h2>
-                    <p>Fill out the form below and we'll get back to you with a personalized quote within 24 hours.</p>
-                    <div class="form-features">
-                        <div class="feature">
-                            <i class="fas fa-clock"></i>
-                            <span>Free consultation</span>
+                    <h3>Why Choose Area22?</h3>
+                    <div class="benefits-list">
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>Free Consultation</h4>
+                                <p>Personalized planning session at no cost</p>
+                            </div>
                         </div>
-                        <div class="feature">
-                            <i class="fas fa-music"></i>
-                            <span>Custom music selection</span>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>Custom Music Selection</h4>
+                                <p>Tailored playlists for your unique event</p>
+                            </div>
                         </div>
-                        <div class="feature">
-                            <i class="fas fa-headphones"></i>
-                            <span>Professional sound system</span>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-headphones"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>Professional Equipment</h4>
+                                <p>High-quality sound system included</p>
+                            </div>
                         </div>
-                        <div class="feature">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>Fully insured</span>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>Fully Insured</h4>
+                                <p>Complete peace of mind for your event</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -163,48 +199,54 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
                     <form class="contact-form" id="contactForm">
                         <!-- Personal Information -->
                         <div class="form-section">
-                            <h3><i class="fas fa-user"></i> Your Details</h3>
-                            <div class="form-row">
+                            <div class="section-header">
+                                <div class="section-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h3>Your Details</h3>
+                            </div>
+                            <div class="form-grid">
                                 <div class="form-group">
                                     <label for="firstName">First Name *</label>
-                                    <input type="text" id="firstName" name="firstName" required>
+                                    <input type="text" id="firstName" name="firstName" required placeholder="Enter your first name">
                                 </div>
                                 <div class="form-group">
                                     <label for="lastName">Last Name *</label>
-                                    <input type="text" id="lastName" name="lastName" required>
+                                    <input type="text" id="lastName" name="lastName" required placeholder="Enter your last name">
                                 </div>
-                            </div>
-
-                            <div class="form-row">
                                 <div class="form-group">
                                     <label for="email">Email Address *</label>
-                                    <input type="email" id="email" name="email" required>
+                                    <input type="email" id="email" name="email" required placeholder="your.email@example.com">
                                 </div>
                                 <div class="form-group">
                                     <label for="phone">Phone Number *</label>
-                                    <input type="tel" id="phone" name="phone" required>
+                                    <input type="tel" id="phone" name="phone" required placeholder="07934 284 930">
                                 </div>
                             </div>
                         </div>
 
                         <!-- Event Information -->
                         <div class="form-section">
-                            <h3><i class="fas fa-calendar-alt"></i> Event Details</h3>
-                            <div class="form-group">
-                                <label for="eventType">Event Type *</label>
-                                <select id="eventType" name="eventType" required>
-                                    <option value="">Select Event Type</option>
-                                    <option value="wedding">Wedding</option>
-                                    <option value="birthday">Birthday Party</option>
-                                    <option value="corporate">Corporate Event</option>
-                                    <option value="private">Private Party</option>
-                                    <option value="graduation">Graduation Party</option>
-                                    <option value="anniversary">Anniversary</option>
-                                    <option value="other">Other</option>
-                                </select>
+                            <div class="section-header">
+                                <div class="section-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <h3>Event Details</h3>
                             </div>
-
-                            <div class="form-row">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="eventType">Event Type *</label>
+                                    <select id="eventType" name="eventType" required>
+                                        <option value="">Select Event Type</option>
+                                        <option value="wedding">Wedding</option>
+                                        <option value="birthday">Birthday Party</option>
+                                        <option value="corporate">Corporate Event</option>
+                                        <option value="private">Private Party</option>
+                                        <option value="graduation">Graduation Party</option>
+                                        <option value="anniversary">Anniversary</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
                                 <div class="form-group">
                                     <label for="eventDate">Event Date *</label>
                                     <input type="date" id="eventDate" name="eventDate" required>
@@ -220,13 +262,6 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
                                         <option value="full day">Full Day</option>
                                     </select>
                                 </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="venue">Venue/Location</label>
-                                    <input type="text" id="venue" name="venue" placeholder="e.g., Basingstoke Town Hall">
-                                </div>
                                 <div class="form-group">
                                     <label for="guestCount">Guest Count</label>
                                     <select id="guestCount" name="guestCount">
@@ -237,12 +272,21 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
                                         <option value="200+">200+ guests</option>
                                     </select>
                                 </div>
+                                <div class="form-group full-width">
+                                    <label for="venue">Venue/Location</label>
+                                    <input type="text" id="venue" name="venue" placeholder="e.g., Basingstoke Town Hall">
+                                </div>
                             </div>
                         </div>
 
                         <!-- Additional Information -->
                         <div class="form-section">
-                            <h3><i class="fas fa-comment"></i> Additional Information</h3>
+                            <div class="section-header">
+                                <div class="section-icon">
+                                    <i class="fas fa-comment"></i>
+                                </div>
+                                <h3>Additional Information</h3>
+                            </div>
                             <div class="form-group">
                                 <label for="message">Tell us about your event</label>
                                 <textarea id="message" name="message" rows="4" placeholder="Special requirements, music preferences, budget considerations, or any questions..."></textarea>
@@ -259,8 +303,10 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
 
                         <div class="form-submit">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-paper-plane"></i> Send Message
+                                <i class="fas fa-paper-plane"></i> 
+                                <span>Send Message</span>
                             </button>
+                            <p class="form-note">We'll respond within 24 hours with a personalized quote</p>
                         </div>
                     </form>
                 </div>
@@ -271,37 +317,54 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
     <!-- Service Areas -->
     <section class="service-areas">
         <div class="container">
-            <h2 class="section-title">Areas We Serve</h2>
+            <div class="section-header">
+                <h2>Areas We Serve</h2>
+                <p>Bringing professional DJ services to venues across Hampshire and beyond</p>
+            </div>
             <div class="areas-grid">
-                <div class="area-item">
+                <div class="area-card primary">
+                    <div class="area-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
                     <h3>Primary Service Area</h3>
-                    <ul>
-                        <li>Basingstoke</li>
-                        <li>Reading</li>
-                        <li>Newbury</li>
-                        <li>Andover</li>
-                        <li>Winchester</li>
-                    </ul>
+                    <div class="area-locations">
+                        <span class="location-tag">Basingstoke</span>
+                        <span class="location-tag">Reading</span>
+                        <span class="location-tag">Newbury</span>
+                        <span class="location-tag">Andover</span>
+                        <span class="location-tag">Winchester</span>
+                    </div>
+                    <p class="area-note">Standard rates apply</p>
                 </div>
-                <div class="area-item">
+                
+                <div class="area-card">
+                    <div class="area-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
                     <h3>Extended Coverage</h3>
-                    <ul>
-                        <li>Southampton</li>
-                        <li>Portsmouth</li>
-                        <li>Guildford</li>
-                        <li>Farnborough</li>
-                        <li>Fleet</li>
-                    </ul>
+                    <div class="area-locations">
+                        <span class="location-tag">Southampton</span>
+                        <span class="location-tag">Portsmouth</span>
+                        <span class="location-tag">Guildford</span>
+                        <span class="location-tag">Farnborough</span>
+                        <span class="location-tag">Fleet</span>
+                    </div>
+                    <p class="area-note">Travel fees may apply</p>
                 </div>
-                <div class="area-item">
-                    <h3>Special Events</h3>
-                    <ul>
-                        <li>Weddings</li>
-                        <li>Corporate Functions</li>
-                        <li>Private Parties</li>
-                        <li>Festivals</li>
-                        <li>Community Events</li>
-                    </ul>
+                
+                <div class="area-card">
+                    <div class="area-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Event Types</h3>
+                    <div class="area-locations">
+                        <span class="location-tag">Weddings</span>
+                        <span class="location-tag">Corporate</span>
+                        <span class="location-tag">Private Parties</span>
+                        <span class="location-tag">Festivals</span>
+                        <span class="location-tag">Community</span>
+                    </div>
+                    <p class="area-note">All event types welcome</p>
                 </div>
             </div>
         </div>
@@ -312,40 +375,65 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
         <div class="container">
             <div class="info-grid">
                 <div class="info-card">
-                    <div class="info-icon">
-                        <i class="fas fa-clock"></i>
+                    <div class="card-header">
+                        <div class="info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Business Hours</h3>
                     </div>
-                    <h3>Business Hours</h3>
-                    <div class="hours-info">
-                        <p><strong>Monday - Sunday</strong></p>
-                        <p>9:00 AM - 11:00 PM</p>
-                        <span class="note">Available 7 days a week for your events</span>
+                    <div class="card-content">
+                        <div class="hours-display">
+                            <span class="hours-main">9:00 AM - 11:00 PM</span>
+                            <span class="hours-days">Monday - Sunday</span>
+                        </div>
+                        <p class="hours-note">Available 7 days a week for your events</p>
                     </div>
                 </div>
 
                 <div class="info-card">
-                    <div class="info-icon">
-                        <i class="fas fa-share-alt"></i>
+                    <div class="card-header">
+                        <div class="info-icon">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <h3>Follow Us</h3>
                     </div>
-                    <h3>Follow Us</h3>
-                    <div class="social-links">
-                        <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-                        <a href="#" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <div class="card-content">
+                        <div class="social-links">
+                            <a href="#" class="social-link" aria-label="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-link" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="social-link" aria-label="TikTok">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                            <a href="#" class="social-link" aria-label="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                        <p class="social-note">Stay updated with our latest events</p>
                     </div>
-                    <span class="note">Stay updated with our latest events</span>
                 </div>
 
                 <div class="info-card">
-                    <div class="info-icon">
-                        <i class="fas fa-shield-alt"></i>
+                    <div class="card-header">
+                        <div class="info-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Emergency Support</h3>
                     </div>
-                    <h3>Emergency Support</h3>
-                    <p>For technical issues during events:</p>
-                    <div class="emergency-details">
-                        <p><strong>Emergency Line:</strong> <a href="tel:07934284930">07934 284 930</a></p>
-                        <p><strong>Available:</strong> 24/7 during events</p>
+                    <div class="card-content">
+                        <p class="emergency-intro">For technical issues during events:</p>
+                        <div class="emergency-details">
+                            <div class="emergency-line">
+                                <strong>Emergency Line:</strong>
+                                <a href="tel:07934284930">07934 284 930</a>
+                            </div>
+                            <div class="emergency-availability">
+                                <strong>Available:</strong> 24/7 during events
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -355,26 +443,47 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
     <!-- Quick FAQ -->
     <section class="quick-faq">
         <div class="container">
-            <h2 class="section-title">Quick Answers</h2>
-            <div class="faq-compact">
-                <div class="faq-row">
-                    <div class="faq-item">
-                        <h4><i class="fas fa-calendar-check"></i> How far in advance should I book?</h4>
+            <div class="section-header">
+                <h2>Quick Answers</h2>
+                <p>Common questions about our DJ services and booking process</p>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="faq-content">
+                        <h4>How far in advance should I book?</h4>
                         <p>3-6 months for weddings, 1-2 months for other events. We can often accommodate last-minute bookings.</p>
                     </div>
-                    <div class="faq-item">
-                        <h4><i class="fas fa-music"></i> Do you take music requests?</h4>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <div class="faq-content">
+                        <h4>Do you take music requests?</h4>
                         <p>Absolutely! We create custom playlists and have QR code systems for guest requests.</p>
                     </div>
                 </div>
-
-                <div class="faq-row">
-                    <div class="faq-item">
-                        <h4><i class="fas fa-truck"></i> Do you travel?</h4>
+                
+                <div class="faq-item">
+                    <div class="faq-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="faq-content">
+                        <h4>Do you travel?</h4>
                         <p>Yes, we serve Hampshire and surrounding areas. Travel fees may apply for distant locations.</p>
                     </div>
-                    <div class="faq-item">
-                        <h4><i class="fas fa-calendar-times"></i> Cancellation policy?</h4>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-icon">
+                        <i class="fas fa-calendar-times"></i>
+                    </div>
+                    <div class="faq-content">
+                        <h4>Cancellation policy?</h4>
                         <p>30+ days: Full refund • 14-30 days: 50% refund • 7-14 days: 25% refund</p>
                     </div>
                 </div>
@@ -386,11 +495,17 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
     <section class="cta-section">
         <div class="container">
             <div class="cta-content">
-                <h2>Ready to Get Started?</h2>
-                <p>Contact us today to discuss your event and get a personalized quote</p>
+                <h2>Ready to Create Something Amazing?</h2>
+                <p>Let's discuss your vision and make your event unforgettable with the perfect soundtrack</p>
                 <div class="cta-buttons">
-                    <a href="tel:07934284930" class="btn btn-primary">Call Now</a>
-                    <a href="services.html" class="btn btn-secondary">View Services</a>
+                    <a href="tel:07934284930" class="btn btn-primary">
+                        <i class="fas fa-phone"></i>
+                        Call Now
+                    </a>
+                    <a href="services.html" class="btn btn-secondary">
+                        <i class="fas fa-music"></i>
+                        View Services
+                    </a>
                 </div>
             </div>
         </div>
