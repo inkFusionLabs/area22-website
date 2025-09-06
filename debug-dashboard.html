@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Dashboard - Area22</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #00ff00;
+            padding-bottom: 10px;
+        }
+        button {
+            background: #00ff00;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #00cc00;
+        }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .warning { color: orange; }
+        .info { color: blue; }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .data-table th,
+        .data-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .data-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+        .data-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Area22 Dashboard Debug Tool</h1>
+        <p>This tool helps debug why songs aren't showing up on the DJ dashboard.</p>
+        
+        <!-- Connection Test -->
+        <div class="section">
+            <h2>1. Supabase Connection Test</h2>
+            <button onclick="testConnection()">Test Supabase Connection</button>
+            <button onclick="testInsert()">Test Insert Song Request</button>
+            <button onclick="testSelect()">Test Select All Requests</button>
+            <div id="connectionLog" class="log"></div>
+        </div>
+        
+        <!-- Data Display -->
+        <div class="section">
+            <h2>2. Current Song Requests</h2>
+            <button onclick="loadAllRequests()">Load All Requests</button>
+            <button onclick="clearData()">Clear Display</button>
+            <div id="dataDisplay"></div>
+        </div>
+        
+        <!-- Filter Test -->
+        <div class="section">
+            <h2>3. Filter Testing</h2>
+            <button onclick="testFilters()">Test Filter Logic</button>
+            <div id="filterLog" class="log"></div>
+        </div>
+        
+        <!-- Real-time Test -->
+        <div class="section">
+            <h2>4. Real-time Updates Test</h2>
+            <button onclick="setupRealtime()">Setup Real-time</button>
+            <button onclick="stopRealtime()">Stop Real-time</button>
+            <div id="realtimeLog" class="log"></div>
+        </div>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+
+    <script>
+        let realtimeChannel = null;
+        
+        function log(containerId, message, type = 'info') {
+            const container = document.getElementById(containerId);
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type;
+            container.innerHTML += `<span class="${className}">[${timestamp}] ${message}</span>\n`;
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        async function testConnection() {
+            log('connectionLog', 'Testing Supabase connection...', 'info');
+            try {
+                const { data, error } = await supabase
+                    .from('song_requests')
+                    .select('count', { count: 'exact', head: true });
+                
+                if (error) {
+                    log('connectionLog', `Connection failed: ${error.message}`, 'error');
+                } else {
+                    log('connectionLog', `Connection successful! Table exists.`, 'success');
+                }
+            } catch (err) {
+                log('connectionLog', `Connection error: ${err.message}`, 'error');
+            }
+        }
+        
+        async function testInsert() {
+            log('connectionLog', 'Testing insert operation...', 'info');
+            try {
+                const testData = {
+                    song_title: `Debug Test Song ${Date.now()}`,
+                    artist_name: 'Debug Test Artist',
+                    guest_name: 'Debug User',
+                    note: 'This is a debug test request',
+                    priority: 'normal',
+                    status: 'pending',
+                    event_code: 'debug'
+                };
+                
+                const { data, error } = await supabase
+                    .from('song_requests')
+                    .insert([testData])
+                    .select();
+                
+                if (error) {
+                    log('connectionLog', `Insert failed: ${error.message}`, 'error');
+                } else {
+                    log('connectionLog', `Insert successful! ID: ${data[0].id}`, 'success');
+                }
+            } catch (err) {
+                log('connectionLog', `Insert error: ${err.message}`, 'error');
+            }
+        }
+        
+        async function testSelect() {
+            log('connectionLog', 'Testing select operation...', 'info');
+            try {
+                const { data, error } = await supabase
+                    .from('song_requests')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    log('connectionLog', `Select failed: ${error.message}`, 'error');
+                } else {
+                    log('connectionLog', `Select successful! Found ${data.length} records`, 'success');
+                    log('connectionLog', `Latest record: ${JSON.stringify(data[0] || 'No records')}`, 'info');
+                }
+            } catch (err) {
+                log('connectionLog', `Select error: ${err.message}`, 'error');
+            }
+        }
+        
+        async function loadAllRequests() {
+            log('connectionLog', 'Loading all requests...', 'info');
+            try {
+                const { data, error } = await supabase
+                    .from('song_requests')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    log('connectionLog', `Load failed: ${error.message}`, 'error');
+                    return;
+                }
+                
+                const display = document.getElementById('dataDisplay');
+                if (data.length === 0) {
+                    display.innerHTML = '<p>No song requests found.</p>';
+                    return;
+                }
+                
+                let tableHTML = '<table class="data-table"><thead><tr><th>ID</th><th>Song Title</th><th>Artist</th><th>Guest</th><th>Priority</th><th>Status</th><th>Created</th></tr></thead><tbody>';
+                
+                data.forEach(request => {
+                    tableHTML += `
+                        <tr>
+                            <td>${request.id.substring(0, 8)}...</td>
+                            <td>${request.song_title}</td>
+                            <td>${request.artist_name}</td>
+                            <td>${request.guest_name}</td>
+                            <td>${request.priority}</td>
+                            <td>${request.status}</td>
+                            <td>${new Date(request.created_at).toLocaleString()}</td>
+                        </tr>
+                    `;
+                });
+                
+                tableHTML += '</tbody></table>';
+                display.innerHTML = tableHTML;
+                
+                log('connectionLog', `Displayed ${data.length} requests`, 'success');
+            } catch (err) {
+                log('connectionLog', `Load error: ${err.message}`, 'error');
+            }
+        }
+        
+        function testFilters() {
+            log('filterLog', 'Testing filter logic...', 'info');
+            
+            // Test data
+            const testRequests = [
+                { id: '1', song_title: 'Test Song', artist_name: 'Test Artist', guest_name: 'Test User', status: 'pending' },
+                { id: '2', song_title: 'Real Song', artist_name: 'Real Artist', guest_name: 'Real User', status: 'pending' },
+                { id: '3', song_title: 'Another Song', artist_name: 'Another Artist', guest_name: 'Another User', status: 'completed' }
+            ];
+            
+            log('filterLog', `Original data: ${JSON.stringify(testRequests, null, 2)}`, 'info');
+            
+            // Test the old filter function
+            function isTestRequest(r) {
+                const t = (s) => (s || '').toLowerCase();
+                return t(r.song_title).includes('test') || t(r.artist_name).includes('test') || t(r.guest_name).includes('test') || t(r.note).includes('test');
+            }
+            
+            const filtered = testRequests.filter(r => !isTestRequest(r));
+            log('filterLog', `After test filter: ${JSON.stringify(filtered, null, 2)}`, 'info');
+            
+            const activeRequests = filtered.filter(r => r.status !== 'completed');
+            const completedRequests = filtered.filter(r => r.status === 'completed');
+            
+            log('filterLog', `Active requests: ${JSON.stringify(activeRequests, null, 2)}`, 'success');
+            log('filterLog', `Completed requests: ${JSON.stringify(completedRequests, null, 2)}`, 'success');
+        }
+        
+        function setupRealtime() {
+            log('realtimeLog', 'Setting up real-time updates...', 'info');
+            
+            realtimeChannel = supabase
+                .channel('debug_song_requests_changes')
+                .on('postgres_changes',
+                    { event: '*', schema: 'public', table: 'song_requests' },
+                    (payload) => {
+                        log('realtimeLog', `Real-time update: ${JSON.stringify(payload, null, 2)}`, 'success');
+                    }
+                )
+                .subscribe((status) => {
+                    log('realtimeLog', `Real-time status: ${status}`, status === 'SUBSCRIBED' ? 'success' : 'warning');
+                });
+        }
+        
+        function stopRealtime() {
+            if (realtimeChannel) {
+                supabase.removeChannel(realtimeChannel);
+                realtimeChannel = null;
+                log('realtimeLog', 'Real-time updates stopped', 'info');
+            }
+        }
+        
+        function clearData() {
+            document.getElementById('dataDisplay').innerHTML = '';
+        }
+        
+        // Auto-run connection test on page load
+        window.addEventListener('load', function() {
+            log('connectionLog', 'Debug tool loaded', 'success');
+            setTimeout(testConnection, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -544,10 +544,17 @@
 
                 if (error) throw error;
 
-                // Filter out obvious test entries
-                const all = (data || []).filter(r => !isTestRequest(r));
+                console.log('📊 Raw data from Supabase:', data);
+                console.log('📊 Number of records:', (data || []).length);
+                
+                // Show all entries (removed test filter to debug)
+                const all = data || [];
+                console.log('📊 All records after filtering:', all);
                 requests = all.filter(r => r.status !== 'completed');
                 completedRequests = all.filter(r => r.status === 'completed');
+                
+                console.log('📊 Active requests:', requests);
+                console.log('📊 Completed requests:', completedRequests);
 
                 // Overlay local completion flags so UI reflects prior completions even if server update failed
                 overlayLocalCompleted();
@@ -813,16 +820,24 @@
         }
 
         function setupRealtimeUpdates() {
-            supabase
+            console.log('🔄 Setting up real-time updates...');
+            const channel = supabase
                 .channel('song_requests_changes')
                 .on('postgres_changes',
                     { event: '*', schema: 'public', table: 'song_requests' },
                     (payload) => {
-                        console.log('Real-time update:', payload);
+                        console.log('🔔 Real-time update received:', payload);
                         loadRequests(); // Reload all requests for simplicity
                     }
                 )
-                .subscribe();
+                .subscribe((status) => {
+                    console.log('🔔 Real-time subscription status:', status);
+                    if (status === 'SUBSCRIBED') {
+                        console.log('✅ Real-time updates active');
+                    } else if (status === 'CHANNEL_ERROR') {
+                        console.error('❌ Real-time subscription failed');
+                    }
+                });
         }
 
         function showError(message) {
@@ -834,6 +849,31 @@
             const t = (s) => (s || '').toLowerCase();
             return t(r.song_title).includes('test') || t(r.artist_name).includes('test') || t(r.guest_name).includes('test') || t(r.note).includes('test');
         }
+
+        // Manual test function for debugging
+        window.testSupabaseConnection = async function() {
+            console.log('🧪 Testing Supabase connection...');
+            try {
+                const { data, error } = await supabase
+                    .from('song_requests')
+                    .select('*')
+                    .limit(5);
+                
+                console.log('🧪 Test result:', { data, error });
+                if (error) {
+                    console.error('🧪 Supabase error:', error);
+                    alert('Supabase connection failed: ' + error.message);
+                } else {
+                    console.log('🧪 Found', data.length, 'records');
+                    alert('Supabase connection OK! Found ' + data.length + ' records.');
+                }
+                return { data, error };
+            } catch (err) {
+                console.error('🧪 Connection test error:', err);
+                alert('Connection test failed: ' + err.message);
+                return { error: err };
+            }
+        };
     </script>
 </body>
 </html>
