@@ -619,7 +619,7 @@ body {
 
 .our-team .team-hero img {
     width: 100%;
-    max-width: 720px;
+    max-width: 360px;
     height: auto;
     border-radius: var(--radius-2xl);
     box-shadow: var(--shadow-xl);
