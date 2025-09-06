@@ -23,7 +23,7 @@ const htmlFiles = [
     'gallery.html',
     'pricing.html',
     'contact.html',
-    'media-consent.html',
+    // 'media-consent.html',
     'privacy-policy.html',
     'admin.html',
     'test-hamburger.html'
