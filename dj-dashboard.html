@@ -9,6 +9,7 @@
     <title>DJ Dashboard - Area22</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
     <style>
         * {
             margin: 0;
@@ -18,35 +19,42 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #f8f9fa;
-            color: #333;
+            background: var(--gradient-bg);
+            color: var(--text-secondary);
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--bg-overlay);
+            color: var(--text-primary);
             padding: 20px;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-lg);
+            border-bottom: 1px solid var(--border-light);
         }
 
         .logo {
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 5px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .subtitle {
             font-size: 14px;
             opacity: 0.9;
+            color: var(--text-muted);
         }
 
         .stats {
             display: flex;
             justify-content: space-around;
             padding: 15px;
-            background: white;
-            border-bottom: 1px solid #e1e5e9;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-light);
+            border-top: 1px solid var(--border-light);
         }
 
         .stat {
@@ -56,12 +64,12 @@
         .stat-number {
             font-size: 24px;
             font-weight: 700;
-            color: #00ff00;
+            color: var(--primary);
         }
 
         .stat-label {
             font-size: 12px;
-            color: #666;
+            color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -70,18 +78,42 @@
             padding: 20px;
         }
 
+        .filters {
+            display: grid;
+            grid-template-columns: 1fr 140px 140px 160px;
+            gap: 10px;
+            margin-bottom: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-xl);
+            padding: 12px;
+        }
+
+        .filters input,
+        .filters select {
+            padding: 10px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .filters input::placeholder { color: var(--text-subtle); }
+
         .request-card {
-            background: white;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
             transition: all 0.3s ease;
         }
 
         .request-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--border-primary);
         }
 
         .request-header {
@@ -109,17 +141,17 @@
         .song-info h3 {
             font-size: 16px;
             font-weight: 600;
-            color: #333;
+            color: var(--text-primary);
             margin-bottom: 4px;
         }
 
         .artist {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 14px;
         }
 
         .guest-name {
-            color: #00ff00;
+            color: var(--primary);
             font-weight: 500;
             font-size: 14px;
         }
@@ -131,7 +163,7 @@
             align-items: flex-end;
         }
 
-        .priority-badge, .status-badge {
+        .priority-badge, .status-badge, .timestamp-badge {
             padding: 4px 8px;
             border-radius: 12px;
             font-size: 10px;
@@ -144,40 +176,26 @@
             align-self: flex-start;
         }
 
-        .status-pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status-playing {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-completed {
-            background: #d1ecf1;
-            color: #0c5460;
-        }
-
-        .status-skipped {
-            background: #f8d7da;
-            color: #721c24;
-        }
+        .status-pending { background: rgba(0, 212, 255, 0.12); color: var(--accent); border: 1px solid var(--border-accent); }
+        .status-playing { background: rgba(0, 255, 136, 0.12); color: var(--primary); border: 1px solid var(--border-primary); }
+        .status-completed { background: rgba(255, 255, 255, 0.08); color: var(--text-secondary); border: 1px solid var(--border-light); }
+        .status-skipped { background: rgba(255, 0, 110, 0.12); color: var(--secondary); border: 1px solid var(--border-secondary); }
+        .timestamp-badge { background: var(--bg-secondary); color: var(--text-muted); border: 1px solid var(--border-light); text-transform: none; font-weight: 500; }
 
         .priority-urgent {
-            background: #dc3545;
-            color: white;
+            background: var(--secondary);
+            color: var(--text-inverse);
             animation: urgent-pulse 2s infinite;
         }
 
         .priority-high {
-            background: #fd7e14;
-            color: white;
+            background: linear-gradient(135deg, #ff7a00 0%, #ff006e 100%);
+            color: var(--text-inverse);
         }
 
         .priority-normal {
-            background: #6c757d;
-            color: white;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
         }
 
         @keyframes urgent-pulse {
@@ -186,13 +204,13 @@
         }
 
         .request-note {
-            background: #f8f9fa;
+            background: var(--bg-secondary);
             padding: 8px 12px;
             border-radius: 8px;
             margin: 12px 0;
             font-size: 14px;
-            color: #666;
-            border-left: 3px solid #00ff00;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--primary);
         }
 
         .request-actions {
@@ -215,23 +233,24 @@
         }
 
         .btn-play {
-            background: #28a745;
-            color: white;
+            background: linear-gradient(135deg, #28a745 0%, #00ff88 100%);
+            color: var(--text-inverse);
         }
 
         .btn-complete {
-            background: #17a2b8;
-            color: white;
+            background: var(--gradient-primary);
+            color: var(--text-inverse);
         }
 
         .btn-skip {
-            background: #dc3545;
-            color: white;
+            background: var(--gradient-secondary);
+            color: var(--text-inverse);
         }
 
         .btn-delete {
-            background: #6c757d;
-            color: white;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
         }
 
         .action-btn:hover {
@@ -242,13 +261,13 @@
         .loading {
             text-align: center;
             padding: 40px;
-            color: #666;
+            color: var(--text-muted);
         }
 
         .empty-state {
             text-align: center;
             padding: 40px 20px;
-            color: #666;
+            color: var(--text-muted);
         }
 
         .empty-state i {
@@ -264,12 +283,12 @@
             width: 56px;
             height: 56px;
             border-radius: 50%;
-            background: #00ff00;
+            background: var(--primary);
             border: none;
-            color: white;
+            color: var(--text-inverse);
             font-size: 20px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
+            box-shadow: var(--shadow-glow);
             transition: all 0.3s ease;
         }
 
@@ -458,11 +477,7 @@
             font-size: 14px;
         }
 
-        .mobile-device .refresh-btn {
-            width: 60px;
-            height: 60px;
-            font-size: 20px;
-        }
+        .mobile-device .refresh-btn { width: 60px; height: 60px; font-size: 20px; }
 
         /* Improve mobile text readability */
         .mobile-device .song-info h3 {
@@ -503,6 +518,25 @@
     </div>
 
     <div class="requests-container">
+        <div class="filters">
+            <input id="filterText" type="text" placeholder="Search song, artist, guest, notes" />
+            <select id="filterStatus">
+                <option value="">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="playing">Playing</option>
+            </select>
+            <select id="filterPriority">
+                <option value="">All Priorities</option>
+                <option value="urgent">Urgent</option>
+                <option value="high">High</option>
+                <option value="normal">Normal</option>
+            </select>
+            <select id="filterTime">
+                <option value="all">All Time</option>
+                <option value="hour">Last Hour</option>
+                <option value="today">Today</option>
+            </select>
+        </div>
         <div class="loading" id="loading">
             <i class="fas fa-music"></i> Loading requests...
         </div>
@@ -531,6 +565,7 @@
         let requests = [];
         let completedRequests = [];
         const LOCAL_COMPLETED_KEY = 'area22_completed_ids';
+        const activeFilters = { text: '', status: '', priority: '', time: 'all' };
 
         function loadLocalCompleted() {
             try {
@@ -583,6 +618,26 @@
                 this.classList.add('spinning');
                 loadRequests();
                 setTimeout(() => this.classList.remove('spinning'), 1000);
+            });
+
+            // Filters
+            const textEl = document.getElementById('filterText');
+            const statusEl = document.getElementById('filterStatus');
+            const priorityEl = document.getElementById('filterPriority');
+            const timeEl = document.getElementById('filterTime');
+
+            function onFilterChange() {
+                activeFilters.text = (textEl.value || '').trim().toLowerCase();
+                activeFilters.status = statusEl.value;
+                activeFilters.priority = priorityEl.value;
+                activeFilters.time = timeEl.value || 'all';
+                renderRequests();
+            }
+
+            [textEl, statusEl, priorityEl, timeEl].forEach(el => {
+                if (!el) return;
+                el.addEventListener('input', onFilterChange);
+                el.addEventListener('change', onFilterChange);
             });
         });
 
@@ -647,6 +702,30 @@
                 }
             } finally {
                 document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function withinTimeFilter(dateStr) {
+            const v = activeFilters.time;
+            if (!v || v === 'all') return true;
+            const dt = new Date(dateStr);
+            const now = new Date();
+            if (v === 'hour') {
+                return (now - dt) <= 60 * 60 * 1000;
+            }
+            if (v === 'today') {
+                const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                return dt >= start;
+            }
+            return true;
+        }
+
+        function formatDateTime(dateStr) {
+            try {
+                const d = new Date(dateStr);
+                return d.toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            } catch (e) {
+                return dateStr || '';
             }
         }
 
@@ -720,9 +799,24 @@
 
             emptyState.style.display = 'none';
 
-            // Sort requests by priority (urgent first, then high, then normal)
+            // Apply filters then sort by priority (urgent first, then high, then normal)
             const priorityOrder = { 'urgent': 0, 'high': 1, 'normal': 2 };
-            const sortedRequests = [...requests].sort((a, b) => {
+            const text = (activeFilters.text || '').toLowerCase();
+            const statusFilter = activeFilters.status;
+            const priorityFilter = activeFilters.priority;
+
+            const filtered = (requests || []).filter(r => {
+                if (statusFilter && r.status !== statusFilter) return false;
+                if (priorityFilter && r.priority !== priorityFilter) return false;
+                if (!withinTimeFilter(r.created_at)) return false;
+                if (text) {
+                    const hay = `${r.song_title} ${r.artist_name} ${r.guest_name} ${r.note || ''}`.toLowerCase();
+                    if (!hay.includes(text)) return false;
+                }
+                return true;
+            });
+
+            const sortedRequests = filtered.sort((a, b) => {
                 if (a.status !== b.status) {
                     // Pending first, then playing, then others
                     const statusOrder = { 'pending': 0, 'playing': 1, 'completed': 2, 'skipped': 2 };
@@ -746,6 +840,9 @@
                             </div>
                             <div class="status-badge status-${request.status}">
                                 ${request.status}
+                            </div>
+                            <div class="timestamp-badge" title="Added">
+                                <i class="far fa-clock"></i> ${formatDateTime(request.created_at)}
                             </div>
                         </div>
                     </div>
@@ -782,7 +879,12 @@
                             <div class="artist">by ${request.artist_name}</div>
                             <div class="guest-name">Requested by: ${request.guest_name}</div>
                         </div>
-                        <div class="status-badge status-completed">completed</div>
+                        <div class="badges">
+                            <div class="status-badge status-completed">completed</div>
+                            <div class="timestamp-badge" title="Added">
+                                <i class="far fa-clock"></i> ${formatDateTime(request.created_at)}
+                            </div>
+                        </div>
                     </div>
                     ${request.note ? `<div class=\"request-note\">${request.note}</div>` : ''}
                     <div class="request-actions">
