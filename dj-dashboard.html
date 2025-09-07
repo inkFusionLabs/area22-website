@@ -490,9 +490,65 @@
             font-size: 16px;
             line-height: 1.4;
         }
+
+        /* Auth overlay */
+        .auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-overlay);
+            backdrop-filter: blur(10px);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-2xl);
+            padding: 24px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--shadow-xl);
+            text-align: left;
+        }
+
+        .auth-card h2 {
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-size: 22px;
+        }
+
+        .auth-card p { color: var(--text-muted); margin-bottom: 16px; }
+        .auth-card .form-group { margin-bottom: 16px; }
+        .auth-card label { display: block; color: var(--text-secondary); font-size: 14px; margin-bottom: 6px; }
+        .auth-card input { width: 100%; padding: 12px 14px; border-radius: var(--radius-lg); border: 1px solid var(--border-light); background: var(--bg-secondary); color: var(--text-primary); }
+        .auth-card input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,255,136,0.12); }
+        .auth-error { margin-top: 12px; color: var(--secondary); font-weight: 600; display: none; font-size: 14px; }
     </style>
 </head>
 <body>
+    <div id="authOverlay" class="auth-overlay" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+        <div class="auth-card">
+            <div class="logo" style="margin-bottom:8px;">AREA22</div>
+            <h2 id="authTitle">DJ Dashboard Access</h2>
+            <p>Enter the access code to continue.</p>
+            <form id="authForm">
+                <div class="form-group">
+                    <label for="authPassword">Access Code</label>
+                    <input id="authPassword" type="password" placeholder="Enter access code" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;"><i class="fas fa-lock"></i>&nbsp;Unlock</button>
+                <div class="auth-error" id="authError" aria-live="polite">Incorrect code. Please try again.</div>
+            </form>
+        </div>
+    </div>
+
     <div class="header">
         <div class="logo">AREA22</div>
         <div class="subtitle">DJ Dashboard</div>
@@ -567,6 +623,43 @@
         const LOCAL_COMPLETED_KEY = 'area22_completed_ids';
         const activeFilters = { text: '', status: '', priority: '', time: 'all' };
 
+        // Simple session-based access control
+        const DJ_DASHBOARD_PASSWORD = 'area22';
+        function isAuthorized() {
+            try { return sessionStorage.getItem('djAuthorized') === 'true'; } catch (e) { return false; }
+        }
+        function showAuthOverlay() {
+            const el = document.getElementById('authOverlay');
+            if (el) {
+                el.style.display = 'flex';
+                const input = document.getElementById('authPassword');
+                if (input) setTimeout(() => input.focus(), 0);
+            }
+        }
+        function hideAuthOverlay() {
+            const el = document.getElementById('authOverlay');
+            if (el) el.style.display = 'none';
+        }
+        function setupAuth() {
+            const form = document.getElementById('authForm');
+            const errorEl = document.getElementById('authError');
+            if (!form) return;
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const pass = (document.getElementById('authPassword').value || '').trim();
+                if (pass === DJ_DASHBOARD_PASSWORD) {
+                    try { sessionStorage.setItem('djAuthorized', 'true'); } catch (e) {}
+                    hideAuthOverlay();
+                    initializeDashboard();
+                } else {
+                    if (errorEl) {
+                        errorEl.style.display = 'block';
+                        setTimeout(() => { if (errorEl) errorEl.style.display = 'none'; }, 3000);
+                    }
+                }
+            });
+        }
+
         function loadLocalCompleted() {
             try {
                 const raw = localStorage.getItem(LOCAL_COMPLETED_KEY);
@@ -599,6 +692,15 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            setupAuth();
+            if (isAuthorized()) {
+                initializeDashboard();
+            } else {
+                showAuthOverlay();
+            }
+        });
+
+        function initializeDashboard() {
             console.log('📱 Mobile device check:', /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
             console.log('📱 User agent:', navigator.userAgent);
             console.log('📱 Screen size:', window.innerWidth + 'x' + window.innerHeight);
@@ -639,7 +741,7 @@
                 el.addEventListener('input', onFilterChange);
                 el.addEventListener('change', onFilterChange);
             });
-        });
+        }
 
         async function loadRequests() {
             try {
