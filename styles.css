@@ -901,6 +901,11 @@ body {
     max-width: 320px;
 }
 
+/* Lead Technician image sizing - match Lead DJ */
+.lead-technician .team-photo {
+    max-width: 320px;
+}
+
 .our-team .member-image {
     display: flex;
     justify-content: center;
@@ -934,6 +939,9 @@ body {
         max-width: 300px;
     }
     .lead-dj .team-photo {
+        max-width: 240px;
+    }
+    .lead-technician .team-photo {
         max-width: 240px;
     }
     .our-team .team-hero img {
