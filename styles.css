@@ -1910,6 +1910,11 @@ body {
     gap: var(--space-6);
 }
 
+.plans-grid.single {
+    grid-template-columns: minmax(280px, 720px);
+    justify-content: center;
+}
+
 .plan-card {
     background: var(--bg-card);
     border: 1px solid var(--border-light);
