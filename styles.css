@@ -896,9 +896,9 @@ body {
     transform: scale(1.02);
 }
 
-/* Lead DJ image sizing (50% of standard team photo) */
+/* Lead DJ image sizing */
 .lead-dj .team-photo {
-    max-width: 200px;
+    max-width: 320px;
 }
 
 .our-team .member-image {
@@ -934,7 +934,7 @@ body {
         max-width: 300px;
     }
     .lead-dj .team-photo {
-        max-width: 150px;
+        max-width: 240px;
     }
     .our-team .team-hero img {
         max-width: 180px;
