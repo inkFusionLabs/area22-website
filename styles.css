@@ -896,6 +896,42 @@ body {
     transform: scale(1.02);
 }
 
+.team-grid {
+    margin-top: var(--space-10);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-6);
+}
+
+.team-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.team-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-primary);
+    box-shadow: var(--shadow-xl);
+}
+
+.team-card img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    display: block;
+}
+
+.team-role {
+    text-align: center;
+    padding: var(--space-4);
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
 .our-team .member-image {
     display: flex;
     justify-content: center;
