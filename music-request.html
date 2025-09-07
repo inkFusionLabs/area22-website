@@ -17,6 +17,10 @@
     <style>
         /* Page-specific minimal additions */
         html, body { height: 100%; overflow: hidden; }
+        /* Fit form in viewport */
+        .contact-hero { display: none; }
+        .contact-form-section { padding: var(--space-6) 0; min-height: calc(100vh - 5rem); display: flex; align-items: center; }
+        .footer { display: none; }
         .message { margin-top: var(--space-4); padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); display: none; text-align: center; font-weight: 600; }
         .message.success { display: block; background: rgba(0,255,136,0.12); color: var(--text-primary); border: 1px solid var(--border-primary); }
         .message.error { display: block; background: rgba(255,0,110,0.12); color: var(--text-primary); border: 1px solid var(--border-secondary); }
