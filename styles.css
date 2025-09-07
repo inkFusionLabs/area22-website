@@ -898,9 +898,12 @@ body {
 
 /* Lead DJ & Lead Technician image sizing and style */
 .lead-dj .team-photo,
-.lead-technician .team-photo {
+.lead-technician .team-photo,
+.lead-coordinator .team-photo {
     width: 100%;
     max-width: 320px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
     height: auto;
     border-radius: var(--radius-2xl);
     box-shadow: var(--shadow-xl);
@@ -940,8 +943,10 @@ body {
         max-width: 300px;
     }
     .lead-dj .team-photo,
-    .lead-technician .team-photo {
+    .lead-technician .team-photo,
+    .lead-coordinator .team-photo {
         max-width: 240px;
+        aspect-ratio: 1 / 1;
     }
     .our-team .team-hero img {
         max-width: 180px;
