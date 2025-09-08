@@ -4,9 +4,12 @@
   "description": "Area22 DJ Services Website with Maintenance Mode",
   "main": "index.html",
   "scripts": {
-    "build": "node build-env.js",
+    "build": "node build-env.js && node image-optimizer.js && npm run css:build",
     "dev": "node build-env.js && echo 'Build complete - serving static files'",
-    "inject-env": "node build-env.js"
+    "inject-env": "node build-env.js",
+    "css:purge": "purgecss --css styles.css --content *.html js/*.js --safelist nav-link,nav-menu,hamburger,bar,active,loaded --output .",
+    "css:min": "node -e \"const fs=require('fs');const postcss=require('postcss');const cssnano=require('cssnano');postcss([cssnano]).process(fs.readFileSync('styles.purge.css','utf8'),{from:undefined}).then(r=>fs.writeFileSync('styles.min.css',r.css)).catch(e=>{console.error(e);process.exit(1);});\"",
+    "css:build": "cp styles.css styles.purge.css && npm run css:purge && npm run css:min"
   },
   "keywords": [
     "dj",
@@ -26,5 +29,11 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.2"
+  },
+  "devDependencies": {
+    "cssnano": "^7.1.1",
+    "postcss": "^8.5.6",
+    "purgecss": "^7.0.2",
+    "sharp": "^0.34.3"
   }
 }

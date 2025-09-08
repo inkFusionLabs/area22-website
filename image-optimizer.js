@@ -1,12 +1,13 @@
 const fs = require('fs');
 const path = require('path');
+const sharp = require('sharp');
 
 // Image optimization configuration
 const imageConfig = {
     quality: 85,
     maxWidth: 1920,
     maxHeight: 1080,
-    formats: ['webp', 'jpg']
+    formats: ['avif', 'webp', 'jpg']
 };
 
 // Function to create optimized image paths
@@ -19,15 +20,46 @@ function createOptimizedImagePath(originalPath, format) {
 // Function to generate responsive image HTML
 function generateResponsiveImageHTML(originalPath, alt) {
     const baseName = path.basename(originalPath, path.extname(originalPath));
+    const avifPath = `${baseName}-optimized.avif`;
     const webpPath = `${baseName}-optimized.webp`;
     const jpgPath = `${baseName}-optimized.jpg`;
     
     return `
 <picture>
+    <source srcset="${avifPath}" type="image/avif">
     <source srcset="${webpPath}" type="image/webp">
     <source srcset="${jpgPath}" type="image/jpeg">
     <img src="${originalPath}" alt="${alt}" loading="lazy" decoding="async">
 </picture>`;
+}
+
+// Resize and convert single image into responsive formats
+async function optimizeImage(inputPath, outputDir, maxWidth, maxHeight) {
+    const fileName = path.basename(inputPath);
+    const baseName = path.basename(inputPath, path.extname(inputPath));
+    const inputAbs = path.resolve(inputPath);
+    const outDirAbs = path.resolve(outputDir || path.dirname(inputPath));
+    if (!fs.existsSync(outDirAbs)) fs.mkdirSync(outDirAbs, { recursive: true });
+
+    const pipeline = sharp(inputAbs).rotate().resize({
+        width: imageConfig.maxWidth || maxWidth,
+        height: imageConfig.maxHeight || maxHeight,
+        fit: 'inside',
+        withoutEnlargement: true
+    });
+
+    // AVIF
+    await pipeline.clone().avif({ quality: 50 }).toFile(path.join(outDirAbs, `${baseName}-optimized.avif`));
+    // WebP
+    await pipeline.clone().webp({ quality: 80 }).toFile(path.join(outDirAbs, `${baseName}-optimized.webp`));
+    // JPEG fallback
+    await pipeline.clone().jpeg({ quality: 82, progressive: true }).toFile(path.join(outDirAbs, `${baseName}-optimized.jpg`));
+
+    return {
+        avif: `${baseName}-optimized.avif`,
+        webp: `${baseName}-optimized.webp`,
+        jpg: `${baseName}-optimized.jpg`
+    };
 }
 
 // Function to create image optimization instructions
@@ -103,4 +135,26 @@ const imageHTML = {
 fs.writeFileSync('responsive-images.html', JSON.stringify(imageHTML, null, 2));
 console.log('Responsive image HTML snippets created: responsive-images.html');
 
-console.log('Image optimization setup complete!'); 
+// Batch optimize key images (hero and team)
+(async () => {
+    const targets = [
+        'meet-the-team.jpg',
+        'Lead DJ.JPG',
+        'lead-tech.jpg',
+        'lead-coordinator.jpg',
+        'assistant-coordinator.jpg'
+    ].filter(p => fs.existsSync(path.resolve(p)));
+
+    for (const img of targets) {
+        try {
+            await optimizeImage(img);
+            console.log(`Optimized: ${img}`);
+        } catch (e) {
+            console.warn(`Failed to optimize ${img}:`, e.message);
+        }
+    }
+
+    console.log('Image optimization setup complete!');
+})();
+
+module.exports = { optimizeImage, generateResponsiveImageHTML };

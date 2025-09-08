@@ -12,10 +12,21 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Area22">
-    <title>About Us - Area22 Professional DJ Services</title>
+    <title>About Area22 DJ Services – Our Story, Team, Values</title>
+    <meta name="description" content="Learn about Area22 DJ Services in Basingstoke: our story, mission, values, and the dedicated team behind unforgettable events.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=2.0">
+    <link rel="stylesheet" href="styles.min.css?v=2.0">
+
+    <!-- Performance: preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Minimal critical CSS to reduce FOUC -->
+    <style>
+        body { margin: 0; padding-top: 5rem; }
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
+    </style>
 
     <!-- INJECTED ENV VARS START -->
     <script>
@@ -31,6 +42,28 @@ window.VERCEL_MAINTENANCE_MESSAGE = window.VERCEL_ENV.VERCEL_MAINTENANCE_MESSAGE
 window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
     </script>
     <!-- INJECTED ENV VARS END -->
+    <!-- Canonical -->
+    <link rel="canonical" href="" id="canonical-link">
+    <script>
+    (function(){
+      try { var c=document.getElementById('canonical-link'); if(c){ c.href=location.origin + location.pathname; } } catch(e) {}
+    })();
+    </script>
+    
+    <!-- JSON-LD: About Page (Organization) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "name": "About Area22 DJ Services",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "Area22 DJ Services",
+        "url": "",
+        "areaServed": "Hampshire, UK"
+      }
+    }
+    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -168,25 +201,45 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
                     </div>
                 </div>
                 <div class="team-image">
-                    <img src="meet-the-team.jpg" alt="Area22 Team" class="team-photo">
+                    <picture>
+                        <source srcset="meet-the-team-optimized.avif" type="image/avif">
+                        <source srcset="meet-the-team-optimized.webp" type="image/webp">
+                        <img src="meet-the-team-optimized.jpg" alt="Area22 Team" class="team-photo" loading="lazy" decoding="async" width="400" height="500">
+                    </picture>
                 </div>
             </div>
             <!-- Team Grid -->
             <div class="team-grid">
                 <figure class="team-card">
-                    <img src="Lead%20DJ.JPG" alt="Lead DJ / Business owner" loading="lazy">
+                    <picture>
+                        <source srcset="Lead%20DJ-optimized.avif" type="image/avif">
+                        <source srcset="Lead%20DJ-optimized.webp" type="image/webp">
+                        <img src="Lead%20DJ-optimized.jpg" alt="Lead DJ / Business owner" loading="lazy" decoding="async" width="480" height="320">
+                    </picture>
                     <figcaption class="team-role">Lead DJ / Business owner</figcaption>
                 </figure>
                 <figure class="team-card">
-                    <img src="lead-tech.jpg" alt="Lead Technician" loading="lazy">
+                    <picture>
+                        <source srcset="lead-tech-optimized.avif" type="image/avif">
+                        <source srcset="lead-tech-optimized.webp" type="image/webp">
+                        <img src="lead-tech-optimized.jpg" alt="Lead Technician" loading="lazy" decoding="async" width="480" height="320">
+                    </picture>
                     <figcaption class="team-role">Lead Technician</figcaption>
                 </figure>
                 <figure class="team-card">
-                    <img src="lead-coordinator.jpg" alt="Lead Coordinator / Business owner" loading="lazy">
+                    <picture>
+                        <source srcset="lead-coordinator-optimized.avif" type="image/avif">
+                        <source srcset="lead-coordinator-optimized.webp" type="image/webp">
+                        <img src="lead-coordinator-optimized.jpg" alt="Lead Coordinator / Business owner" loading="lazy" decoding="async" width="480" height="320">
+                    </picture>
                     <figcaption class="team-role">Lead Coordinator / Business owner</figcaption>
                 </figure>
                 <figure class="team-card">
-                    <img src="assistant-coordinator.jpg?v=2" alt="Assistant Coordinator" loading="lazy">
+                    <picture>
+                        <source srcset="assistant-coordinator-optimized.avif" type="image/avif">
+                        <source srcset="assistant-coordinator-optimized.webp" type="image/webp">
+                        <img src="assistant-coordinator-optimized.jpg" alt="Assistant Coordinator" loading="lazy" decoding="async" width="480" height="320">
+                    </picture>
                     <figcaption class="team-role">Assistant Coordinator</figcaption>
                 </figure>
             </div>
@@ -295,7 +348,15 @@ window.VERCEL_MAINTENANCE_RETURN = window.VERCEL_ENV.VERCEL_MAINTENANCE_RETURN;
         </div>
     </footer>
 
-    <script src="script.js?v=2.0"></script>
-    <script src="maintenance.js"></script>
+    <!-- Defer non-critical JS -->
+    <script defer src="script.js?v=2.0"></script>
+    <script defer src="maintenance.js"></script>
+
+    <!-- Async Google Analytics (replace G-XXXXXXX with real ID) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-XXXXXXX', { anonymize_ip: true });
+    </script>
 </body>
 </html> 

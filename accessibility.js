@@ -214,6 +214,17 @@ class AccessibilityManager {
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
         toast.textContent = message;
+
+        // ARIA live region and role based on type
+        const isAssertive = type === 'error' || type === 'warning';
+        toast.setAttribute('role', isAssertive ? 'alert' : 'status');
+        toast.setAttribute('aria-live', isAssertive ? 'assertive' : 'polite');
+        toast.setAttribute('aria-atomic', 'true');
+        toast.setAttribute('tabindex', '-1');
+
+        // Respect reduced motion
+        const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         toast.style.cssText = `
             position: fixed;
             top: 20px;
@@ -223,10 +234,29 @@ class AccessibilityManager {
             padding: 1rem;
             border-radius: 5px;
             z-index: 10000;
-            animation: slideInRight 0.3s ease;
+            ${prefersReducedMotion ? '' : 'animation: slideInRight 0.3s ease;'}
         `;
+
         document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
+
+        // Ensure screen readers announce immediately
+        // Move focus momentarily without scrolling
+        if (typeof toast.focus === 'function') {
+            toast.focus({ preventScroll: true });
+        }
+
+        // Auto-dismiss after 3s
+        const removeTimer = setTimeout(() => toast.remove(), 3000);
+
+        // Allow dismiss with Escape
+        const onKeyDown = (e) => {
+            if (e.key === 'Escape') {
+                clearTimeout(removeTimer);
+                toast.remove();
+                document.removeEventListener('keydown', onKeyDown);
+            }
+        };
+        document.addEventListener('keydown', onKeyDown);
     }
 
     // Get current progress
