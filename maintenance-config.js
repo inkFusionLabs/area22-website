@@ -5,7 +5,7 @@
 
 window.MAINTENANCE_CONFIG = {
     // Set to true to enable maintenance mode, false to disable
-    enabled: false,
+    enabled: true,
 
     // Optional: Set a specific return date/time (ISO format)
     // If set, will show this date in the maintenance message
